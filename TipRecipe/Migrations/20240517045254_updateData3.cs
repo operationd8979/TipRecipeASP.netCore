@@ -5,7 +5,7 @@
 namespace TipRecipe.Migrations
 {
     /// <inheritdoc />
-    public partial class addallowNullForUrlPhoto : Migration
+    public partial class updateData3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

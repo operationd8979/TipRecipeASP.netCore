@@ -6,7 +6,7 @@ namespace TipRecipe.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Error : ControllerBase
+    public class ErrorController : ControllerBase
     {
         [Route("/error-development")]
         public IActionResult HandleErrorDevelopment(

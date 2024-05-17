@@ -1,6 +1,7 @@
 using TipRecipe.Configuration;
 using TipRecipe.DbContexts;
 using Microsoft.EntityFrameworkCore;
+using TipRecipe.Helper;
 
 
 
@@ -21,7 +22,6 @@ if (app.Environment.IsDevelopment()){
 else{
     app.UseExceptionHandler("/error");
 }
-
 
 app.UseHttpsRedirection();
 app.MapControllers();

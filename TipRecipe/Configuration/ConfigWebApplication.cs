@@ -2,6 +2,8 @@
 using TipRecipe.Helper;
 using TipRecipe.Interfaces;
 using TipRecipe.Models.Dto;
+using TipRecipe.Repositorys;
+using TipRecipe.Services;
 
 namespace TipRecipe.Configuration
 {
@@ -16,7 +18,12 @@ namespace TipRecipe.Configuration
 
             webApplication.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             webApplication.Services.AddProblemDetails();
+
             webApplication.Services.AddSingleton<ITranslateMapper<Dish, DishDto>, DishTranslateMapper>();
+            webApplication.Services.AddScoped<IDishRepository, DishRepository>();
+            webApplication.Services.AddScoped<IIngredientRepository, IngredientRepository>();
+            webApplication.Services.AddScoped<ITypeDishRepository, TypeDishRepository>();
+            webApplication.Services.AddScoped<DishService>();
         }
     }
 }

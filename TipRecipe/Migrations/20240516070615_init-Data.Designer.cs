@@ -11,8 +11,8 @@ using TipRecipe.DbContexts;
 namespace TipRecipe.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240515072831_addallowNullForUrlPhoto")]
-    partial class addallowNullForUrlPhoto
+    [Migration("20240516070615_init-Data")]
+    partial class initData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,13 +27,19 @@ namespace TipRecipe.Migrations
             modelBuilder.Entity("TipRecipe.Entities.Dish", b =>
                 {
                     b.Property<string>("DishID")
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<float>("AvgRating")
+                        .HasColumnType("real");
 
                     b.Property<string>("DishName")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Summary")
                         .IsRequired()
@@ -48,6 +54,32 @@ namespace TipRecipe.Migrations
                     b.HasKey("DishID");
 
                     b.ToTable("Dishes");
+                });
+
+            modelBuilder.Entity("TipRecipe.Entities.Recipe", b =>
+                {
+                    b.Property<string>("DishID")
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(16777215)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DishID");
+
+                    b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("TipRecipe.Entities.Recipe", b =>
+                {
+                    b.HasOne("TipRecipe.Entities.Dish", "Dish")
+                        .WithMany()
+                        .HasForeignKey("DishID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dish");
                 });
 #pragma warning restore 612, 618
         }
