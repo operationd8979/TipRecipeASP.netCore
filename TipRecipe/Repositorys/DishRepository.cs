@@ -17,9 +17,14 @@ namespace TipRecipe.Repositorys
             _context = applicationDbContext ?? throw new ArgumentNullException(nameof(applicationDbContext));
         }
 
-        public async Task AddAsync(Dish newDish)
+        public void Add(Dish newDish)
         {
-            await this._context.Dishes.AddAsync(newDish);
+            this._context.Dishes.Add(newDish);
+        }
+
+        public void Update(Dish updateDish)
+        {
+            this._context.Dishes.Update(updateDish);
         }
 
         public async Task<IEnumerable<Dish>> GetAllAsync()
@@ -65,28 +70,24 @@ namespace TipRecipe.Repositorys
                 .Skip(offset).Take(limit).ToListAsync();
         }
 
-        public async Task<Dish> GetByIDAsync(string dishID)
+        public async Task<Dish?> GetByIDAsync(string dishID)
         {
             return await this._context.Dishes
                 .Include(d=>d.Recipe)
                 .Include(d=> d.DetailIngredientDishes).ThenInclude(did=>did.Ingredient)
                 .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
-                .FirstAsync(d => d.DishID == dishID);
+                .FirstOrDefaultAsync(d => d.DishID == dishID);
         }
 
-        public Task UpdateAsync(Dish updateDish)
+
+        public bool SaveChanges()
         {
-            throw new NotImplementedException();
+            return this._context.SaveChanges() >= 0;
         }
 
-        public int SaveChanges()
+        public async Task<bool> SaveChangesAsync()
         {
-            return this._context.SaveChanges();
-        }
-
-        public async Task<int> SaveChangesAsync()
-        {
-            return await this._context.SaveChangesAsync();
+            return await this._context.SaveChangesAsync() >= 0;
         }
 
        

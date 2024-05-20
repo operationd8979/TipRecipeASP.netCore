@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TipRecipe.Entities;
+using TipRecipe.Filters;
 using TipRecipe.Models;
 using TipRecipe.Models.Dto;
 using TipRecipe.Services;
@@ -22,17 +23,19 @@ namespace TipRecipe.Controllers
         }
 
         [HttpGet("ingredients")]
+        [TypeFilter(typeof(DtoResultFilterAttribute<IList<Ingredient>, IList<IngredientDto>>))]
         public async Task<IActionResult> GetIngredientsAsync()
         {
             IList<Ingredient> ingredients = (await this._dishService.GetIngredientsAsync()).ToList();
-            return Ok(this._mapper.Map<IList<IngredientDto>>(ingredients));
+            return Ok(ingredients);
         }
 
         [HttpGet("types")]
+        [TypeFilter(typeof(DtoResultFilterAttribute<IList<TypeDish>, IList<TypeDishDto>>))]
         public async Task<IActionResult> GetTypesAsync()
         {
             IList<TypeDish> types = (await this._dishService.GetTypesAsync()).ToList();
-            return Ok(this._mapper.Map<IList<TypeDishDto>>(types));
+            return Ok(types);
         }
 
 

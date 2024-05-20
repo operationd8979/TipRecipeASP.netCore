@@ -38,8 +38,10 @@ namespace TipRecipe.Entities
 
         public Dish()
         {
-            IsDeleted = false;
+            this.DishID = string.Empty;
+            this.IsDeleted = false;
         }
+
 
         public Dish(string dishID, string dishName, string summary, string urlPhoto,float avgRating)
         {

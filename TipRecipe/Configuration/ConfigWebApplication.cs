@@ -11,8 +11,14 @@ namespace TipRecipe.Configuration
     {
         public static void AddServices(WebApplicationBuilder webApplication)
         {
+            webApplication.Services.AddMvc(options =>
+            {
+                options.SuppressAsyncSuffixInActionNames = false;
+            });
+
             webApplication.Services.AddControllers(options =>
             {
+                options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
                 options.ReturnHttpNotAcceptable = true;
             }).AddXmlDataContractSerializerFormatters();
 

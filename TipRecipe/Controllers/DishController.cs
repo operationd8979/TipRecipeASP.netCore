@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Xml;
 using TipRecipe.Entities;
+using TipRecipe.Filters;
 using TipRecipe.Helper;
 using TipRecipe.Interfaces;
 using TipRecipe.Models;
@@ -44,6 +46,7 @@ namespace TipRecipe.Controllers
         }
 
         [HttpGet]
+        [TypeFilter(typeof(DtoResultFilterAttribute<IList<Dish>, IList<DishDto>>))]
         public async Task<IActionResult> GetDishWithFilterAsync(
             string query = "",
             string ingredients = "",
@@ -54,26 +57,71 @@ namespace TipRecipe.Controllers
             )
         {
             IList<Dish> dishList = (await _dishService.GetDishWithFilterAsync(query,ingredients,types,offset,limit, orderBy)).ToList();
-            return Ok(this._mapper.Map<IList<DishDto>>(dishList));
+            return Ok(dishList);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetDishByIdAsync([FromRoute]string id)
+        [HttpGet("{dishID}", Name = "GetDishByIdAsync")]
+        [TypeFilter(typeof(DtoResultFilterAttribute<Dish,DishDto>))]
+        public async Task<IActionResult> GetDishByIdAsync([FromRoute]string dishID)
         {
-            Dish dish = await this._dishService.GetByIdAsync(id);
-            return Ok(this._mapper.Map<DishDto>(dish));
+            Dish? dish = await this._dishService.GetByIdAsync(dishID);
+            if(dish == null)
+            {
+                return NotFound();
+            }
+            return Ok(dish);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateDishAsync([FromBody] DishDto? dishDto)
+        [TypeFilter(typeof(DtoResultFilterAttribute<Dish, DishDto>))]
+        public async Task<IActionResult> CreateDishAsync([FromBody] CreateDishDto createDishDto)
         {
-            Dish dish = _mapper.Map<Dish>(dishDto);
-            if (await this._dishService.AddDishAsync(dish) >= 0)
+            Dish dish = _mapper.Map<Dish>(createDishDto);
+            if (await this._dishService.AddDishAsync(dish))
             {
                 dish = await this._dishService.GetByIdAsync(dish.DishID);
-                return CreatedAtAction("GetDishByIdAsync", new { id = dish.DishID }, _mapper.Map<DishDto>(dish));
+                return CreatedAtAction("GetDishByIdAsync", new { dishID = dish.DishID }, dish);
             }
             return Problem();
+        }
+
+        [HttpPut("{dishID}")]
+        [TypeFilter(typeof(DtoResultFilterAttribute<Dish, DishDto>))]
+        public async Task<IActionResult> UpdateDishAsync(
+            [FromRoute] string dishID,[FromBody] CreateDishDto updateDishDto)
+        {
+            Dish dish = _mapper.Map<Dish>(updateDishDto);
+            if (await this._dishService.UpdateDishAsync(dishID, dish))
+            {
+                dish = await this._dishService.GetByIdAsync(dishID);
+                return CreatedAtAction("GetDishByIdAsync", new { dishID = dish.DishID }, dish);
+            }
+            return NotFound();
+        }
+
+        [HttpPatch("{dishID}")]
+        [TypeFilter(typeof(DtoResultFilterAttribute<Dish, DishDto>))]
+        public async Task<IActionResult> PatchDishAsync(
+            [FromRoute] string dishID, [FromBody] JsonPatchDocument<Dish> patchDoc)
+        {
+            if (patchDoc != null)
+            {
+                //var customer = CreateCustomer();
+
+                //patchDoc.ApplyTo(customer, ModelState);
+
+                //if (!ModelState.IsValid)
+                //{
+                //    return BadRequest(ModelState);
+                //}
+
+                //return new ObjectResult(customer);
+                return Ok(patchDoc.ToString());
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
 

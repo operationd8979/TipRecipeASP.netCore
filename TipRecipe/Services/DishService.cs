@@ -48,36 +48,40 @@ namespace TipRecipe.Services
             return await this._dishRepository.GetWithFilterAsync(query,ingredientsArray,typesArray,offset,limit,orderBy);
         }
 
-        public async Task<Dish> GetByIdAsync(string dishID)
+        public async Task<Dish?> GetByIdAsync(string dishID)
         {
             return await this._dishRepository.GetByIDAsync(dishID);
         }
 
-        public async Task<int> AddDishAsync(Dish dish)
+        public async Task<bool> AddDishAsync(Dish dish)
         {
-            IList<DetailIngredientDish> detailIngredientDishes = dish.DetailIngredientDishes.ToList();
-            IList<DetailTypeDish> detailTypeDishes = dish.DetailTypeDishes.ToList();
+            ICollection<DetailIngredientDish> detailIngredientDishes = dish.DetailIngredientDishes;
+            ICollection<DetailTypeDish> detailTypeDishes = dish.DetailTypeDishes;
             dish.DetailIngredientDishes = [];
             dish.DetailTypeDishes = [];
-            await this._dishRepository.AddAsync(dish);
-            if (this._dishRepository.SaveChanges() >= 0)
+            this._dishRepository.Add(dish);
+            if (this._dishRepository.SaveChanges())
             {
-                foreach (DetailIngredientDish item in detailIngredientDishes)
-                {
-                    item.IngredientID = item.Ingredient!.IngredientID;
-                    //ensure not overide IngredientName from request body
-                    item.Ingredient = null;
-                    dish.DetailIngredientDishes.Add(item);
-                }
-                foreach (DetailTypeDish item in detailTypeDishes)
-                {
-                    item.TypeID = item.Type!.TypeID;
-                    //ensure not overide TypeName from request body
-                    item.Type = null;
-                    dish.DetailTypeDishes.Add(item);
-                }
+                dish.DetailIngredientDishes = detailIngredientDishes;
+                dish.DetailTypeDishes = detailTypeDishes;
             }
-            return this._dishRepository.SaveChanges();
+            return await this._dishRepository.SaveChangesAsync();
+        }
+
+        public async Task<bool> UpdateDishAsync(string dishID, Dish updatedDish)
+        {
+            Dish? findDish = await this._dishRepository.GetByIDAsync(dishID);
+            if(findDish != null)
+            {
+                findDish.DishName = updatedDish.DishName;
+                findDish.Summary = updatedDish.Summary;
+                findDish.UrlPhoto = updatedDish.UrlPhoto;
+                findDish.AvgRating = updatedDish.AvgRating;
+                findDish.DetailIngredientDishes = updatedDish.DetailIngredientDishes;
+                findDish.DetailTypeDishes = updatedDish.DetailTypeDishes;
+                return await this._dishRepository.SaveChangesAsync();
+            }
+            return false;
         }
 
         public async Task<IEnumerable<Ingredient>> GetIngredientsAsync()

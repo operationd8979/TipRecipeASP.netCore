@@ -6,7 +6,7 @@ namespace TipRecipe.Entities
     public class DetailIngredientDish
     {
         [Required]
-        public string DishID;
+        public string DishID = string.Empty;
         [Required]
         public int IngredientID;
 
@@ -22,6 +22,13 @@ namespace TipRecipe.Entities
         [Required]
         [MaxLength(50)]
         public string Unit { get; set; }
+
+        public DetailIngredientDish(int ingredientID, int amount, string unit)
+        {
+            this.IngredientID = ingredientID;
+            this.Amount = amount;
+            this.Unit = unit;
+        }
 
     }
 }

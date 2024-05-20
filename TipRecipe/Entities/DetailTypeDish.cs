@@ -6,7 +6,7 @@ namespace TipRecipe.Entities
     public class DetailTypeDish
     {
         [Required]
-        public string DishID {  get; set; }
+        public string DishID { get; set; } = string.Empty;
         [Required]
         public int TypeID { get; set; }
 
@@ -15,5 +15,10 @@ namespace TipRecipe.Entities
         public Dish Dish { get; set; }
         [ForeignKey("TypeID")]
         public TypeDish Type { get; set; }
+
+        public DetailTypeDish(int typeID)
+        {
+            this.TypeID = typeID;
+        }
     }
 }
