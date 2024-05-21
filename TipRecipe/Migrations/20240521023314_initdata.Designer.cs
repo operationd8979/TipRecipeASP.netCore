@@ -11,8 +11,8 @@ using TipRecipe.DbContexts;
 namespace TipRecipe.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240517045240_updateData2")]
-    partial class updateData2
+    [Migration("20240521023314_initdata")]
+    partial class initdata
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,21 @@ namespace TipRecipe.Migrations
                     b.HasIndex("IngredientID");
 
                     b.ToTable("DetailIngredientDishes");
+                });
+
+            modelBuilder.Entity("TipRecipe.Entities.DetailTypeDish", b =>
+                {
+                    b.Property<string>("DishID")
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<int>("TypeID")
+                        .HasColumnType("int");
+
+                    b.HasKey("DishID", "TypeID");
+
+                    b.HasIndex("TypeID");
+
+                    b.ToTable("DetailTypeDishes");
                 });
 
             modelBuilder.Entity("TipRecipe.Entities.Dish", b =>
@@ -82,10 +97,7 @@ namespace TipRecipe.Migrations
             modelBuilder.Entity("TipRecipe.Entities.Ingredient", b =>
                 {
                     b.Property<int>("IngredientID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IngredientID"));
 
                     b.Property<string>("IngredientName")
                         .IsRequired()
@@ -95,6 +107,27 @@ namespace TipRecipe.Migrations
                     b.HasKey("IngredientID");
 
                     b.ToTable("Ingredients");
+                });
+
+            modelBuilder.Entity("TipRecipe.Entities.Rating", b =>
+                {
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DishID")
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<float>("PreRatingScore")
+                        .HasColumnType("real");
+
+                    b.Property<float>("RatingScore")
+                        .HasColumnType("real");
+
+                    b.HasKey("UserID", "DishID");
+
+                    b.HasIndex("DishID");
+
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("TipRecipe.Entities.Recipe", b =>
@@ -109,6 +142,31 @@ namespace TipRecipe.Migrations
                     b.HasKey("DishID");
 
                     b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("TipRecipe.Entities.TypeDish", b =>
+                {
+                    b.Property<int>("TypeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("TypeID");
+
+                    b.ToTable("TypeDishs");
+                });
+
+            modelBuilder.Entity("TipRecipe.Entities.User", b =>
+                {
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserID");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("TipRecipe.Entities.DetailIngredientDish", b =>
@@ -130,6 +188,44 @@ namespace TipRecipe.Migrations
                     b.Navigation("Ingredient");
                 });
 
+            modelBuilder.Entity("TipRecipe.Entities.DetailTypeDish", b =>
+                {
+                    b.HasOne("TipRecipe.Entities.Dish", "Dish")
+                        .WithMany("DetailTypeDishes")
+                        .HasForeignKey("DishID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TipRecipe.Entities.TypeDish", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dish");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("TipRecipe.Entities.Rating", b =>
+                {
+                    b.HasOne("TipRecipe.Entities.Dish", "Dish")
+                        .WithMany()
+                        .HasForeignKey("DishID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TipRecipe.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dish");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TipRecipe.Entities.Recipe", b =>
                 {
                     b.HasOne("TipRecipe.Entities.Dish", "Dish")
@@ -144,6 +240,8 @@ namespace TipRecipe.Migrations
             modelBuilder.Entity("TipRecipe.Entities.Dish", b =>
                 {
                     b.Navigation("DetailIngredientDishes");
+
+                    b.Navigation("DetailTypeDishes");
 
                     b.Navigation("Recipe")
                         .IsRequired();

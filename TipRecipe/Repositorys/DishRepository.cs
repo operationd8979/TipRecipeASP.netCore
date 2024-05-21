@@ -5,6 +5,10 @@ using TipRecipe.Entities;
 using TipRecipe.Interfaces;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using TipRecipe.Models;
+using Dapper;
 
 
 namespace TipRecipe.Repositorys
@@ -12,9 +16,13 @@ namespace TipRecipe.Repositorys
     public class DishRepository : IDishRepository
     {
         private readonly ApplicationDbContext _context;
-        public DishRepository(ApplicationDbContext applicationDbContext)
+        private readonly string _connectionString;
+
+
+        public DishRepository(ApplicationDbContext applicationDbContext, IConfiguration configuration)
         {
             _context = applicationDbContext ?? throw new ArgumentNullException(nameof(applicationDbContext));
+            _connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public void Add(Dish newDish)
@@ -31,7 +39,16 @@ namespace TipRecipe.Repositorys
         {
             return await this._context.Dishes
                 .Include(d => d.DetailIngredientDishes).ThenInclude(did => did.Ingredient)
+                .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
                 .ToListAsync();
+        }
+
+        public IAsyncEnumerable<Dish> GetAllEnumerableAsync()
+        {
+            return _context.Dishes
+                .Include(d => d.DetailIngredientDishes).ThenInclude(did => did.Ingredient)
+                .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
+                .AsAsyncEnumerable();
         }
 
         public async Task<IEnumerable<Dish>> GetWithFilterAsync(string query, int[] ingredients, int[] types, int offset, int limit, string orderBy)
@@ -90,6 +107,21 @@ namespace TipRecipe.Repositorys
             return await this._context.SaveChangesAsync() >= 0;
         }
 
-       
+
+        public async Task<IEnumerable<UserDishRating>> GetUserDishRatingsAsync()
+        {
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                string sqlQuery = @"
+                SELECT u.UserID, d.DishID, COALESCE(r.RatingScore, d.AvgRating) AS RatingScore
+                FROM Users u
+                CROSS JOIN Dishes d
+                LEFT JOIN Ratings r ON r.UserID = u.UserID AND r.DishID = d.DishID
+                ORDER BY d.DishID, u.UserID";
+
+                return await db.QueryAsync<UserDishRating>(sqlQuery);
+            }
+        }
+
     }
 }

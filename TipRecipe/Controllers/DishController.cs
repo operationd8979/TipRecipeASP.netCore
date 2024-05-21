@@ -1,19 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.Logging;
-using System.Buffers;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Xml;
 using TipRecipe.Entities;
 using TipRecipe.Filters;
-using TipRecipe.Helper;
 using TipRecipe.Interfaces;
 using TipRecipe.Models;
 using TipRecipe.Models.Dto;
@@ -31,18 +20,45 @@ namespace TipRecipe.Controllers
         private readonly IMapper _mapper;
 
         private readonly DishService _dishService;
-
+        private readonly CachingFileService _cachingFileService;
 
         public DishController(
             ILogger<DishController> logger,
             ITranslateMapper<Dish, DishDto> dishTranslateMapper,
             IMapper mapper,
-            DishService dishService)
+            DishService dishService,
+            CachingFileService cachingFileService)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _dishTranslateMapper = dishTranslateMapper ?? throw new ArgumentNullException(nameof(dishTranslateMapper));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _dishService = dishService ?? throw new ArgumentNullException(nameof(dishService));
+            _cachingFileService = cachingFileService ?? throw new ArgumentNullException(nameof(cachingFileService));
+        }
+
+        [HttpGet("async")]
+        [TypeFilter(typeof(DtoResultFilterAttribute<IEnumerable<Dish>, IEnumerable<DishDto>>))]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var cachedDishes = await _cachingFileService.GetAsync<IEnumerable<DishDto>>("alldishes");
+            if (cachedDishes != null)
+            {
+                return Ok(cachedDishes);
+            }
+            cachedDishes = _mapper.Map<IEnumerable<DishDto>>(await _dishService.GetAllAsync());
+            await _cachingFileService.SetAsync("alldishes", cachedDishes, TimeSpan.FromMinutes(15));
+            return Ok(cachedDishes);
+        }
+
+        [HttpGet("asyncEnumerable")]
+        public async IAsyncEnumerable<DishDto> GetAllEnumerableAsync()
+        {
+            IAsyncEnumerable<Dish> dishList = _dishService.GetAllEnumerableAsync();
+            await foreach (var dish in dishList)
+            {
+                Task.Delay(500).Wait();
+                yield return _mapper.Map<DishDto>(dish);
+            }
         }
 
         [HttpGet]
@@ -76,7 +92,7 @@ namespace TipRecipe.Controllers
         [TypeFilter(typeof(DtoResultFilterAttribute<Dish, DishDto>))]
         public async Task<IActionResult> CreateDishAsync([FromBody] CreateDishDto createDishDto)
         {
-            Dish dish = _mapper.Map<Dish>(createDishDto);
+            Dish? dish = _mapper.Map<Dish>(createDishDto);
             if (await this._dishService.AddDishAsync(dish))
             {
                 dish = await this._dishService.GetByIdAsync(dish.DishID);
@@ -90,7 +106,7 @@ namespace TipRecipe.Controllers
         public async Task<IActionResult> UpdateDishAsync(
             [FromRoute] string dishID,[FromBody] CreateDishDto updateDishDto)
         {
-            Dish dish = _mapper.Map<Dish>(updateDishDto);
+            Dish? dish = _mapper.Map<Dish>(updateDishDto);
             if (await this._dishService.UpdateDishAsync(dishID, dish))
             {
                 dish = await this._dishService.GetByIdAsync(dishID);
@@ -106,17 +122,18 @@ namespace TipRecipe.Controllers
         {
             if (patchDoc != null)
             {
-                //var customer = CreateCustomer();
-
-                //patchDoc.ApplyTo(customer, ModelState);
-
-                //if (!ModelState.IsValid)
-                //{
-                //    return BadRequest(ModelState);
-                //}
-
-                //return new ObjectResult(customer);
-                return Ok(patchDoc.ToString());
+                Dish? dish = await this._dishService.GetByIdAsync(dishID);
+                if (dish == null)
+                {
+                    return NotFound();
+                }
+                patchDoc.ApplyTo(dish, ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _dishService.SaveChanges();
+                return CreatedAtAction("GetDishByIdAsync", new { dishID = dish.DishID }, dish);
             }
             else
             {
@@ -139,6 +156,19 @@ namespace TipRecipe.Controllers
             }
         }
 
-        
+        [HttpGet("ratings")]
+        public async Task<IActionResult> GetUserDishRatings()
+        {
+            var cachedRatings = await _cachingFileService.GetAsync<IEnumerable<UserDishRating>>("ratings");
+            if (cachedRatings != null)
+            {
+                return Ok(cachedRatings);
+            }
+            cachedRatings = await _dishService.GetUserDishRatingsAsync();
+            await _cachingFileService.SetAsync("ratings", cachedRatings, TimeSpan.FromMinutes(15));
+            return Ok(cachedRatings);
+        }
+
+
     }
 }

@@ -6,7 +6,7 @@ namespace TipRecipe.Entities
     public class TypeDish
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int TypeID { get; set; }
 
         [Required]

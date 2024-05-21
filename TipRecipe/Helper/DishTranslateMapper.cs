@@ -18,7 +18,7 @@ namespace TipRecipe.Helper
 
         public Dish Translate(DishDto dishDto)
         {
-            return new Dish(dishDto.DishID,dishDto.DishName,dishDto.Summary,dishDto.UrlPhoto, dishDto.AvgRating);
+            return new Dish(dishDto.DishID,dishDto.DishName,dishDto.Summary,dishDto.UrlPhoto);
         }
 
         public IList<DishDto> TranslateList(IList<Dish> dishList)

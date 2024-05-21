@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.Data.SqlClient;
+using System.Data;
 using TipRecipe.Entities;
 using TipRecipe.Interfaces;
-using TipRecipe.Models.Dto;
-using TipRecipe.Repositorys;
+using TipRecipe.Models;
+
 
 namespace TipRecipe.Services
 {
@@ -25,6 +26,11 @@ namespace TipRecipe.Services
         public async Task<IEnumerable<Dish>> GetAllAsync()
         {
             return await this._dishRepository.GetAllAsync();
+        }
+
+        public IAsyncEnumerable<Dish> GetAllEnumerableAsync()
+        {
+            return this._dishRepository.GetAllEnumerableAsync();
         }
 
         public async Task<IEnumerable<Dish>> GetDishWithFilterAsync(
@@ -76,7 +82,6 @@ namespace TipRecipe.Services
                 findDish.DishName = updatedDish.DishName;
                 findDish.Summary = updatedDish.Summary;
                 findDish.UrlPhoto = updatedDish.UrlPhoto;
-                findDish.AvgRating = updatedDish.AvgRating;
                 findDish.DetailIngredientDishes = updatedDish.DetailIngredientDishes;
                 findDish.DetailTypeDishes = updatedDish.DetailTypeDishes;
                 return await this._dishRepository.SaveChangesAsync();
@@ -92,6 +97,21 @@ namespace TipRecipe.Services
         public async Task<IEnumerable<TypeDish>> GetTypesAsync()
         {
             return await this._typeDishRepository.GetAllAsync();
+        }
+
+        public bool SaveChanges()
+        {
+            return this._dishRepository.SaveChanges();
+        }
+
+        public async Task<bool> SaveChangeAsync()
+        {
+            return await this._dishRepository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<UserDishRating>> GetUserDishRatingsAsync()
+        {
+            return await _dishRepository.GetUserDishRatingsAsync();
         }
 
     }

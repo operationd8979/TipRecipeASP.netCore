@@ -13,8 +13,6 @@ namespace TipRecipe.Models.Dto
         [MaxLength(255)]
         public string UrlPhoto { get; set; }
 
-        [Range(0, 10)]
-        public float AvgRating { get; set; }
 
         public IList<DetailIngredientDishDto> DetailIngredientDishes { get; set; }
 
@@ -28,12 +26,11 @@ namespace TipRecipe.Models.Dto
         }
 
 
-        public CreateDishDto(string dishName, string summary, string url, float avgRating)
+        public CreateDishDto(string dishName, string summary, string url)
         {
             DishName = dishName;
             Summary = summary;
             UrlPhoto = url;
-            AvgRating = avgRating;
         }
 
     }

@@ -39,17 +39,18 @@ namespace TipRecipe.Entities
         public Dish()
         {
             this.DishID = string.Empty;
+            this.AvgRating = 0f;
             this.IsDeleted = false;
         }
 
 
-        public Dish(string dishID, string dishName, string summary, string urlPhoto,float avgRating)
+        public Dish(string dishID, string dishName, string summary, string urlPhoto)
         {
             this.DishID = dishID;
             this.DishName = dishName;
             this.Summary = summary;
             this.UrlPhoto = urlPhoto;
-            this.AvgRating = avgRating;
+            this.AvgRating = 0f;
             this.IsDeleted = false;
         }
 

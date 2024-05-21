@@ -18,6 +18,10 @@ namespace TipRecipe.DbContexts
         public DbSet<TypeDish> TypeDishs { get; set; }
         public DbSet<DetailTypeDish> DetailTypeDishes { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Rating> Ratings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -26,6 +30,8 @@ namespace TipRecipe.DbContexts
                 .HasKey(did => new { did.DishID, did.IngredientID });
             modelBuilder.Entity<DetailTypeDish>()
                 .HasKey(dtd => new { dtd.DishID, dtd.TypeID });
+            modelBuilder.Entity<Rating>()
+                .HasKey(r => new { r.UserID, r.DishID });
 
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace TipRecipe.Controllers
 {
@@ -18,13 +19,29 @@ namespace TipRecipe.Controllers
             }
             var exceptionHandlerFeature =
                 HttpContext.Features.Get<IExceptionHandlerFeature>()!;
-            return Problem(
-                detail: exceptionHandlerFeature.Error.StackTrace,
-                title: exceptionHandlerFeature.Error.Message);
+
+            if (exceptionHandlerFeature != null)
+            {
+                Log.Error(exceptionHandlerFeature.Error, "Unhandled exception occurred in development environment");
+                return Problem(
+                    detail: exceptionHandlerFeature.Error.StackTrace,
+                    title: exceptionHandlerFeature.Error.Message);
+            }
+
+            return Problem();
         }
 
+
         [Route("/error")]
-        public IActionResult HandleError() =>
-            Problem();
+        public IActionResult HandleError()
+        {
+            var exceptionHandlerFeature = HttpContext.Features.Get<IExceptionHandlerFeature>();
+            if (exceptionHandlerFeature != null)
+            {
+                Log.Error(exceptionHandlerFeature.Error, "Unhandled exception occurred in production environment");
+            }
+
+            return Problem();
+        }
     }
 }

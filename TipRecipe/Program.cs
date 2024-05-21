@@ -1,20 +1,14 @@
 using TipRecipe.Configuration;
 using TipRecipe.DbContexts;
 using Microsoft.EntityFrameworkCore;
-using TipRecipe.Helper;
-
-
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+ConfigWebApplication.LogConfig(builder);
 ConfigWebApplication.AddServices(builder);
 
-
 var app = builder.Build();
-
 
 if (app.Environment.IsDevelopment()){
     app.UseExceptionHandler("/error-development");
@@ -25,5 +19,18 @@ else{
 
 app.UseHttpsRedirection();
 app.MapControllers();
-app.Run();
+
+try
+{
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Host terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
+
 

@@ -1,0 +1,2436 @@
+{
+  "ratings": {
+    "Value": [
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "32df3g4df6df3gdf34",
+        "RatingScore": 0.96
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "32df3g4df6df3gdf34",
+        "RatingScore": 0.67
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "32df3g4df6df3gdf34",
+        "RatingScore": 0.4
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "32df3g4df6df3gdf34",
+        "RatingScore": 0.8
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "3f45s3fd5g4sdf643df",
+        "RatingScore": 1
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "3f45s3fd5g4sdf643df",
+        "RatingScore": 0.73
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "3f45s3fd5g4sdf643df",
+        "RatingScore": 0.2
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "3f45s3fd5g4sdf643df",
+        "RatingScore": 1
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "3fd5g4sdf643df54s3df",
+        "RatingScore": 0.8
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "3fd5g4sdf643df54s3df",
+        "RatingScore": 0.55
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "3fd5g4sdf643df54s3df",
+        "RatingScore": 0.3
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "3fd5g4sdf643df54s3df",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "3fsdfdf45s3fd5g4sdf",
+        "RatingScore": 0.4
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "3fsdfdf45s3fd5g4sdf",
+        "RatingScore": 0.5
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "3fsdfdf45s3fd5g4sdf",
+        "RatingScore": 0.5
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "3fsdfdf45s3fd5g4sdf",
+        "RatingScore": 0.5
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "df3sdf4d6f3d54f6d4",
+        "RatingScore": 0.5
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "df3sdf4d6f3d54f6d4",
+        "RatingScore": 0.75
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "df3sdf4d6f3d54f6d4",
+        "RatingScore": 1
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "df3sdf4d6f3d54f6d4",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "df546df325dfg6d5g97",
+        "RatingScore": 0.6
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "df546df325dfg6d5g97",
+        "RatingScore": 0.6
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "df546df325dfg6d5g97",
+        "RatingScore": 0.9
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "df546df325dfg6d5g97",
+        "RatingScore": 0.5
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "df546df345dfg6d5g46",
+        "RatingScore": 0.2
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "df546df345dfg6d5g46",
+        "RatingScore": 0.47
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "df546df345dfg6d5g46",
+        "RatingScore": 0.8
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "df546df345dfg6d5g46",
+        "RatingScore": 0.3
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "ds4f6d3sf4d6f34d6f3",
+        "RatingScore": 0.45
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "ds4f6d3sf4d6f34d6f3",
+        "RatingScore": 0.47
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "ds4f6d3sf4d6f34d6f3",
+        "RatingScore": 0.8
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "ds4f6d3sf4d6f34d6f3",
+        "RatingScore": 0.5
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "fd45s3fd5g4sdf543",
+        "RatingScore": 0.3
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "fd45s3fd5g4sdf543",
+        "RatingScore": 0.4
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "fd45s3fd5g4sdf543",
+        "RatingScore": 0.7
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "fd45s3fd5g4sdf543",
+        "RatingScore": 0.2
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "fd45s3fd5g4sdf544",
+        "RatingScore": 0.9
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "fd45s3fd5g4sdf544",
+        "RatingScore": 0.73
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "fd45s3fd5g4sdf544",
+        "RatingScore": 1
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "fd45s3fd5g4sdf544",
+        "RatingScore": 1
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "fdf45s3fd5g4sdf546",
+        "RatingScore": 1
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "fdf45s3fd5g4sdf546",
+        "RatingScore": 0.67
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "fdf45s3fd5g4sdf546",
+        "RatingScore": 0.2
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "fdf45s3fd5g4sdf546",
+        "RatingScore": 0.8
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "fds34f6d34sdf63df4s6",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "fds34f6d34sdf63df4s6",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "fds34f6d34sdf63df4s6",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "fds34f6d34sdf63df4s6",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "fds4f3d45g63dfg4s6d3",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "fds4f3d45g63dfg4s6d3",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "fds4f3d45g63dfg4s6d3",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "fds4f3d45g63dfg4s6d3",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "fds4f3df45g6df345g3d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "fds4f3df45g6df345g3d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "fds4f3df45g6df345g3d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "fds4f3df45g6df345g3d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "fds4f3df45g6df345g3f",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "fds4f3df45g6df345g3f",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "fds4f3df45g6df345g3f",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "fds4f3df45g6df345g3f",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "ffd4546sdf3s4f6d34",
+        "RatingScore": 0.8
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "ffd4546sdf3s4f6d34",
+        "RatingScore": 0.55
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "ffd4546sdf3s4f6d34",
+        "RatingScore": 0.3
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "ffd4546sdf3s4f6d34",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "ffd4sdf54sdf634df3",
+        "RatingScore": 0.9
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "ffd4sdf54sdf634df3",
+        "RatingScore": 0.83
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "ffd4sdf54sdf634df3",
+        "RatingScore": 0.6
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "ffd4sdf54sdf634df3",
+        "RatingScore": 1
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "g4df6g3df45g34dfg63d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "g4df6g3df45g34dfg63d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "g4df6g3df45g34dfg63d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "g4df6g3df45g34dfg63d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "g4df6g3df45g34dfg6d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "g4df6g3df45g34dfg6d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "g4df6g3df45g34dfg6d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "g4df6g3df45g34dfg6d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "gdf4sdf34sdf63sd4f6s",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "gdf4sdf34sdf63sd4f6s",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "gdf4sdf34sdf63sd4f6s",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "gdf4sdf34sdf63sd4f6s",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "gf4d6g3df45g63df45g6",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "gf4d6g3df45g63df45g6",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "gf4d6g3df45g63df45g6",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "gf4d6g3df45g63df45g6",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "gf4d6g3df45g63df4g6d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "gf4d6g3df45g63df4g6d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "gf4d6g3df45g63df4g6d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "gf4d6g3df45g63df4g6d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "gf4d6g3df45g63df4g7d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "gf4d6g3df45g63df4g7d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "gf4d6g3df45g63df4g7d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "gf4d6g3df45g63df4g7d",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "gfd4g3d45g63df4g6d3f",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "gfd4g3d45g63df4g6d3f",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "gfd4g3d45g63df4g6d3f",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "gfd4g3d45g63df4g6d3f",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e716d9cfd144092",
+        "DishID": "RElTSDQ4ODM1MzczRjZERjRGQkZCNzM0OTBDNTcyREY3OEEyWFhYWA",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "6610e8741fcb2844367",
+        "DishID": "RElTSDQ4ODM1MzczRjZERjRGQkZCNzM0OTBDNTcyREY3OEEyWFhYWA",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ed000ae1258259",
+        "DishID": "RElTSDQ4ODM1MzczRjZERjRGQkZCNzM0OTBDNTcyREY3OEEyWFhYWA",
+        "RatingScore": 0
+      },
+      {
+        "UserID": "66115ee270603588242",
+        "DishID": "RElTSDQ4ODM1MzczRjZERjRGQkZCNzM0OTBDNTcyREY3OEEyWFhYWA",
+        "RatingScore": 0
+      }
+    ],
+    "Expiration": "2024-05-21T04:32:09.2630809Z"
+  },
+  "alldishes": {
+    "Value": [
+      {
+        "DishID": "32df3g4df6df3gdf34",
+        "DishName": "B\u00E1nh canh cua",
+        "Summary": "M\u00F3n an truy?n th?ng v?i b\u00E1nh canh v\u00E0 cua tuoi.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2F32df3g4df6df3gdf34.png?alt=media\u0026token=a6a4e1fc-3c0e-412c-bf82-55e76522865d",
+        "AvgRating": 0.67,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 4,
+              "IngredientName": "Nu?c m?m"
+            },
+            "Amount": 30,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 10,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 59,
+              "IngredientName": "B?t g?o"
+            },
+            "Amount": 150,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 60,
+              "IngredientName": "B?t m\u00EC"
+            },
+            "Amount": 100,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 134,
+              "IngredientName": "Th?t th?"
+            },
+            "Amount": 300,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 2,
+              "TypeName": "m\u00F3n Vi?t"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 13,
+              "TypeName": "nu?c d\u00F9ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 17,
+              "TypeName": "lu?c"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "3f45s3fd5g4sdf643df",
+        "DishName": "C\u00E1 kho t?",
+        "Summary": "M\u00F3n an truy?n th?ng c?a Vi?t Nam, c\u00E1 kho t? thom ngon v\u00E0 b\u00E9o ng?y.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2F3f45s3fd5g4sdf643df.png?alt=media\u0026token=b5fbc43f-4094-4c33-b99c-f9363eb7219e",
+        "AvgRating": 0.73,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 1,
+              "IngredientName": "H\u00E0nh l\u00E1"
+            },
+            "Amount": 500,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 4,
+              "IngredientName": "Nu?c m?m"
+            },
+            "Amount": 30,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 5,
+              "IngredientName": "\u00D0u?ng"
+            },
+            "Amount": 20,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 2,
+              "TypeName": "m\u00F3n Vi?t"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 17,
+              "TypeName": "lu?c"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "3fd5g4sdf643df54s3df",
+        "DishName": "B\u00FAn ri\u00EAu cua",
+        "Summary": "M\u00F3n an ngon v\u00E0 b? du?ng v?i b\u00FAn v\u00E0 ri\u00EAu cua thom ngon.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Fdf546df345dfg6d5g46.png?alt=media\u0026token=05ddbdc3-7ec6-4619-96d5-1973736141cd",
+        "AvgRating": 0.55,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 4,
+              "IngredientName": "Nu?c m?m"
+            },
+            "Amount": 50,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 10,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 9,
+              "IngredientName": "B\u00FAn"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 134,
+              "IngredientName": "Th?t th?"
+            },
+            "Amount": 300,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 2,
+              "TypeName": "m\u00F3n Vi?t"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 13,
+              "TypeName": "nu?c d\u00F9ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 17,
+              "TypeName": "lu?c"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "3fsdfdf45s3fd5g4sdf",
+        "DishName": "B\u00F2 b\u00EDt t?t",
+        "Summary": "M\u00F3n an ph? bi?n v?i th?t b\u00F2 tuoi ngon v\u00E0 s?t bo d?c trung.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2F3fsdfdf45s3fd5g4sdf.png?alt=media\u0026token=1a5069b3-8d66-497d-b071-7184c6cd13f4",
+        "AvgRating": 0.5,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 5,
+              "IngredientName": "\u00D0u?ng"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 10,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 30,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 127,
+              "IngredientName": "Tr?ng g\u00E0"
+            },
+            "Amount": 1,
+            "Unit": "qu?"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 133,
+              "IngredientName": "Th?t b\u00F2"
+            },
+            "Amount": 300,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "df3sdf4d6f3d54f6d4",
+        "DishName": "B\u00E1nh m? sandwich",
+        "Summary": "M\u00F3n an ti?n l?i v\u00E0 ngon mi?ng v?i b\u00E1nh m? v\u00E0 nh\u00E2n da d?ng.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Fdf3sdf4d6f3d54f6d4.png?alt=media\u0026token=4dc7503d-4777-4ef6-8643-63a6c37f0f53",
+        "AvgRating": 0.75,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 10,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 14,
+              "IngredientName": "C\u00E0 chua"
+            },
+            "Amount": 2,
+            "Unit": "l\u00E1t"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 17,
+              "IngredientName": "N?m"
+            },
+            "Amount": 50,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 56,
+              "IngredientName": "\u00D0?u ph?"
+            },
+            "Amount": 100,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 57,
+              "IngredientName": "B\u00E1nh tr\u00E1ng"
+            },
+            "Amount": 1,
+            "Unit": "c\u00E1i"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 58,
+              "IngredientName": "B\u00E1nh m\u00EC"
+            },
+            "Amount": 1,
+            "Unit": "c\u00E1i"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 132,
+              "IngredientName": "Th?t g\u00E0"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 19,
+              "TypeName": "tr\u00E1ng mi?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "df546df325dfg6d5g97",
+        "DishName": "Th?t kho dua c?i",
+        "Summary": "C?i mu?i chua kho v?i th?t si\u00EAu ngon.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Fdf546df325dfg6d5g97.png?alt=media\u0026token=7492d1df-80ed-45af-aca7-b717e947e1d8",
+        "AvgRating": 0.6,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 4,
+              "IngredientName": "Nu?c m?m"
+            },
+            "Amount": 50,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 10,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 32,
+              "IngredientName": "Rau d?n d?"
+            },
+            "Amount": 500,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 131,
+              "IngredientName": "Th?t heo"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 2,
+              "TypeName": "m\u00F3n Vi?t"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "df546df345dfg6d5g46",
+        "DishName": "B\u00FAn ?c",
+        "Summary": "M\u00F3n an d?c trung v?i b\u00FAn v\u00E0 ?c tuoi ngon.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2F3fd5g4sdf643df54s3df.png?alt=media\u0026token=5f1e8f57-3b1b-4c99-930a-eff2a6757023",
+        "AvgRating": 0.47,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 4,
+              "IngredientName": "Nu?c m?m"
+            },
+            "Amount": 50,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 10,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 9,
+              "IngredientName": "B\u00FAn"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 16,
+              "IngredientName": "C\u00E0 r?t"
+            },
+            "Amount": 300,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 2,
+              "TypeName": "m\u00F3n Vi?t"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 13,
+              "TypeName": "nu?c d\u00F9ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 17,
+              "TypeName": "lu?c"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "ds4f6d3sf4d6f34d6f3",
+        "DishName": "G\u00E0 chi\u00EAn gi\u00F2n",
+        "Summary": "M\u00F3n an ngon v\u00E0 b? du?ng v?i g\u00E0 du?c chi\u00EAn gi\u00F2n v\u00E0ng.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Fds4f6d3sf4d6f34d6f3.png?alt=media\u0026token=b37bffb9-e84a-45c5-998d-df119130f38b",
+        "AvgRating": 0.47,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 5,
+              "IngredientName": "\u00D0u?ng"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 10,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 30,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 14,
+              "IngredientName": "C\u00E0 chua"
+            },
+            "Amount": 2,
+            "Unit": "l\u00E1t"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 132,
+              "IngredientName": "Th?t g\u00E0"
+            },
+            "Amount": 500,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "fd45s3fd5g4sdf543",
+        "DishName": "Ph? g\u00E0",
+        "Summary": "M\u00F3n an truy?n th?ng c?a Vi?t Nam, ph? g\u00E0 du?c l\u00E0m t? nu?c d\u00F9ng ph? thom ngon v\u00E0 th?t g\u00E0 th\u00E1i m?ng.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Ffd45s3fd5g4sdf543.png?alt=media\u0026token=d1a1162d-3ddd-4af5-85ab-b57c4a87c9c5",
+        "AvgRating": 0.4,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 2,
+              "IngredientName": "T?i"
+            },
+            "Amount": 4,
+            "Unit": "qu?"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 4,
+              "IngredientName": "Nu?c m?m"
+            },
+            "Amount": 50,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 10,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 9,
+              "IngredientName": "B\u00FAn"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 10,
+              "IngredientName": "G?o l?t"
+            },
+            "Amount": 500,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 132,
+              "IngredientName": "Th?t g\u00E0"
+            },
+            "Amount": 300,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 2,
+              "TypeName": "m\u00F3n Vi?t"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 13,
+              "TypeName": "nu?c d\u00F9ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 17,
+              "TypeName": "lu?c"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "fd45s3fd5g4sdf544",
+        "DishName": "B\u00E1nh m\u00EC pate",
+        "Summary": "M\u00F3n an ph? bi?n v?i huong v? thom ngon c?a b\u00E1nh m\u00EC v\u00E0 pate.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Ffd45s3fd5g4sdf544.png?alt=media\u0026token=e4ecf09f-cdac-4d42-be5c-1e4c3503045e",
+        "AvgRating": 0.73,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 11,
+              "IngredientName": "M?"
+            },
+            "Amount": 10,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 10,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 57,
+              "IngredientName": "B\u00E1nh tr\u00E1ng"
+            },
+            "Amount": 1,
+            "Unit": "c\u00E1i"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 58,
+              "IngredientName": "B\u00E1nh m\u00EC"
+            },
+            "Amount": 1,
+            "Unit": "c\u00E1i"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 61,
+              "IngredientName": "B?t b?p"
+            },
+            "Amount": 100,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 62,
+              "IngredientName": "B?t n?p"
+            },
+            "Amount": 50,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 132,
+              "IngredientName": "Th?t g\u00E0"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 18,
+              "TypeName": "m\u00F3n nhanh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "fdf45s3fd5g4sdf546",
+        "DishName": "Com chi\u00EAn",
+        "Summary": "M\u00F3n an d? l\u00E0m t? com v\u00E0 c\u00E1c lo?i gia v?.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Ffdf45s3fd5g4sdf546.png?alt=media\u0026token=1fad61d8-15f0-4127-9ec5-1dee6f840b9d",
+        "AvgRating": 0.67,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 3,
+              "IngredientName": "?t"
+            },
+            "Amount": 2,
+            "Unit": "qu?"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 10,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 10,
+              "IngredientName": "G?o l?t"
+            },
+            "Amount": 300,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 132,
+              "IngredientName": "Th?t g\u00E0"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 18,
+              "TypeName": "m\u00F3n nhanh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "fds34f6d34sdf63df4s6",
+        "DishName": "B\u00E1nh tr\u00E1ng tr?n",
+        "Summary": "M\u00F3n an du?ng ph? v?i s? k?t h?p c?a b\u00E1nh tr\u00E1ng v\u00E0 gia v? d?c trung.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Ffds34f6d34sdf63df4s6.jpg?alt=media\u0026token=8501af01-75bf-420f-a7ee-4bd5ef5f4bba",
+        "AvgRating": 0,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 7,
+              "IngredientName": "?t b?t"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 14,
+              "IngredientName": "C\u00E0 chua"
+            },
+            "Amount": 100,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 54,
+              "IngredientName": "S?t c\u00E0 chua"
+            },
+            "Amount": 50,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 57,
+              "IngredientName": "B\u00E1nh tr\u00E1ng"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 19,
+              "TypeName": "tr\u00E1ng mi?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "fds4f3d45g63dfg4s6d3",
+        "DishName": "Nem r\u00E1n",
+        "Summary": "M\u00F3n an truy?n th?ng v?i nh\u00E2n nem thom ngon v\u00E0 gi\u00F2n.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Ffds4f3d45g63dfg4s6d3.jpeg?alt=media\u0026token=8501af01-75bf-420f-a7ee-4bd5ef5f4bba",
+        "AvgRating": 0,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 53,
+              "IngredientName": "N?p"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 54,
+              "IngredientName": "S?t c\u00E0 chua"
+            },
+            "Amount": 30,
+            "Unit": "ml"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 19,
+              "TypeName": "tr\u00E1ng mi?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "fds4f3df45g6df345g3d",
+        "DishName": "Dia rau tr?n v?i g\u00E0 nu?ng",
+        "Summary": "M\u00F3n an thanh m\u00E1t v?i s? k?t h?p c?a rau tr?n v\u00E0 g\u00E0 nu?ng thom ngon.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Ffds4f3df45g6df345g3d.jpg?alt=media\u0026token=8501af01-75bf-420f-a7ee-4bd5ef5f4bba",
+        "AvgRating": 0,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 16,
+              "IngredientName": "C\u00E0 r?t"
+            },
+            "Amount": 100,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 17,
+              "IngredientName": "N?m"
+            },
+            "Amount": 50,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 21,
+              "IngredientName": "Rau x\u00E0 l\u00E1ch"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 132,
+              "IngredientName": "Th?t g\u00E0"
+            },
+            "Amount": 300,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 19,
+              "TypeName": "tr\u00E1ng mi?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "fds4f3df45g6df345g3f",
+        "DishName": "Com rang dua c?i v?i th?t b\u00F2",
+        "Summary": "M\u00F3n an gi\u00E0u dinh du?ng v?i com rang v\u00E0 th?t b\u00F2 thom ngon.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Ffds4f3df45g6df345g3f.jpg?alt=media\u0026token=8501af01-75bf-420f-a7ee-4bd5ef5f4bba",
+        "AvgRating": 0,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 31,
+              "IngredientName": "Rau h\u00FAng"
+            },
+            "Amount": 50,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 37,
+              "IngredientName": "Rau c?i xoan"
+            },
+            "Amount": 100,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 121,
+              "IngredientName": "M?ng c?u"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 127,
+              "IngredientName": "Tr?ng g\u00E0"
+            },
+            "Amount": 1,
+            "Unit": "qu?"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 133,
+              "IngredientName": "Th?t b\u00F2"
+            },
+            "Amount": 300,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "ffd4546sdf3s4f6d34",
+        "DishName": "B\u00FAn b\u00F2 Hu?",
+        "Summary": "M\u00F3n an n?i ti?ng v?i nu?c d\u00F9ng thom ngon v\u00E0 th?t b\u00F2 th\u00E1i m?ng.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Fffd4546sdf3s4f6d34.png?alt=media\u0026token=f916ea66-60d1-4b64-acb5-c95dcc05d59c",
+        "AvgRating": 0.55,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 4,
+              "IngredientName": "Nu?c m?m"
+            },
+            "Amount": 50,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 10,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 9,
+              "IngredientName": "B\u00FAn"
+            },
+            "Amount": 300,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 49,
+              "IngredientName": "Tinh b?t ngh?"
+            },
+            "Amount": 10,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 133,
+              "IngredientName": "Th?t b\u00F2"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 2,
+              "TypeName": "m\u00F3n Vi?t"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 13,
+              "TypeName": "nu?c d\u00F9ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 17,
+              "TypeName": "lu?c"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "ffd4sdf54sdf634df3",
+        "DishName": "G?i cu?n",
+        "Summary": "M\u00F3n an ngon v\u00E0 d? l\u00E0m t? c\u00E1c nguy\u00EAn li?u tuoi.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Fffd4sdf54sdf634df3.png?alt=media\u0026token=cd41cfd1-21ff-4748-84d6-beb95302779b",
+        "AvgRating": 0.83,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 21,
+              "IngredientName": "Rau x\u00E0 l\u00E1ch"
+            },
+            "Amount": 50,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 22,
+              "IngredientName": "Rau bina"
+            },
+            "Amount": 50,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 41,
+              "IngredientName": "Rau bina nh?"
+            },
+            "Amount": 100,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 56,
+              "IngredientName": "\u00D0?u ph?"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 59,
+              "IngredientName": "B?t g?o"
+            },
+            "Amount": 4,
+            "Unit": "t?m"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 2,
+              "TypeName": "m\u00F3n Vi?t"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 19,
+              "TypeName": "tr\u00E1ng mi?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 20,
+              "TypeName": "khai v?"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "g4df6g3df45g34dfg63d",
+        "DishName": "Canh chua c\u00E1 l\u00F3c",
+        "Summary": "M\u00F3n canh chua truy?n th?ng v?i c\u00E1 l\u00F3c thom ngon v\u00E0 huong v? d?m d\u00E0.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Fg4df6g3df45g34dfg63d.jpg?alt=media\u0026token=8501af01-75bf-420f-a7ee-4bd5ef5f4bba",
+        "AvgRating": 0,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 2,
+              "IngredientName": "T?i"
+            },
+            "Amount": 500,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 4,
+              "IngredientName": "Nu?c m?m"
+            },
+            "Amount": 50,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 5,
+              "IngredientName": "\u00D0u?ng"
+            },
+            "Amount": 30,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 14,
+              "IngredientName": "C\u00E0 chua"
+            },
+            "Amount": 2,
+            "Unit": "qu?"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 127,
+              "IngredientName": "Tr?ng g\u00E0"
+            },
+            "Amount": 1,
+            "Unit": "qu?"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 13,
+              "TypeName": "nu?c d\u00F9ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 17,
+              "TypeName": "lu?c"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "g4df6g3df45g34dfg6d",
+        "DishName": "B\u00E1nh trung thu nh\u00E2n d?a",
+        "Summary": "B\u00E1nh trung thu truy?n th?ng v?i nh\u00E2n d?a thom ngon.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Fg4df6g3df45g34dfg6d.jpg?alt=media\u0026token=8501af01-75bf-420f-a7ee-4bd5ef5f4bba",
+        "AvgRating": 0,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 5,
+              "IngredientName": "\u00D0u?ng"
+            },
+            "Amount": 100,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 100,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 14,
+              "IngredientName": "C\u00E0 chua"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 50,
+              "IngredientName": "Tinh b?t s?n d\u00E2y"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 60,
+              "IngredientName": "B?t m\u00EC"
+            },
+            "Amount": 300,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 19,
+              "TypeName": "tr\u00E1ng mi?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 20,
+              "TypeName": "khai v?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "gdf4sdf34sdf63sd4f6s",
+        "DishName": "G?i ng\u00F3 sen",
+        "Summary": "M\u00F3n an truy?n th?ng v?i ng\u00F3 sen v\u00E0 c\u00E1c nguy\u00EAn li?u kh\u00E1c t?o n\u00EAn huong v? d?c bi?t.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Fgdf4sdf34sdf63sd4f6s.jpg?alt=media\u0026token=8501af01-75bf-420f-a7ee-4bd5ef5f4bba",
+        "AvgRating": 0,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 5,
+              "IngredientName": "\u00D0u?ng"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 7,
+              "IngredientName": "?t b?t"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 23,
+              "IngredientName": "Rau c?i th?o"
+            },
+            "Amount": 100,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 17,
+              "TypeName": "lu?c"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 19,
+              "TypeName": "tr\u00E1ng mi?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "gf4d6g3df45g63df45g6",
+        "DishName": "Canh b\u00ED d?",
+        "Summary": "M\u00F3n canh truy?n th?ng v?i b\u00ED d? thom ngon v\u00E0 m\u00E0u s?c d?p m?t.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Fgf4d6g3df45g63df45g6.jpg?alt=media\u0026token=8501af01-75bf-420f-a7ee-4bd5ef5f4bba",
+        "AvgRating": 0,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 5,
+              "IngredientName": "\u00D0u?ng"
+            },
+            "Amount": 30,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 15,
+              "IngredientName": "B\u00ED d?"
+            },
+            "Amount": 300,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 37,
+              "IngredientName": "Rau c?i xoan"
+            },
+            "Amount": 50,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 123,
+              "IngredientName": "?i"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 13,
+              "TypeName": "nu?c d\u00F9ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 17,
+              "TypeName": "lu?c"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "gf4d6g3df45g63df4g6d",
+        "DishName": "Com chi\u00EAn c\u00E1 m\u00F2i",
+        "Summary": "M\u00F3n com chi\u00EAn thom ngon v?i c\u00E1 m\u00F2i v\u00E0 c\u00E1c nguy\u00EAn li?u kh\u00E1c.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Fgf4d6g3df45g63df4g6d.jpg?alt=media\u0026token=8501af01-75bf-420f-a7ee-4bd5ef5f4bba",
+        "AvgRating": 0,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 5,
+              "IngredientName": "\u00D0u?ng"
+            },
+            "Amount": 30,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 51,
+              "IngredientName": "M\u00EC s?i"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 132,
+              "IngredientName": "Th?t g\u00E0"
+            },
+            "Amount": 300,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 18,
+              "TypeName": "m\u00F3n nhanh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "gf4d6g3df45g63df4g7d",
+        "DishName": "Com t?m su?n b\u00EC",
+        "Summary": "M\u00F3n an ph? bi?n v?i com t?m, su?n v\u00E0 b\u00EC thom ngon.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Fgf4d6g3df45g63df4g7d.jpg?alt=media\u0026token=8501af01-75bf-420f-a7ee-4bd5ef5f4bba",
+        "AvgRating": 0,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 51,
+              "IngredientName": "M\u00EC s?i"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 52,
+              "IngredientName": "D?u an an m\u00EC"
+            },
+            "Amount": 100,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 123,
+              "IngredientName": "?i"
+            },
+            "Amount": 100,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 131,
+              "IngredientName": "Th?t heo"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 18,
+              "TypeName": "m\u00F3n nhanh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "gfd4g3d45g63df4g6d3f",
+        "DishName": "B\u00FAn ?c len",
+        "Summary": "M\u00F3n an d?c trung v?i b\u00FAn v\u00E0 ?c len tuoi ngon.",
+        "UrlPhoto": "https://firebasestorage.googleapis.com/v0/b/fir-a3ee6.appspot.com/o/tipRecipe%2Fdishs%2Fgfd4g3d45g63df4g6d3f.jpg?alt=media\u0026token=8501af01-75bf-420f-a7ee-4bd5ef5f4bba",
+        "AvgRating": 0,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 1,
+              "IngredientName": "H\u00E0nh l\u00E1"
+            },
+            "Amount": 500,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 4,
+              "IngredientName": "Nu?c m?m"
+            },
+            "Amount": 50,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 5,
+              "IngredientName": "\u00D0u?ng"
+            },
+            "Amount": 30,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 6,
+              "IngredientName": "Mu?i"
+            },
+            "Amount": 5,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 12,
+              "IngredientName": "D?u an"
+            },
+            "Amount": 20,
+            "Unit": "ml"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 50,
+              "IngredientName": "Tinh b?t s?n d\u00E2y"
+            },
+            "Amount": 300,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 13,
+              "TypeName": "nu?c d\u00F9ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 15,
+              "TypeName": "nu?ng"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 21,
+              "TypeName": "ch\u00EDnh"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 22,
+              "TypeName": "an nh?"
+            }
+          }
+        ],
+        "Recipe": null
+      },
+      {
+        "DishID": "RElTSDQ4ODM1MzczRjZERjRGQkZCNzM0OTBDNTcyREY3OEEyWFhYWA",
+        "DishName": "xin ch\u00E0o",
+        "Summary": "asdasdas",
+        "UrlPhoto": "sdfsdfsdf",
+        "AvgRating": 0,
+        "DetailIngredientDishes": [
+          {
+            "Ingredient": {
+              "IngredientId": 1,
+              "IngredientName": "H\u00E0nh l\u00E1"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          },
+          {
+            "Ingredient": {
+              "IngredientId": 3,
+              "IngredientName": "?t"
+            },
+            "Amount": 200,
+            "Unit": "gram"
+          }
+        ],
+        "DetailTypeDishes": [
+          {
+            "Type": {
+              "TypeID": 1,
+              "TypeName": "m\u00F3n H\u00E0n"
+            }
+          },
+          {
+            "Type": {
+              "TypeID": 3,
+              "TypeName": "m\u00F3n Trung"
+            }
+          }
+        ],
+        "Recipe": null
+      }
+    ],
+    "Expiration": "2024-05-21T05:50:38.6411985Z"
+  }
+}

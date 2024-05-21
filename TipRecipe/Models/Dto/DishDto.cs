@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TipRecipe.Entities;
+using TipRecipe.Validations;
 
 namespace TipRecipe.Models.Dto
 {
@@ -18,6 +19,7 @@ namespace TipRecipe.Models.Dto
         [MaxLength(255)]
         public string UrlPhoto { get; set; }
 
+        [GreaterThanZero]
         [Range(0, 10)]
         public float AvgRating { get; set; }
 

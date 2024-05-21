@@ -6,7 +6,7 @@ namespace TipRecipe.Entities
     public class Ingredient
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IngredientID { get; set; }
         [Required]
         [MaxLength(255)]

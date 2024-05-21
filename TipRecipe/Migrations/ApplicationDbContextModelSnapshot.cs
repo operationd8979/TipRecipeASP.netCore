@@ -94,10 +94,7 @@ namespace TipRecipe.Migrations
             modelBuilder.Entity("TipRecipe.Entities.Ingredient", b =>
                 {
                     b.Property<int>("IngredientID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IngredientID"));
 
                     b.Property<string>("IngredientName")
                         .IsRequired()
@@ -107,6 +104,27 @@ namespace TipRecipe.Migrations
                     b.HasKey("IngredientID");
 
                     b.ToTable("Ingredients");
+                });
+
+            modelBuilder.Entity("TipRecipe.Entities.Rating", b =>
+                {
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DishID")
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<float>("PreRatingScore")
+                        .HasColumnType("real");
+
+                    b.Property<float>("RatingScore")
+                        .HasColumnType("real");
+
+                    b.HasKey("UserID", "DishID");
+
+                    b.HasIndex("DishID");
+
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("TipRecipe.Entities.Recipe", b =>
@@ -126,10 +144,7 @@ namespace TipRecipe.Migrations
             modelBuilder.Entity("TipRecipe.Entities.TypeDish", b =>
                 {
                     b.Property<int>("TypeID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TypeID"));
 
                     b.Property<string>("TypeName")
                         .IsRequired()
@@ -138,7 +153,17 @@ namespace TipRecipe.Migrations
 
                     b.HasKey("TypeID");
 
-                    b.ToTable("TypeDish");
+                    b.ToTable("TypeDishs");
+                });
+
+            modelBuilder.Entity("TipRecipe.Entities.User", b =>
+                {
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserID");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("TipRecipe.Entities.DetailIngredientDish", b =>
@@ -177,6 +202,25 @@ namespace TipRecipe.Migrations
                     b.Navigation("Dish");
 
                     b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("TipRecipe.Entities.Rating", b =>
+                {
+                    b.HasOne("TipRecipe.Entities.Dish", "Dish")
+                        .WithMany()
+                        .HasForeignKey("DishID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TipRecipe.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dish");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TipRecipe.Entities.Recipe", b =>
