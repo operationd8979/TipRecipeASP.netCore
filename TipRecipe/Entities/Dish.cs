@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using TipRecipe.Helper;
 using TipRecipe.Models.Dto;
 
 namespace TipRecipe.Entities
@@ -38,7 +39,7 @@ namespace TipRecipe.Entities
 
         public Dish()
         {
-            this.DishID = string.Empty;
+            this.DishID = IdGenerator.GenerateDishId();
             this.AvgRating = 0f;
             this.IsDeleted = false;
         }

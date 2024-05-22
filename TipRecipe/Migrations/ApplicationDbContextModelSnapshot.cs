@@ -109,7 +109,7 @@ namespace TipRecipe.Migrations
             modelBuilder.Entity("TipRecipe.Entities.Rating", b =>
                 {
                     b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("DishID")
                         .HasColumnType("nvarchar(60)");
@@ -159,11 +159,40 @@ namespace TipRecipe.Migrations
             modelBuilder.Entity("TipRecipe.Entities.User", b =>
                 {
                     b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("UserID");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("TipRecipe.Entities.UserRole", b =>
+                {
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserID", "Role");
+
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("TipRecipe.Entities.DetailIngredientDish", b =>
@@ -234,6 +263,17 @@ namespace TipRecipe.Migrations
                     b.Navigation("Dish");
                 });
 
+            modelBuilder.Entity("TipRecipe.Entities.UserRole", b =>
+                {
+                    b.HasOne("TipRecipe.Entities.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TipRecipe.Entities.Dish", b =>
                 {
                     b.Navigation("DetailIngredientDishes");
@@ -242,6 +282,11 @@ namespace TipRecipe.Migrations
 
                     b.Navigation("Recipe")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TipRecipe.Entities.User", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

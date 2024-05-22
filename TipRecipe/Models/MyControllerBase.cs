@@ -4,6 +4,6 @@ namespace TipRecipe.Models
 {
     public class MyControllerBase : ControllerBase
     {
-        
+
     }
 }

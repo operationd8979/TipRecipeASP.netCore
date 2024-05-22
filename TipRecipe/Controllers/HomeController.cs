@@ -23,7 +23,7 @@ namespace TipRecipe.Controllers
         }
 
         [HttpGet("ingredients")]
-        [TypeFilter(typeof(DtoResultFilterAttribute<IList<Ingredient>, IList<IngredientDto>>))]
+        [TypeFilter(typeof(DtoResultFilterAttribute<IEnumerable<Ingredient>, IEnumerable<IngredientDto>>))]
         public async Task<IActionResult> GetIngredientsAsync()
         {
             IList<Ingredient> ingredients = (await this._dishService.GetIngredientsAsync()).ToList();
@@ -31,7 +31,7 @@ namespace TipRecipe.Controllers
         }
 
         [HttpGet("types")]
-        [TypeFilter(typeof(DtoResultFilterAttribute<IList<TypeDish>, IList<TypeDishDto>>))]
+        [TypeFilter(typeof(DtoResultFilterAttribute<IEnumerable<TypeDish>, IEnumerable<TypeDishDto>>))]
         public async Task<IActionResult> GetTypesAsync()
         {
             IList<TypeDish> types = (await this._dishService.GetTypesAsync()).ToList();

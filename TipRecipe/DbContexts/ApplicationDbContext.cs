@@ -33,17 +33,25 @@ namespace TipRecipe.DbContexts
             modelBuilder.Entity<Rating>()
                 .HasKey(r => new { r.UserID, r.DishID });
 
+            modelBuilder.Entity<UserRole>()
+                .HasKey(ur => new { ur.UserID, ur.Role });
+            modelBuilder.Entity<UserRole>()
+                .Property(ur => ur.Role)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (RoleType)Enum.Parse(typeof(RoleType), v));
+
         }
 
         public override int SaveChanges()
         {
-            GenerateIds();
+            //GenerateIds();
             return base.SaveChanges();
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            GenerateIds();
+            //GenerateIds();
             return base.SaveChangesAsync(cancellationToken);
         }
 

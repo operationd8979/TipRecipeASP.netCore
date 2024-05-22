@@ -38,6 +38,7 @@ namespace TipRecipe.Repositorys
         public async Task<IEnumerable<Dish>> GetAllAsync()
         {
             return await this._context.Dishes
+                .Where(d => d.IsDeleted == false)
                 .Include(d => d.DetailIngredientDishes).ThenInclude(did => did.Ingredient)
                 .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
                 .ToListAsync();
@@ -46,6 +47,7 @@ namespace TipRecipe.Repositorys
         public IAsyncEnumerable<Dish> GetAllEnumerableAsync()
         {
             return _context.Dishes
+                .Where(d => d.IsDeleted == false)
                 .Include(d => d.DetailIngredientDishes).ThenInclude(did => did.Ingredient)
                 .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
                 .AsAsyncEnumerable();
@@ -82,6 +84,7 @@ namespace TipRecipe.Repositorys
                 }
             }
             return await dishesQuery
+                .Where(d => d.IsDeleted == false)
                 .Include(d => d.DetailIngredientDishes).ThenInclude(did => did.Ingredient)
                 .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
                 .Skip(offset).Take(limit).ToListAsync();
@@ -90,6 +93,7 @@ namespace TipRecipe.Repositorys
         public async Task<Dish?> GetByIDAsync(string dishID)
         {
             return await this._context.Dishes
+                .Where(d => d.IsDeleted == false)
                 .Include(d=>d.Recipe)
                 .Include(d=> d.DetailIngredientDishes).ThenInclude(did=>did.Ingredient)
                 .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
@@ -110,18 +114,29 @@ namespace TipRecipe.Repositorys
 
         public async Task<IEnumerable<UserDishRating>> GetUserDishRatingsAsync()
         {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                string sqlQuery = @"
+            string sqlQuery = @"
                 SELECT u.UserID, d.DishID, COALESCE(r.RatingScore, d.AvgRating) AS RatingScore
                 FROM Users u
                 CROSS JOIN Dishes d
                 LEFT JOIN Ratings r ON r.UserID = u.UserID AND r.DishID = d.DishID
                 ORDER BY d.DishID, u.UserID";
-
-                return await db.QueryAsync<UserDishRating>(sqlQuery);
-            }
+            return await _context.Database.SqlQueryRaw<UserDishRating>(sqlQuery).ToListAsync();
         }
+
+        public async Task UpdateAverageScoreDishes()
+        {
+            string sqlQuery = @"
+                UPDATE d
+                SET d.AvgRating = avg_ratings.avgRating
+                FROM dbo.Dishes d
+                INNER JOIN (
+                    SELECT DishID, AVG(RatingScore) AS avgRating
+                    FROM dbo.Ratings
+                    GROUP BY DishID
+                ) AS avg_ratings ON d.DishID = avg_ratings.DishID;";
+            await _context.Database.ExecuteSqlRawAsync(sqlQuery);
+        }
+
 
     }
 }

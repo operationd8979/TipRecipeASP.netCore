@@ -2,10 +2,7 @@
 
 namespace TipRecipe.Interfaces
 {
-    public interface IIngredientRepository
+    public interface IIngredientRepository : IDataRepository<Ingredient>
     {
-        Task<IEnumerable<Ingredient>> GetAllAsync();
-        int SaveChanges();
-        Task<int> SaveChangesAsync();
     }
 }

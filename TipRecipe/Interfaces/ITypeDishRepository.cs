@@ -2,10 +2,7 @@
 
 namespace TipRecipe.Interfaces
 {
-    public interface ITypeDishRepository
+    public interface ITypeDishRepository : IDataRepository<TypeDish>
     {
-        Task<IEnumerable<TypeDish>> GetAllAsync();
-        int SaveChanges();
-        Task<int> SaveChangesAsync();
     }
 }

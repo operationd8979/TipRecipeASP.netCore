@@ -5,7 +5,7 @@
 namespace TipRecipe.Migrations
 {
     /// <inheritdoc />
-    public partial class initdata : Migration
+    public partial class initDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,7 +54,10 @@ namespace TipRecipe.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserID = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -133,7 +136,7 @@ namespace TipRecipe.Migrations
                 name: "Ratings",
                 columns: table => new
                 {
-                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(60)", nullable: false),
                     DishID = table.Column<string>(type: "nvarchar(60)", nullable: false),
                     RatingScore = table.Column<float>(type: "real", nullable: false),
                     PreRatingScore = table.Column<float>(type: "real", nullable: false)
@@ -149,6 +152,24 @@ namespace TipRecipe.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Ratings_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRole",
+                columns: table => new
+                {
+                    UserID = table.Column<string>(type: "nvarchar(60)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRole", x => new { x.UserID, x.Role });
+                    table.ForeignKey(
+                        name: "FK_UserRole_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
@@ -187,16 +208,19 @@ namespace TipRecipe.Migrations
                 name: "Recipes");
 
             migrationBuilder.DropTable(
+                name: "UserRole");
+
+            migrationBuilder.DropTable(
                 name: "Ingredients");
 
             migrationBuilder.DropTable(
                 name: "TypeDishs");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Dishes");
 
             migrationBuilder.DropTable(
-                name: "Dishes");
+                name: "Users");
         }
     }
 }

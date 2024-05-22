@@ -1,6 +1,6 @@
 ﻿namespace TipRecipe.Interfaces
 {
-    public interface IPageinationDataRepository<T,U> : IDataRepository<T,U>
+    public interface IPageinationDataRepository<T> : IDataRepository<T>
     {
         IEnumerable<T> GetAll(int offset, int limit);
     }

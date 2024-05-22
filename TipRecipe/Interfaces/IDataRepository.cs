@@ -1,10 +1,19 @@
-﻿namespace TipRecipe.Interfaces
+﻿using TipRecipe.Entities;
+using TipRecipe.Models;
+
+namespace TipRecipe.Interfaces
 {
-    public interface IDataRepository<T,U>
+    public interface IDataRepository<T>
     {
-        IEnumerable<T> GetAll();
-        T GetByID(U id);
-        T Add(T entity);
-        T Update(T entity);
+        Task<IEnumerable<T>> GetAllAsync();
+        IAsyncEnumerable<T> GetAllEnumerableAsync();
+        Task<T?> GetByIDAsync(string id);
+        void Add(T newObject);
+        void Update(T updateObject);
+
+        bool SaveChanges();
+
+        Task<bool> SaveChangesAsync();
+
     }
 }

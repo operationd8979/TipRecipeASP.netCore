@@ -61,17 +61,19 @@ namespace TipRecipe.Services
 
         public async Task<bool> AddDishAsync(Dish dish)
         {
-            ICollection<DetailIngredientDish> detailIngredientDishes = dish.DetailIngredientDishes;
-            ICollection<DetailTypeDish> detailTypeDishes = dish.DetailTypeDishes;
-            dish.DetailIngredientDishes = [];
-            dish.DetailTypeDishes = [];
             this._dishRepository.Add(dish);
-            if (this._dishRepository.SaveChanges())
-            {
-                dish.DetailIngredientDishes = detailIngredientDishes;
-                dish.DetailTypeDishes = detailTypeDishes;
-            }
             return await this._dishRepository.SaveChangesAsync();
+            //ICollection<DetailIngredientDish> detailIngredientDishes = dish.DetailIngredientDishes;
+            //ICollection<DetailTypeDish> detailTypeDishes = dish.DetailTypeDishes;
+            //dish.DetailIngredientDishes = [];
+            //dish.DetailTypeDishes = [];
+            //this._dishRepository.Add(dish);
+            //if (this._dishRepository.SaveChanges())
+            //{
+            //    dish.DetailIngredientDishes = detailIngredientDishes;
+            //    dish.DetailTypeDishes = detailTypeDishes;
+            //}
+            //return await this._dishRepository.SaveChangesAsync();
         }
 
         public async Task<bool> UpdateDishAsync(string dishID, Dish updatedDish)
@@ -114,5 +116,20 @@ namespace TipRecipe.Services
             return await _dishRepository.GetUserDishRatingsAsync();
         }
 
+        public async Task<bool> DeleteDishAsync(string dishID)
+        {
+            Dish? findDish = await this._dishRepository.GetByIDAsync(dishID);
+            if(findDish != null)
+            {
+                findDish.IsDeleted = true;
+                return await this._dishRepository.SaveChangesAsync();
+            }
+            return false;
+        }
+
+        public async Task UpdateAverageScoreDishes()
+        {
+            await this._dishRepository.UpdateAverageScoreDishes();
+        }
     }
 }

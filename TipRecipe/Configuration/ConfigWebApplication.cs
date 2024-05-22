@@ -1,6 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
+using System.Security.Claims;
+using System.Text;
 using TipRecipe.DbContexts;
 using TipRecipe.Entities;
 using TipRecipe.Helper;
@@ -19,24 +25,76 @@ namespace TipRecipe.Configuration
             webApplication.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(webApplication.Configuration.GetConnectionString("DefaultConnection")));
 
-            //not use SuppressAsyncSuffixInActionNames
-            webApplication.Services.AddMvc(options =>
+            //authentication Authorization               
+            webApplication.Services.AddAuthentication(options =>
             {
-                options.SuppressAsyncSuffixInActionNames = false;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = webApplication.Configuration["Jwt:Issuer"],
+                    ValidAudience = webApplication.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Convert.FromBase64String(webApplication.Configuration["Jwt:Key"]
+                        ?? throw new ArgumentNullException("JWT config")))
+                };
             });
+            //.AddCookie(options =>
+            //{
+            //    options.Cookie.Name = "jwt";
+            //    options.Cookie.HttpOnly = true;
+            //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            //});
 
+            webApplication.Services.AddAuthorization(
+                options =>
+                {
+                    options.AddPolicy("User", policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireAssertion(context =>
+                        {
+                            var roleClaims = context.User.FindAll(ClaimTypes.Role);
+                            return roleClaims.Any(claim => claim.Value.Contains("USER"));
+                        });
+                    });
+                    options.AddPolicy("Admin", policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireAssertion(context =>
+                        {
+                            var roleClaims = context.User.FindAll(ClaimTypes.Role);
+                            return roleClaims.Any(claim => claim.Value.Contains("ADMIN"));
+                        });
+                    });
+                }
+            );
+
+
+
+            //not use SuppressAsyncSuffixInActionNames
             //add json patch format
             //add xml format
             webApplication.Services.AddControllers(options =>
             {
+                options.SuppressAsyncSuffixInActionNames = false;
                 options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
                 options.ReturnHttpNotAcceptable = true;
             }).AddXmlDataContractSerializerFormatters();
 
+            webApplication.Services.AddProblemDetails();
+
             //add automapper profiles
             webApplication.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            webApplication.Services.AddProblemDetails();
+            //add custom mapper dto
+            webApplication.Services.AddSingleton<ITranslateMapper<Dish, DishDto>, DishTranslateMapper>();
 
             //add caching file service
             webApplication.Services.AddSingleton<CachingFileService>(provider =>
@@ -45,14 +103,15 @@ namespace TipRecipe.Configuration
                 return new CachingFileService("Caches/cachefile.json", logger);
             });
 
-            //add custom mapper dto
-            webApplication.Services.AddSingleton<ITranslateMapper<Dish, DishDto>, DishTranslateMapper>();
-            
             //add repositories and services
+            webApplication.Services.AddScoped<UserManager>();
             webApplication.Services.AddScoped<IDishRepository, DishRepository>();
             webApplication.Services.AddScoped<IIngredientRepository, IngredientRepository>();
             webApplication.Services.AddScoped<ITypeDishRepository, TypeDishRepository>();
             webApplication.Services.AddScoped<DishService>();
+
+            //add background service
+            webApplication.Services.AddHostedService<DishBackgroundService>();
         }
 
         public static void LogConfig(WebApplicationBuilder webApplication)

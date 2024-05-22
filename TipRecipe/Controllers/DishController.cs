@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using TipRecipe.Entities;
@@ -12,6 +13,7 @@ namespace TipRecipe.Controllers
 {
     [Route("api/dish")]
     [ApiController]
+    [Authorize("Admin")]
     public class DishController : MyControllerBase
     {
 
@@ -62,7 +64,7 @@ namespace TipRecipe.Controllers
         }
 
         [HttpGet]
-        [TypeFilter(typeof(DtoResultFilterAttribute<IList<Dish>, IList<DishDto>>))]
+        [TypeFilter(typeof(DtoResultFilterAttribute<IEnumerable<Dish>, IEnumerable<DishDto>>))]
         public async Task<IActionResult> GetDishWithFilterAsync(
             string query = "",
             string ingredients = "",
@@ -139,6 +141,16 @@ namespace TipRecipe.Controllers
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        [HttpDelete("{dishID}")]
+        public async Task<IActionResult> DeleteDishAsync([FromRoute] string dishID)
+        {
+            if (await this._dishService.DeleteDishAsync(dishID))
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
 
 
