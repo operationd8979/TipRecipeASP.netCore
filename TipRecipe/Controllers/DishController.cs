@@ -1,38 +1,33 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TipRecipe.Entities;
 using TipRecipe.Filters;
 using TipRecipe.Interfaces;
 using TipRecipe.Models;
 using TipRecipe.Models.Dto;
+using TipRecipe.Models.HttpExceptions;
 using TipRecipe.Services;
 
 namespace TipRecipe.Controllers
 {
     [Route("api/dish")]
     [ApiController]
-    [Authorize("Admin")]
+    [Authorize("User")]
     public class DishController : MyControllerBase
     {
 
-        private readonly ILogger<DishController> _logger;
-        private readonly ITranslateMapper<Dish, DishDto> _dishTranslateMapper;
         private readonly IMapper _mapper;
 
         private readonly DishService _dishService;
         private readonly CachingFileService _cachingFileService;
 
         public DishController(
-            ILogger<DishController> logger,
-            ITranslateMapper<Dish, DishDto> dishTranslateMapper,
             IMapper mapper,
             DishService dishService,
             CachingFileService cachingFileService)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _dishTranslateMapper = dishTranslateMapper ?? throw new ArgumentNullException(nameof(dishTranslateMapper));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _dishService = dishService ?? throw new ArgumentNullException(nameof(dishService));
             _cachingFileService = cachingFileService ?? throw new ArgumentNullException(nameof(cachingFileService));
@@ -83,102 +78,29 @@ namespace TipRecipe.Controllers
         public async Task<IActionResult> GetDishByIdAsync([FromRoute]string dishID)
         {
             Dish? dish = await this._dishService.GetByIdAsync(dishID);
-            if(dish == null)
+            if(dish is null)
             {
                 return NotFound();
             }
             return Ok(dish);
         }
 
-        [HttpPost]
-        [TypeFilter(typeof(DtoResultFilterAttribute<Dish, DishDto>))]
-        public async Task<IActionResult> CreateDishAsync([FromBody] CreateDishDto createDishDto)
+        [HttpPost("rating")]
+        public async Task<IActionResult> RatingDishAsync([FromBody]DishRatingDto dishRatingDto)
         {
-            Dish? dish = _mapper.Map<Dish>(createDishDto);
-            if (await this._dishService.AddDishAsync(dish))
+            try
             {
-                dish = await this._dishService.GetByIdAsync(dish.DishID);
-                return CreatedAtAction("GetDishByIdAsync", new { dishID = dish.DishID }, dish);
-            }
-            return Problem();
-        }
-
-        [HttpPut("{dishID}")]
-        [TypeFilter(typeof(DtoResultFilterAttribute<Dish, DishDto>))]
-        public async Task<IActionResult> UpdateDishAsync(
-            [FromRoute] string dishID,[FromBody] CreateDishDto updateDishDto)
-        {
-            Dish? dish = _mapper.Map<Dish>(updateDishDto);
-            if (await this._dishService.UpdateDishAsync(dishID, dish))
-            {
-                dish = await this._dishService.GetByIdAsync(dishID);
-                return CreatedAtAction("GetDishByIdAsync", new { dishID = dish.DishID }, dish);
-            }
-            return NotFound();
-        }
-
-        [HttpPatch("{dishID}")]
-        [TypeFilter(typeof(DtoResultFilterAttribute<Dish, DishDto>))]
-        public async Task<IActionResult> PatchDishAsync(
-            [FromRoute] string dishID, [FromBody] JsonPatchDocument<Dish> patchDoc)
-        {
-            if (patchDoc != null)
-            {
-                Dish? dish = await this._dishService.GetByIdAsync(dishID);
-                if (dish == null)
+                var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
+                if(await _dishService.RatingDishAsync(dishRatingDto.DishID, dishRatingDto.RatingScore, userID))
                 {
-                    return NotFound();
+                    return NoContent();
                 }
-                patchDoc.ApplyTo(dish, ModelState);
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                _dishService.SaveChanges();
-                return CreatedAtAction("GetDishByIdAsync", new { dishID = dish.DishID }, dish);
+                return Problem();
             }
-            else
+            catch (NotFoundException ex)
             {
-                return BadRequest(ModelState);
+                return NotFound(ex.Message);
             }
-        }
-
-        [HttpDelete("{dishID}")]
-        public async Task<IActionResult> DeleteDishAsync([FromRoute] string dishID)
-        {
-            if (await this._dishService.DeleteDishAsync(dishID))
-            {
-                return NoContent();
-            }
-            return NotFound();
-        }
-
-
-        [HttpPost("file")]
-        public async Task GetFileAsync(IFormFile file)
-        {
-            if (file.Length == 0 || file.Length > 1024 * 1024)
-            {
-                throw new Exception("File size is invalid");
-            }
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Guid.NewGuid().ToString()+".pdf");
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-        }
-
-        [HttpGet("ratings")]
-        public async Task<IActionResult> GetUserDishRatings()
-        {
-            var cachedRatings = await _cachingFileService.GetAsync<IEnumerable<UserDishRating>>("ratings");
-            if (cachedRatings != null)
-            {
-                return Ok(cachedRatings);
-            }
-            cachedRatings = await _dishService.GetUserDishRatingsAsync();
-            await _cachingFileService.SetAsync("ratings", cachedRatings, TimeSpan.FromMinutes(15));
-            return Ok(cachedRatings);
         }
 
 

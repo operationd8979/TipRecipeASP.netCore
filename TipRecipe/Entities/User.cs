@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using TipRecipe.Helper;
 
 namespace TipRecipe.Entities
 {
@@ -11,17 +12,22 @@ namespace TipRecipe.Entities
 
         [Required]
         [MaxLength(255)]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         [Required]
         [MaxLength(255)]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         [Required]
         [MaxLength(255)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+
+        public User()
+        {
+            this.UserID = IdGenerator.GenerateUserID();
+        }
 
     }
 }

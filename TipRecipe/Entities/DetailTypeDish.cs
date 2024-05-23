@@ -12,9 +12,9 @@ namespace TipRecipe.Entities
 
 
         [ForeignKey("DishID")]
-        public Dish Dish { get; set; }
+        public Dish? Dish { get; set; }
         [ForeignKey("TypeID")]
-        public TypeDish Type { get; set; }
+        public TypeDish? Type { get; set; }
 
         public DetailTypeDish(int typeID)
         {

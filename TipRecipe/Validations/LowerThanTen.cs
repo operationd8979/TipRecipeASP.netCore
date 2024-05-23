@@ -2,9 +2,8 @@
 
 namespace TipRecipe.Validations
 {
-    public class GreaterThanZero : ValidationAttribute
+    public class LowerThanTen : ValidationAttribute
     {
-
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             if (value == null)
@@ -13,23 +12,23 @@ namespace TipRecipe.Validations
             }
             if (value is int intValue)
             {
-                if (intValue <= 0)
+                if (intValue > 10)
                 {
-                    return new ValidationResult("Value must be greater than zero");
+                    return new ValidationResult("Value must be lower than ten");
                 }
             }
-            if(value is float floatValue)
+            if (value is float floatValue)
             {
-                if (floatValue <= 0)
+                if (floatValue > 10)
                 {
-                    return new ValidationResult("Value must be greater than zero");
+                    return new ValidationResult("Value must be lower than ten");
                 }
             }
             if (value is double doubleValue)
             {
-                if (doubleValue <= 0)
+                if (doubleValue > 10)
                 {
-                    return new ValidationResult("Value must be greater than zero");
+                    return new ValidationResult("Value must be lower than ten");
                 }
             }
             return ValidationResult.Success;

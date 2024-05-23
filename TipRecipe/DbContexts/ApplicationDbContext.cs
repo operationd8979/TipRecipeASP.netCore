@@ -66,7 +66,7 @@ namespace TipRecipe.DbContexts
                     var dish = (Dish)entry.Entity;
                     if (string.IsNullOrEmpty(dish.DishID))
                     {
-                        dish.DishID = IdGenerator.GenerateDishId();
+                        dish.DishID = IdGenerator.GenerateDishID();
                     }
                 }
             }

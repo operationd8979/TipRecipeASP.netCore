@@ -11,6 +11,6 @@ namespace TipRecipe.Entities
 
         [Required]
         [MaxLength(255)]
-        public string TypeName { get; set; }
+        public string? TypeName { get; set; }
     }
 }

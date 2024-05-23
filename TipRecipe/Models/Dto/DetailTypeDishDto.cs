@@ -1,7 +1,10 @@
-﻿namespace TipRecipe.Models.Dto
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TipRecipe.Models.Dto
 {
     public class DetailTypeDishDto
     {
-        public TypeDishDto Type { get; set; }
+        [Required]
+        public TypeDishDto? Type { get; set; }
     }
 }

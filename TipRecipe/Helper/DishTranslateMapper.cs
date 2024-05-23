@@ -13,12 +13,24 @@ namespace TipRecipe.Helper
 
         public DishDto Translate(Dish dish)
         {
-            return new DishDto(dish.DishID,dish.DishName,dish.Summary,dish.UrlPhoto,dish.AvgRating);
+            DishDto dishDto = new DishDto();
+            dishDto.DishID = dish.DishID;
+            dishDto.DishName = dish.DishName;
+            dishDto.Summary = dish.Summary;
+            dishDto.UrlPhoto = dish.UrlPhoto;
+            dishDto.AvgRating = dish.AvgRating;
+            return dishDto;
         }
 
         public Dish Translate(DishDto dishDto)
         {
-            return new Dish(dishDto.DishID,dishDto.DishName,dishDto.Summary,dishDto.UrlPhoto);
+            Dish dish = new Dish();
+            dish.DishID = dishDto.DishID!;
+            dish.DishName = dishDto.DishName;
+            dish.Summary = dishDto.Summary;
+            dish.UrlPhoto = dishDto.UrlPhoto;
+            dish.AvgRating = dishDto.AvgRating;
+            return dish;
         }
 
         public IList<DishDto> TranslateList(IList<Dish> dishList)

@@ -18,11 +18,7 @@ namespace TipRecipe.Services
         {
             var cacheData = await ReadCacheFileAsync();
 
-            var cacheItem = new CacheItem
-            {
-                Value = value,
-                Expiration = DateTime.UtcNow.Add(duration)
-            };
+            var cacheItem = new CacheItem(value!, DateTime.UtcNow.Add(duration));
 
             cacheData[key] = cacheItem;
 
@@ -34,22 +30,19 @@ namespace TipRecipe.Services
         public async Task<T?> GetAsync<T>(string key)
         {
             var cacheData = await ReadCacheFileAsync();
-
             if (cacheData.TryGetValue(key, out var cacheItem))
             {
-                var cacheItemTyped = JsonSerializer.Deserialize<CacheItem>(cacheItem.ToString());
+                var cacheItemTyped = JsonSerializer.Deserialize<CacheItem>(cacheItem.ToString()!);
                 if (cacheItemTyped != null && cacheItemTyped.Expiration > DateTime.UtcNow)
                 {
                     _logger.LogInformation($"Read cache for key {key} from {_cacheFilePath}");
-                    return JsonSerializer.Deserialize<T>(cacheItemTyped.Value.ToString());
+                    return JsonSerializer.Deserialize<T>(cacheItemTyped.Value.ToString()!);
                 }
-
                 _logger.LogInformation($"Cache expired for key {key}");
                 cacheData.Remove(key);
                 var json = JsonSerializer.Serialize(cacheData, new JsonSerializerOptions { WriteIndented = true });
                 await File.WriteAllTextAsync(_cacheFilePath, json);
             }
-
             return default;
         }
 

@@ -9,10 +9,15 @@ namespace TipRecipe.Entities
         public string DishID { get; set; }
 
         [ForeignKey("DishID")]
-        public Dish Dish { get; set; }
+        public Dish? Dish { get; set; }
 
         [Column(TypeName = "nvarchar(MAX)")]
-        public string Content { get; set; }
+        public string? Content { get; set; }
+
+        public Recipe()
+        {
+            this.DishID = string.Empty;
+        }
 
     }
 }

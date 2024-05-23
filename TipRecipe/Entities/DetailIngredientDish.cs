@@ -6,15 +6,15 @@ namespace TipRecipe.Entities
     public class DetailIngredientDish
     {
         [Required]
-        public string DishID = string.Empty;
+        public string DishID;
         [Required]
         public int IngredientID;
 
         [ForeignKey("DishID")]
-        public Dish Dish { get; set; }
+        public Dish? Dish { get; set; }
 
         [ForeignKey("IngredientID")]
-        public Ingredient Ingredient { get; set; }
+        public Ingredient? Ingredient { get; set; }
 
         [Required]
         public int Amount { get; set; }
@@ -25,6 +25,7 @@ namespace TipRecipe.Entities
 
         public DetailIngredientDish(int ingredientID, int amount, string unit)
         {
+            this.DishID = string.Empty;
             this.IngredientID = ingredientID;
             this.Amount = amount;
             this.Unit = unit;

@@ -3,6 +3,7 @@ using System.Data;
 using TipRecipe.Entities;
 using TipRecipe.Interfaces;
 using TipRecipe.Models;
+using TipRecipe.Models.HttpExceptions;
 
 
 namespace TipRecipe.Services
@@ -79,7 +80,7 @@ namespace TipRecipe.Services
         public async Task<bool> UpdateDishAsync(string dishID, Dish updatedDish)
         {
             Dish? findDish = await this._dishRepository.GetByIDAsync(dishID);
-            if(findDish != null)
+            if(findDish is not null)
             {
                 findDish.DishName = updatedDish.DishName;
                 findDish.Summary = updatedDish.Summary;
@@ -89,6 +90,30 @@ namespace TipRecipe.Services
                 return await this._dishRepository.SaveChangesAsync();
             }
             return false;
+        }
+
+        public async Task<bool> RatingDishAsync(string dishID, float ratingScore, string userID)
+        {
+            Dish? findDish = await this._dishRepository.GetByIDAsync(dishID);
+            if(findDish is null)
+            {
+                throw new NotFoundException("Dish not found");
+            }
+            Rating? findRating = await this._dishRepository.GetRatingDishAsync(dishID, userID);
+            if (findRating is null)
+            {
+                findRating = new Rating(userID,dishID,ratingScore,0,DateTime.Now);
+                findRating.Dish = findDish;
+                this._dishRepository.AddRating(findRating);
+            }
+            else
+            {
+                findRating.DishID = dishID;
+                findRating.UserID = userID;
+                findRating.RatingScore = ratingScore;
+                findRating.RatedAt = DateTime.Now;
+            }
+            return await this._dishRepository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Ingredient>> GetIngredientsAsync()
@@ -119,7 +144,7 @@ namespace TipRecipe.Services
         public async Task<bool> DeleteDishAsync(string dishID)
         {
             Dish? findDish = await this._dishRepository.GetByIDAsync(dishID);
-            if(findDish != null)
+            if(findDish is not null)
             {
                 findDish.IsDeleted = true;
                 return await this._dishRepository.SaveChangesAsync();

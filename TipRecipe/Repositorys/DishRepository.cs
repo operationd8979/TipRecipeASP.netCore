@@ -58,7 +58,7 @@ namespace TipRecipe.Repositorys
             var dishesQuery = _context.Dishes.AsQueryable();
             if (!string.IsNullOrEmpty(query))
             {
-                dishesQuery = dishesQuery.Where(d => d.DishName.Contains(query));
+                dishesQuery = dishesQuery.Where(d => d.DishName!.Contains(query));
             }
             if (ingredients != null && ingredients.Any())
             {
@@ -93,11 +93,20 @@ namespace TipRecipe.Repositorys
         public async Task<Dish?> GetByIDAsync(string dishID)
         {
             return await this._context.Dishes
-                .Where(d => d.IsDeleted == false)
                 .Include(d=>d.Recipe)
                 .Include(d=> d.DetailIngredientDishes).ThenInclude(did=>did.Ingredient)
                 .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
-                .FirstOrDefaultAsync(d => d.DishID == dishID);
+                .FirstOrDefaultAsync(d => d.DishID == dishID && d.IsDeleted == false);
+        }
+
+        public async Task<Rating?> GetRatingDishAsync(string dishID, string userID)
+        {
+            return await this._context.Ratings.FirstOrDefaultAsync(r => r.DishID == dishID && r.UserID == userID);
+        }
+
+        public void AddRating(Rating rating)
+        {
+            this._context.Ratings.Add(rating);
         }
 
 

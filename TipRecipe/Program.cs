@@ -1,26 +1,14 @@
-using TipRecipe.Configuration;
-using TipRecipe.DbContexts;
-using Microsoft.EntityFrameworkCore;
+using TipRecipe.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-ConfigWebApplication.LogConfig(builder);
-ConfigWebApplication.AddServices(builder);
+builder.LogConfig();
+builder.AddServices();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment()){
-    app.UseExceptionHandler("/error-development");
-}
-else{
-    app.UseExceptionHandler("/error");
-}
-
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
+app.UseMiddleware();
 
 
 try

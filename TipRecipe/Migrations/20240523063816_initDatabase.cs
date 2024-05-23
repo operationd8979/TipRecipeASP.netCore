@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -139,7 +140,8 @@ namespace TipRecipe.Migrations
                     UserID = table.Column<string>(type: "nvarchar(60)", nullable: false),
                     DishID = table.Column<string>(type: "nvarchar(60)", nullable: false),
                     RatingScore = table.Column<float>(type: "real", nullable: false),
-                    PreRatingScore = table.Column<float>(type: "real", nullable: false)
+                    PreRatingScore = table.Column<float>(type: "real", nullable: false),
+                    RatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -163,7 +165,7 @@ namespace TipRecipe.Migrations
                 columns: table => new
                 {
                     UserID = table.Column<string>(type: "nvarchar(60)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Role = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false)
                 },
                 constraints: table =>
                 {

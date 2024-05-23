@@ -11,5 +11,9 @@ namespace TipRecipe.Interfaces
 
         Task UpdateAverageScoreDishes();
 
+        Task<Rating?> GetRatingDishAsync(string dishID, string userID);
+
+        void AddRating(Rating rating);
+
     }
 }

@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System.Linq.Dynamic.Core.Tokenizer;
+using TipRecipe.Entities;
+using TipRecipe.Filters;
 using TipRecipe.Models.Dto;
 using TipRecipe.Models.HttpExceptions;
 using TipRecipe.Services;
@@ -18,29 +23,68 @@ namespace TipRecipe.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody]LoginDto loginDto)
+        [TypeFilter(typeof(DtoResultFilterAttribute<User,UserDto>))]
+        public async Task<IActionResult> Login([FromBody]UserLoginDto loginDto)
         {
             try
             {
-                string jwtToken = await _userManager.SignIn(loginDto);
+                (User, string, DateTime) payload = await _userManager.SignIn(loginDto);
                 var cookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true,
+                    Expires = payload.Item3,
                     SameSite = SameSiteMode.Strict
                 };
-                Response.Cookies.Append("jwt", jwtToken, cookieOptions);
-                return Ok();
+                Response.Cookies.Append("jwt", payload.Item2, cookieOptions);
+                return Ok(payload.Item1);
             }
-            catch(NotFoundException ex)
+            catch(NotFoundException)
             {
                 return NotFound();
             }
-            catch(ValidationException ex)
+            catch(ValidationException)
             {
                 return Unauthorized();
             }
-            
+        }
+
+        [HttpPost("register")]
+        [TypeFilter(typeof(DtoResultFilterAttribute<User, UserDto>))]
+        public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegisterDto)
+        {
+            try
+            {
+                (User, string, DateTime) payload = await _userManager.SignUp(userRegisterDto);
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    Expires = payload.Item3,
+                    SameSite = SameSiteMode.Strict
+                };
+                Response.Cookies.Append("jwt", payload.Item2, cookieOptions);
+                return Ok(payload.Item1);
+            }
+            catch (ConflicException ex)
+            {
+                return Conflict(ex.Message);
+            }
+        }
+
+        [HttpGet("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _userManager.SignOut();
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                Expires = DateTime.Now,
+                SameSite = SameSiteMode.Strict
+            };
+            Response.Cookies.Append("jwt", "this is empty", cookieOptions);
+            return NoContent();
         }
 
     }

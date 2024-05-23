@@ -6,6 +6,7 @@ namespace TipRecipe.Models.Dto
 {
     public class RecipeDto
     {
-        public string Content { get; set; }
+        [Required]
+        public string? Content { get; set; }
     }
 }

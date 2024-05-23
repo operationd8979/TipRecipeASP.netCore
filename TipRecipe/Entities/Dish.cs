@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using TipRecipe.Helper;
 using TipRecipe.Models.Dto;
+using TipRecipe.Validations;
 
 namespace TipRecipe.Entities
 {
@@ -14,43 +15,33 @@ namespace TipRecipe.Entities
 
         [Required]
         [MaxLength(255)]
-        public string DishName { get; set; }
+        public string? DishName { get; set; }
 
         [Required]
         [MaxLength(255)]
-        public string Summary { get; set; }
+        public string? Summary { get; set; }
 
         [AllowNull]
         [MaxLength(255)]
-        public string UrlPhoto { get; set; }
+        public string? UrlPhoto { get; set; }
 
         [AllowNull]
         [Required]
         public bool IsDeleted { get; set; }
 
-        [Required]
+        [LowerThanTen]
+        [GreaterThanZero]
         public float AvgRating { get; set; }
 
         public ICollection<DetailIngredientDish> DetailIngredientDishes { get; set; } = new List<DetailIngredientDish>();
 
         public ICollection<DetailTypeDish> DetailTypeDishes { get; set; } = new List<DetailTypeDish>();
 
-        public Recipe Recipe { get; set; }
+        public Recipe? Recipe { get; set; }
 
         public Dish()
         {
-            this.DishID = IdGenerator.GenerateDishId();
-            this.AvgRating = 0f;
-            this.IsDeleted = false;
-        }
-
-
-        public Dish(string dishID, string dishName, string summary, string urlPhoto)
-        {
-            this.DishID = dishID;
-            this.DishName = dishName;
-            this.Summary = summary;
-            this.UrlPhoto = urlPhoto;
+            this.DishID = IdGenerator.GenerateDishID();
             this.AvgRating = 0f;
             this.IsDeleted = false;
         }
@@ -65,11 +56,11 @@ namespace TipRecipe.Entities
         public override bool Equals(object? other)
         {
             var item = other as Dish;
-            if (item == null) return false;
-            return this.DishID.Equals(item.DishID)
-                && this.DishName.Equals(item.DishName)
-                && this.Summary.Equals(item.Summary)
-                && this.UrlPhoto.Equals(item.UrlPhoto);
+            if (item is null) return false;
+            return this.DishID == (item.DishID)
+                && this.DishName == (item.DishName)
+                && this.Summary == (item.Summary)
+                && this.UrlPhoto == (item.UrlPhoto);
         }
 
 
