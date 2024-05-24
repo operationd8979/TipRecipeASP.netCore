@@ -33,6 +33,11 @@ namespace TipRecipe.Entities
         [GreaterThanZero]
         public float AvgRating { get; set; }
 
+        [NotMapped]
+        public float? RatingScore { get; set; }
+        [NotMapped]
+        public bool isRated { get; set; } = false;
+
         public ICollection<DetailIngredientDish> DetailIngredientDishes { get; set; } = new List<DetailIngredientDish>();
 
         public ICollection<DetailTypeDish> DetailTypeDishes { get; set; } = new List<DetailTypeDish>();

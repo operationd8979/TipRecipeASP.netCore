@@ -15,5 +15,7 @@ namespace TipRecipe.Interfaces
 
         void AddRating(Rating rating);
 
+        Task<IEnumerable<Dish>> GetDishsByListID(List<string> dishIDs);
+
     }
 }

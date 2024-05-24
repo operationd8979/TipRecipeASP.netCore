@@ -23,6 +23,11 @@ namespace TipRecipe.Models.Dto
         [GreaterThanZero]
         public float AvgRating { get; set; }
 
+        [LowerThanTen]
+        [GreaterThanZero]
+        public float? RatingScore { get; set; }
+        public bool IsRated { get; set; }
+
         public IList<DetailIngredientDishDto> DetailIngredientDishes { get; set; } = new List<DetailIngredientDishDto>();
 
         public ICollection<DetailTypeDishDto> DetailTypeDishes { get; set; } = new List<DetailTypeDishDto>();

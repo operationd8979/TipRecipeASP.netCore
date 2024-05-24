@@ -121,10 +121,15 @@ namespace TipRecipe.Repositorys
         }
 
 
+        public async Task<IEnumerable<Dish>> GetDishsByListID(List<string> dishIDs)
+        {
+            return await _context.Dishes.Where(d => dishIDs.Contains(d.DishID)).ToListAsync();
+        }
+
         public async Task<IEnumerable<UserDishRating>> GetUserDishRatingsAsync()
         {
             string sqlQuery = @"
-                SELECT u.UserID, d.DishID, COALESCE(r.RatingScore, d.AvgRating) AS RatingScore
+                SELECT u.UserID, d.DishID, COALESCE(r.RatingScore, d.AvgRating) - d.AvgRating AS RatingScore
                 FROM Users u
                 CROSS JOIN Dishes d
                 LEFT JOIN Ratings r ON r.UserID = u.UserID AND r.DishID = d.DishID

@@ -69,7 +69,8 @@ namespace TipRecipe.Controllers
             string orderBy = ""
             )
         {
-            IList<Dish> dishList = (await _dishService.GetDishWithFilterAsync(query,ingredients,types,offset,limit, orderBy)).ToList();
+            var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
+            IEnumerable<Dish> dishList = await _dishService.GetDishWithFilterAsync(query,ingredients,types,offset,limit, orderBy, userID);
             return Ok(dishList);
         }
 

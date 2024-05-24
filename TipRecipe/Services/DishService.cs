@@ -1,8 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
+using System.Collections;
 using System.Data;
 using TipRecipe.Entities;
 using TipRecipe.Interfaces;
 using TipRecipe.Models;
+using TipRecipe.Models.Dto;
 using TipRecipe.Models.HttpExceptions;
 
 
@@ -15,13 +17,17 @@ namespace TipRecipe.Services
         private readonly IIngredientRepository _ingredientRepository;
         private readonly ITypeDishRepository _typeDishRepository;
 
+        private readonly CachingFileService _cachingFileService;
+
         public DishService(
             IDishRepository dishRepository,
             IIngredientRepository ingredientRepository,
-            ITypeDishRepository typeDishRepository) {
+            ITypeDishRepository typeDishRepository,
+            CachingFileService cachingFileService) {
             this._dishRepository = dishRepository ?? throw new ArgumentNullException(nameof(dishRepository));
             this._ingredientRepository = ingredientRepository ?? throw new ArgumentNullException(nameof(ingredientRepository));
             this._typeDishRepository = typeDishRepository ?? throw new ArgumentNullException(nameof(typeDishRepository));
+            this._cachingFileService = cachingFileService ?? throw new ArgumentNullException(nameof(cachingFileService));
         }
 
         public async Task<IEnumerable<Dish>> GetAllAsync()
@@ -40,7 +46,8 @@ namespace TipRecipe.Services
             string types,
             int offset,
             int limit,
-            string orderBy)
+            string orderBy,
+            string userID)
         {
             int[] ingredientsArray = [];
             int[] typesArray = [];
@@ -52,7 +59,112 @@ namespace TipRecipe.Services
             {
                 typesArray = types!.Split(",").Select(t => int.Parse(t)).ToArray();
             }
-            return await this._dishRepository.GetWithFilterAsync(query,ingredientsArray,typesArray,offset,limit,orderBy);
+            IEnumerable<Dish> dishes = await this._dishRepository.GetWithFilterAsync(query,ingredientsArray,typesArray,offset,limit,orderBy);
+            return await ImplementRatingScoreDishes(dishes,userID);
+        }
+
+        private async Task<IEnumerable<Dish>> ImplementRatingScoreDishes(IEnumerable<Dish> dishes, string userID)
+        {
+            Dictionary<string, Dictionary<string,float>>? ratingMap = await _cachingFileService.GetAsync<Dictionary<string, Dictionary<string, float>>>("RATINGS");
+            bool shouldResetRatingMap = false;
+            if(ratingMap != null)
+            {
+                if (ratingMap.TryGetValue(userID, out var value))
+                {
+                    foreach (var dish in dishes)
+                    {
+                        if (!value.ContainsKey(dish.DishID))
+                        {
+                            shouldResetRatingMap = true;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    shouldResetRatingMap = true;
+                }
+            }
+            if (ratingMap == null || shouldResetRatingMap)
+            {
+                ratingMap = [];
+                IEnumerable<UserDishRating> ratings = await GetUserDishRatingsAsync();
+                foreach (var rating in ratings)
+                {
+                    if(ratingMap.TryGetValue(rating.UserID!, out var value))
+                    {
+                        value.Add(rating.DishID!, rating.RatingScore / 10);
+                    }
+                    else
+                    {
+                        Dictionary<string, float> newValue = new();
+                        newValue.Add(rating.DishID!, rating.RatingScore / 10);
+                        ratingMap.Add(rating.UserID!, newValue);
+                    }
+                }
+                await _cachingFileService.SetAsync("RATINGS", ratingMap, TimeSpan.FromMinutes(15));
+            }
+            //(string, float)[] vectorArray = new (string, float)[];
+            List<(string, double)> vectorList = new();
+            Dictionary<string, float> dataCurrentUser = ratingMap.GetValueOrDefault(userID)!;
+            var arrayDishIDs = dataCurrentUser.Keys.ToArray();
+            (string, double) vectorCurrentUser = new();
+            foreach (var dataUser in ratingMap)
+            {
+                double dotResult = 0;
+                double magnitudeA = 0;
+                double magnitudeB = 0;
+                foreach (var item in arrayDishIDs)
+                {
+                    dotResult += dataUser.Value.GetValueOrDefault(item) * dataCurrentUser.GetValueOrDefault(item);
+                    magnitudeA += Math.Pow(dataUser.Value.GetValueOrDefault(item), 2);
+                    magnitudeB += Math.Pow(dataCurrentUser.GetValueOrDefault(item), 2);
+                }
+                double result = dotResult / (Math.Sqrt(magnitudeA) * Math.Sqrt(magnitudeB));
+                if (double.IsNaN(result))
+                {
+                    result = 1;
+                }
+                if (dataUser.Key.Equals(userID))
+                {
+                    vectorCurrentUser = (userID, result);
+                }
+                else
+                {
+                    vectorList.Add((dataUser.Key, result));
+                }
+            }
+            vectorList.Sort((vectorA, vectorB) =>
+            {
+                double a = Math.Abs(vectorA.Item2) - Math.Abs(vectorCurrentUser.Item2);
+                double b = Math.Abs(vectorB.Item2) - Math.Abs(vectorCurrentUser.Item2);
+                return a.CompareTo(b);
+            });
+            IEnumerable<Dish> rawDishs = await _dishRepository.GetDishsByListID(dishes.Select(d => d.DishID).ToList());
+            for(int i = 0; i < dishes.Count(); i++)
+            {
+                Dish dish = dishes.ElementAt(i);
+                dish.RatingScore = ratingMap.GetValueOrDefault(userID)!.GetValueOrDefault(dish.DishID);
+                if (dish.RatingScore == 0)
+                {
+                    foreach (var vector in vectorList)
+                    {
+                        dish.RatingScore = ratingMap.GetValueOrDefault(vector.Item1)!.GetValueOrDefault(dish.DishID);
+                        if (dish.RatingScore != 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    dish.isRated = true;
+                }
+                //dish.RatingScore= dish.RatingScore*10 + rawDishs.ElementAt(i).AvgRating;
+                dish.RatingScore *= 10;
+                dish.RatingScore += rawDishs.ElementAt(i).AvgRating;
+            }
+            return dishes;
         }
 
         public async Task<Dish?> GetByIdAsync(string dishID)
@@ -64,17 +176,6 @@ namespace TipRecipe.Services
         {
             this._dishRepository.Add(dish);
             return await this._dishRepository.SaveChangesAsync();
-            //ICollection<DetailIngredientDish> detailIngredientDishes = dish.DetailIngredientDishes;
-            //ICollection<DetailTypeDish> detailTypeDishes = dish.DetailTypeDishes;
-            //dish.DetailIngredientDishes = [];
-            //dish.DetailTypeDishes = [];
-            //this._dishRepository.Add(dish);
-            //if (this._dishRepository.SaveChanges())
-            //{
-            //    dish.DetailIngredientDishes = detailIngredientDishes;
-            //    dish.DetailTypeDishes = detailTypeDishes;
-            //}
-            //return await this._dishRepository.SaveChangesAsync();
         }
 
         public async Task<bool> UpdateDishAsync(string dishID, Dish updatedDish)
@@ -136,7 +237,7 @@ namespace TipRecipe.Services
             return await this._dishRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<UserDishRating>> GetUserDishRatingsAsync()
+        private async Task<IEnumerable<UserDishRating>> GetUserDishRatingsAsync()
         {
             return await _dishRepository.GetUserDishRatingsAsync();
         }

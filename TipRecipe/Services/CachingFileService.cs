@@ -24,7 +24,7 @@ namespace TipRecipe.Services
 
             var json = JsonSerializer.Serialize(cacheData, new JsonSerializerOptions { WriteIndented = true });
             await File.WriteAllTextAsync(_cacheFilePath, json);
-            _logger.LogInformation($"Wrote cache ${key} into ${_cacheFilePath}");
+            _logger.LogInformation($"Wrote cache $[{key}] into ${_cacheFilePath}");
         }
 
         public async Task<T?> GetAsync<T>(string key)
@@ -35,10 +35,10 @@ namespace TipRecipe.Services
                 var cacheItemTyped = JsonSerializer.Deserialize<CacheItem>(cacheItem.ToString()!);
                 if (cacheItemTyped != null && cacheItemTyped.Expiration > DateTime.UtcNow)
                 {
-                    _logger.LogInformation($"Read cache for key {key} from {_cacheFilePath}");
+                    _logger.LogInformation($"Read cache for key [{key}] from {_cacheFilePath}");
                     return JsonSerializer.Deserialize<T>(cacheItemTyped.Value.ToString()!);
                 }
-                _logger.LogInformation($"Cache expired for key {key}");
+                _logger.LogInformation($"Cache expired for key [{key}]");
                 cacheData.Remove(key);
                 var json = JsonSerializer.Serialize(cacheData, new JsonSerializerOptions { WriteIndented = true });
                 await File.WriteAllTextAsync(_cacheFilePath, json);
