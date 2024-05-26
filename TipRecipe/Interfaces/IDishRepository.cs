@@ -1,4 +1,5 @@
-﻿using TipRecipe.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using TipRecipe.Entities;
 using TipRecipe.Models;
 
 namespace TipRecipe.Interfaces

@@ -12,6 +12,7 @@ using TipRecipe.Models.Dto;
 using TipRecipe.Repositorys;
 using TipRecipe.Services;
 using System.Security.Claims;
+using TipRecipe.Filters;
 namespace TipRecipe.Extensions
 {
     public static class StartupHelperExtension
@@ -129,6 +130,9 @@ namespace TipRecipe.Extensions
             builder.Services.AddScoped<ITypeDishRepository, TypeDishRepository>();
             builder.Services.AddScoped<DishService>();
 
+            //add side middleware service
+            builder.Services.AddSingleton<AddInfoServerMiddleware>();
+
             //add background service
             builder.Services.AddHostedService<DishBackgroundService>();
 
@@ -151,6 +155,7 @@ namespace TipRecipe.Extensions
 
         public static WebApplication UseMiddleware(this WebApplication app)
         {
+            app.UseMiddleware<MutithreadMiddleware>();
             if (app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/error-development");
@@ -168,4 +173,6 @@ namespace TipRecipe.Extensions
         }
 
     }
+
+
 }
