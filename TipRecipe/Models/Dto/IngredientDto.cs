@@ -8,5 +8,6 @@ namespace TipRecipe.Models.Dto
 
         [Required]
         public string? IngredientName { get; set; }
+
     }
 }

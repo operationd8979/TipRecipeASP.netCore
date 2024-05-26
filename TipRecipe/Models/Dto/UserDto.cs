@@ -2,5 +2,10 @@
 
 namespace TipRecipe.Models.Dto
 {
-    public record UserDto(string UserName, string Email);
+    public class UserDto
+    {
+        public string? UserName { get; set; }
+        public string? Email { get; set; }
+        public string? Role { get; set; }
+    }
 }

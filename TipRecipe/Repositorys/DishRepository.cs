@@ -18,7 +18,6 @@ namespace TipRecipe.Repositorys
         private readonly ApplicationDbContext _context;
         private readonly string _connectionString;
 
-
         public DishRepository(ApplicationDbContext applicationDbContext, IConfiguration configuration)
         {
             _context = applicationDbContext ?? throw new ArgumentNullException(nameof(applicationDbContext));
@@ -93,8 +92,8 @@ namespace TipRecipe.Repositorys
         public async Task<Dish?> GetByIDAsync(string dishID)
         {
             return await this._context.Dishes
-                .Include(d=>d.Recipe)
-                .Include(d=> d.DetailIngredientDishes).ThenInclude(did=>did.Ingredient)
+                .Include(d => d.Recipe)
+                .Include(d => d.DetailIngredientDishes).ThenInclude(did => did.Ingredient)
                 .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
                 .FirstOrDefaultAsync(d => d.DishID == dishID && d.IsDeleted == false);
         }

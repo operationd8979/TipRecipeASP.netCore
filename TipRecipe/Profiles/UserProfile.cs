@@ -9,7 +9,9 @@ namespace TipRecipe.Profiles
         public UserProfile()
         {
             CreateMap<UserRegisterDto, User>();
-            CreateMap<User, UserDto>();
+            CreateMap<User, UserDto>()
+                .ForMember(dst => dst.Role, opt => opt.MapFrom(
+                    src => string.Join(",", src.UserRoles.Select(r=>r.Role.ToString()))));
         }
     }
 }

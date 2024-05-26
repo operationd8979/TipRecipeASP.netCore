@@ -22,6 +22,17 @@ namespace TipRecipe.Controllers
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
+        [HttpGet]
+        [TypeFilter(typeof(DtoResultFilterAttribute<User, UserDto>))]
+        public async Task<IActionResult> Auth()
+        {
+            User user = new User();
+            user.UserName = "operationddd";
+            user.Email = "operationddd@gmail.com";
+            user.UserRoles.Add(new UserRole(RoleType.USER));
+            return Ok(user);
+        }
+
         [HttpPost("login")]
         [TypeFilter(typeof(DtoResultFilterAttribute<User,UserDto>))]
         public async Task<IActionResult> Login([FromBody]UserLoginDto loginDto)
@@ -32,7 +43,7 @@ namespace TipRecipe.Controllers
                 var cookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
-                    Secure = true,
+                    Secure = false,
                     Expires = payload.Item3,
                     SameSite = SameSiteMode.Strict
                 };
@@ -59,7 +70,7 @@ namespace TipRecipe.Controllers
                 var cookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
-                    Secure = true,
+                    Secure = false,
                     Expires = payload.Item3,
                     SameSite = SameSiteMode.Strict
                 };
@@ -79,7 +90,7 @@ namespace TipRecipe.Controllers
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
+                Secure = false,
                 Expires = DateTime.Now,
                 SameSite = SameSiteMode.Strict
             };

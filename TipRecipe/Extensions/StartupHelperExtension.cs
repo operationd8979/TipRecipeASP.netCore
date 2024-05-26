@@ -132,6 +132,20 @@ namespace TipRecipe.Extensions
             //add background service
             builder.Services.AddHostedService<DishBackgroundService>();
 
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngularDev",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200")
+                               .AllowAnyHeader()
+                               .AllowAnyMethod()
+                               .AllowCredentials();
+                    });
+            });
+
+
             return builder;
         }
 
@@ -146,6 +160,7 @@ namespace TipRecipe.Extensions
                 app.UseExceptionHandler("/error");
             }
             app.UseHttpsRedirection();
+            app.UseCors("AllowAngularDev");
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();

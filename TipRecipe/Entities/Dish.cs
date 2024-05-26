@@ -38,6 +38,8 @@ namespace TipRecipe.Entities
         [NotMapped]
         public bool isRated { get; set; } = false;
 
+        public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
+
         public ICollection<DetailIngredientDish> DetailIngredientDishes { get; set; } = new List<DetailIngredientDish>();
 
         public ICollection<DetailTypeDish> DetailTypeDishes { get; set; } = new List<DetailTypeDish>();

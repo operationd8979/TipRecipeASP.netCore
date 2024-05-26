@@ -169,7 +169,8 @@ namespace TipRecipe.Services
 
         public async Task<Dish?> GetByIdAsync(string dishID)
         {
-            return await this._dishRepository.GetByIDAsync(dishID);
+            Dish? dish = await this._dishRepository.GetByIDAsync(dishID);
+            return dish;
         }
 
         public async Task<bool> AddDishAsync(Dish dish)

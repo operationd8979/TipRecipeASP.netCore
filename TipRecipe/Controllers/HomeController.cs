@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TipRecipe.Entities;
 using TipRecipe.Filters;
@@ -10,6 +11,7 @@ namespace TipRecipe.Controllers
 {
     [Route("api")]
     [ApiController]
+    //[Authorize("User")]
     public class HomeController : MyControllerBase
     {
 
