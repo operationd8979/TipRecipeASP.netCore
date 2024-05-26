@@ -83,7 +83,6 @@ namespace TipRecipe.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("UrlPhoto")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -137,7 +136,6 @@ namespace TipRecipe.Migrations
                         .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("nvarchar(MAX)");
 
                     b.HasKey("DishID");
@@ -241,7 +239,7 @@ namespace TipRecipe.Migrations
             modelBuilder.Entity("TipRecipe.Entities.Rating", b =>
                 {
                     b.HasOne("TipRecipe.Entities.Dish", "Dish")
-                        .WithMany()
+                        .WithMany("Ratings")
                         .HasForeignKey("DishID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -285,8 +283,9 @@ namespace TipRecipe.Migrations
 
                     b.Navigation("DetailTypeDishes");
 
-                    b.Navigation("Recipe")
-                        .IsRequired();
+                    b.Navigation("Ratings");
+
+                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("TipRecipe.Entities.User", b =>

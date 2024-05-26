@@ -13,6 +13,7 @@ using TipRecipe.Repositorys;
 using TipRecipe.Services;
 using System.Security.Claims;
 using TipRecipe.Filters;
+using Microsoft.AspNetCore.Authentication.Cookies;
 namespace TipRecipe.Extensions
 {
     public static class StartupHelperExtension
@@ -155,7 +156,8 @@ namespace TipRecipe.Extensions
 
         public static WebApplication UseMiddleware(this WebApplication app)
         {
-            app.UseMiddleware<MutithreadMiddleware>();
+            //app.UseMiddleware<MutithreadMiddleware>();
+            //app.UseMiddleware<DelayMiddleware>();
             if (app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/error-development");
@@ -164,8 +166,8 @@ namespace TipRecipe.Extensions
             {
                 app.UseExceptionHandler("/error");
             }
-            app.UseHttpsRedirection();
             app.UseCors("AllowAngularDev");
+            //app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();

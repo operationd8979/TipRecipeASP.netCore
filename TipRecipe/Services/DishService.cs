@@ -173,6 +173,19 @@ namespace TipRecipe.Services
             return dish;
         }
 
+        public async Task<Dish?> GetDishWithRatingByIDAsync(string dishID, string userID)
+        {
+            Dish? dish = await this._dishRepository.GetByIDAsync(dishID);
+            float? rating = await this._dishRepository.GetRatingOfDish(dishID, userID);
+            if(rating is not null)
+            {
+                dish!.RatingScore = rating.Value;
+                dish!.isRated = true;
+            }
+            return dish;
+        }
+
+
         public async Task<bool> AddDishAsync(Dish dish)
         {
             this._dishRepository.Add(dish);

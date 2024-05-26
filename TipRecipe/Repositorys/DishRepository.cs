@@ -150,6 +150,20 @@ namespace TipRecipe.Repositorys
             await _context.Database.ExecuteSqlRawAsync(sqlQuery);
         }
 
+        public async Task<float?> GetRatingOfDish(string dishID, string userID)
+        {
+            string sqlQuery = @"
+                SELECT COALESCE(r.RatingScore, 0) AS RatingScore
+                FROM dbo.Dishes d
+                LEFT JOIN dbo.Ratings r ON r.DishID = d.DishID AND r.UserID = @UserID
+                WHERE d.DishID = @DishID";
+            var rating = await _context.Ratings
+                                       .FromSqlRaw(sqlQuery, new SqlParameter("@DishID", dishID), new SqlParameter("@UserID", userID))
+                                       .Select(r => r.RatingScore)
+                                       .FirstOrDefaultAsync();
+            return rating;
+        }
+
 
     }
 }

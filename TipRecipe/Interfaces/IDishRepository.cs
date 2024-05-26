@@ -18,5 +18,8 @@ namespace TipRecipe.Interfaces
 
         Task<IEnumerable<Dish>> GetDishsByListID(List<string> dishIDs);
 
+
+        Task<float?> GetRatingOfDish(string dishID, string userID);
+
     }
 }

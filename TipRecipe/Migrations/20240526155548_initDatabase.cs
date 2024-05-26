@@ -18,7 +18,7 @@ namespace TipRecipe.Migrations
                     DishID = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     DishName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Summary = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    UrlPhoto = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    UrlPhoto = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     AvgRating = table.Column<float>(type: "real", nullable: false)
                 },
@@ -70,7 +70,7 @@ namespace TipRecipe.Migrations
                 columns: table => new
                 {
                     DishID = table.Column<string>(type: "nvarchar(60)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(MAX)", nullable: false)
+                    Content = table.Column<string>(type: "nvarchar(MAX)", nullable: true)
                 },
                 constraints: table =>
                 {

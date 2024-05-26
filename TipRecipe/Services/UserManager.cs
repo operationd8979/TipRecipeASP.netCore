@@ -26,6 +26,40 @@ namespace TipRecipe.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        public async Task<User> GetUserAsync(string userId)
+        {
+            User? user = await _context.Users
+                .Include(u => u.UserRoles)
+                .FirstOrDefaultAsync(u => u.UserID == userId);
+            if (user == null)
+            {
+                throw new NotFoundException();
+            }
+            return user;
+        }
+
+        public async Task UpdateProfileAsync(UserUpdateDto userUpdateDto, string userID)
+        {
+           
+            User? user = await _context.Users
+                .Include(u => u.UserRoles)
+                .FirstOrDefaultAsync(u => u.UserID == userID);
+            if (user == null)
+            {
+                throw new NotFoundException();
+            }
+            user.UserName = userUpdateDto.Username;
+            if(userUpdateDto.NewPassword != "")
+            {
+                user.Password = HashPassword(userUpdateDto.NewPassword);
+            }
+            if (await _context.SaveChangesAsync() <= 0)
+            {
+                throw new Exception("Failed to update user profile");
+            }
+            
+        }
+
         public async Task<(User, string, DateTime)> SignIn(UserLoginDto loginDto)
         {
             User? user = await _context.Users

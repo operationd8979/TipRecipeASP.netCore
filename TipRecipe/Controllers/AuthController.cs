@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.Linq.Dynamic.Core.Tokenizer;
+using System.Security.Claims;
 using TipRecipe.Entities;
 using TipRecipe.Filters;
 using TipRecipe.Models.Dto;
@@ -13,9 +15,11 @@ namespace TipRecipe.Controllers
 {
     [ApiController]
     [Route("api/auth")]
+    [Authorize("User")]
     public class AuthController : ControllerBase
     {
         private readonly UserManager _userManager;
+
 
         public AuthController(UserManager userManager)
         {
@@ -26,13 +30,11 @@ namespace TipRecipe.Controllers
         [TypeFilter(typeof(DtoResultFilterAttribute<User, UserDto>))]
         public async Task<IActionResult> Auth()
         {
-            User user = new User();
-            user.UserName = "operationddd";
-            user.Email = "operationddd@gmail.com";
-            user.UserRoles.Add(new UserRole(RoleType.USER));
-            return Ok(user);
+            var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
+            return Ok(await _userManager.GetUserAsync(userID));
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         [TypeFilter(typeof(DtoResultFilterAttribute<User,UserDto>))]
         public async Task<IActionResult> Login([FromBody]UserLoginDto loginDto)
@@ -45,7 +47,7 @@ namespace TipRecipe.Controllers
                     HttpOnly = true,
                     Secure = false,
                     Expires = payload.Item3,
-                    SameSite = SameSiteMode.Strict
+                    SameSite = SameSiteMode.Lax
                 };
                 Response.Cookies.Append("jwt", payload.Item2, cookieOptions);
                 return Ok(payload.Item1);
@@ -60,6 +62,7 @@ namespace TipRecipe.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         [TypeFilter(typeof(DtoResultFilterAttribute<User, UserDto>))]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegisterDto)
@@ -72,7 +75,7 @@ namespace TipRecipe.Controllers
                     HttpOnly = true,
                     Secure = false,
                     Expires = payload.Item3,
-                    SameSite = SameSiteMode.Strict
+                    SameSite = SameSiteMode.Lax
                 };
                 Response.Cookies.Append("jwt", payload.Item2, cookieOptions);
                 return Ok(payload.Item1);
@@ -83,16 +86,33 @@ namespace TipRecipe.Controllers
             }
         }
 
+        [HttpPost("update")]
+        [TypeFilter(typeof(DtoResultFilterAttribute<User, UserDto>))]
+        public async Task<IActionResult> UpdateProfile([FromBody] UserUpdateDto userUpdateDto)
+        {
+            var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
+            try
+            {
+                await _userManager.UpdateProfileAsync(userUpdateDto, userID);
+                return Ok(await _userManager.GetUserAsync(userID));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        [AllowAnonymous]
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _userManager.SignOut();
+            //await _userManager.SignOut();
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
                 Secure = false,
                 Expires = DateTime.Now,
-                SameSite = SameSiteMode.Strict
+                SameSite = SameSiteMode.Lax
             };
             Response.Cookies.Append("jwt", "this is empty", cookieOptions);
             return NoContent();

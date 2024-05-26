@@ -11,7 +11,7 @@ namespace TipRecipe.Controllers
 {
     [Route("api")]
     [ApiController]
-    //[Authorize("User")]
+    [Authorize("User")]
     public class HomeController : MyControllerBase
     {
 

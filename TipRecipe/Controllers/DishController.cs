@@ -14,7 +14,7 @@ namespace TipRecipe.Controllers
 {
     [Route("api/dish")]
     [ApiController]
-    //[Authorize("User")]
+    [Authorize("User")]
     public class DishController : MyControllerBase
     {
 
@@ -69,8 +69,7 @@ namespace TipRecipe.Controllers
             string orderBy = ""
             )
         {
-            //var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
-            var userID = "VVNFUkNCNTQ4RUJENTJBMjQxRUM4REE2MDcxNDc2NUUwOTJFWFhasd";
+            var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
             IEnumerable<Dish> dishList = await _dishService.GetDishWithFilterAsync(query,ingredients,types,offset,limit, orderBy, userID);
             return Ok(dishList);
         }
@@ -79,15 +78,12 @@ namespace TipRecipe.Controllers
         [TypeFilter(typeof(DtoResultFilterAttribute<Dish,DishDto>))]
         public async Task<IActionResult> GetDishByIdAsync([FromRoute]string dishID)
         {
-            //var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
-            var userID = "VVNFUkNCNTQ4RUJENTJBMjQxRUM4REE2MDcxNDc2NUUwOTJFWFhasd";
-            Dish? dish = await this._dishService.GetByIdAsync(dishID);
+            var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
+            Dish? dish = await this._dishService.GetDishWithRatingByIDAsync(dishID, userID);
             if(dish is null)
             {
                 return NotFound();
             }
-            dish.RatingScore = 8;
-            dish.isRated = true;
             return Ok(dish);
         }
 
@@ -96,8 +92,7 @@ namespace TipRecipe.Controllers
         {
             try
             {
-                //var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
-                var userID = "VVNFUkNCNTQ4RUJENTJBMjQxRUM4REE2MDcxNDc2NUUwOTJFWFhasd";
+                var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
                 if (await _dishService.RatingDishAsync(dishRatingDto.DishID, dishRatingDto.RatingScore, userID))
                 {
                     return NoContent();

@@ -21,9 +21,9 @@ namespace TipRecipe.Filters
                 context.Response.Headers.Append("X-Server-Name", serverName);
                 return Task.CompletedTask;
             });
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 10; i++)
             {
-                _logger.LogInformation($"Task background {i}");
+                _logger.LogInformation($"Task AddInfoServerMiddleware {i}");
                 await Task.Delay(1000);
             }
             _logger.LogInformation("Task background completed");
