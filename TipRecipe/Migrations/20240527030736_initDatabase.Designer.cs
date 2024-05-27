@@ -12,7 +12,7 @@ using TipRecipe.DbContexts;
 namespace TipRecipe.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240526155548_initDatabase")]
+    [Migration("20240527030736_initDatabase")]
     partial class initDatabase
     {
         /// <inheritdoc />

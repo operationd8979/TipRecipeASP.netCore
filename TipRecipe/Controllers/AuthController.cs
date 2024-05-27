@@ -106,7 +106,7 @@ namespace TipRecipe.Controllers
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
-            //await _userManager.SignOut();
+            await _userManager.SignOut();
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,

@@ -2,7 +2,7 @@
 {
     public class CacheItem
     {
-        public object Value { get; set; }
+        public object? Value { get; set; }
         public DateTime Expiration { get; set; }
 
         public CacheItem()

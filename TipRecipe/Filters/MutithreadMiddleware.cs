@@ -18,16 +18,15 @@
             
             if (context.Request.Cookies.Count() > 0)
             {
-                context.Request.Cookies.TryGetValue("jwt", out string jwt);
+                context.Request.Cookies.TryGetValue("jwt", out string? jwt);
                 _logger.LogInformation($"MutithreadMiddleware: JWT token: {jwt}");
             }
             _logger.LogInformation("CombinedMiddleware: Starting parallel tasks");
 
-            await _next(context);
-            //var task1 = _next(context);
-            //var task2 = _addInfoServerMiddleware.InvokeAsync(context);
+            var task1 = _next(context);
+            var task2 = _addInfoServerMiddleware.InvokeAsync(context);
 
-            //await Task.WhenAll(task1, task2);
+            await Task.WhenAll(task1, task2);
 
             _logger.LogInformation("CombinedMiddleware: Completed parallel tasks");
 

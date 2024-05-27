@@ -167,7 +167,7 @@ namespace TipRecipe.Extensions
                 app.UseExceptionHandler("/error");
             }
             app.UseCors("AllowAngularDev");
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
