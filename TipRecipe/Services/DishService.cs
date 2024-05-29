@@ -1,11 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
-using Serilog;
-using System.Collections;
-using System.Data;
+﻿using System.Data;
 using TipRecipe.Entities;
 using TipRecipe.Interfaces;
 using TipRecipe.Models;
-using TipRecipe.Models.Dto;
 using TipRecipe.Models.HttpExceptions;
 
 

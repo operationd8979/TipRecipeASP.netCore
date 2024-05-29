@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog.Events;
@@ -13,14 +12,11 @@ using TipRecipe.Repositorys;
 using TipRecipe.Services;
 using System.Security.Claims;
 using TipRecipe.Filters;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.SecretsManager.Model;
 using Amazon.SecretsManager;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
-using System.Security;
 namespace TipRecipe.Extensions
 {
     public static class StartupHelperExtension

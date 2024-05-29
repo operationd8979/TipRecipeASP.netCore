@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TipRecipe.Entities;
 using TipRecipe.Filters;
-using TipRecipe.Interfaces;
 using TipRecipe.Models;
 using TipRecipe.Models.Dto;
 using TipRecipe.Models.HttpExceptions;

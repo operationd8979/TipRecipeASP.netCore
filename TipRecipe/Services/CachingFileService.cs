@@ -36,7 +36,7 @@ namespace TipRecipe.Services
                 if (cacheItemTyped != null && cacheItemTyped.Expiration > DateTime.UtcNow)
                 {
                     _logger.LogInformation($"Read cache for key [{key}] from {_cacheFilePath}");
-                    return JsonSerializer.Deserialize<T>(cacheItemTyped.Value.ToString()!);
+                    return JsonSerializer.Deserialize<T>(cacheItemTyped.Value!.ToString()!);
                 }
                 _logger.LogInformation($"Cache expired for key [{key}]");
                 cacheData.Remove(key);
