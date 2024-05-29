@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Serilog;
 using System.Collections;
 using System.Data;
 using TipRecipe.Entities;
@@ -104,12 +105,11 @@ namespace TipRecipe.Services
                 }
                 await _cachingFileService.SetAsync("RATINGS", ratingMap, TimeSpan.FromMinutes(15));
             }
-            //(string, float)[] vectorArray = new (string, float)[];
             List<(string, double)> vectorList = new();
             Dictionary<string, float> dataCurrentUser = ratingMap.GetValueOrDefault(userID)!;
             var arrayDishIDs = dataCurrentUser.Keys.ToArray();
             (string, double) vectorCurrentUser = new();
-            foreach (var dataUser in ratingMap)
+            foreach(var dataUser in ratingMap)
             {
                 double dotResult = 0;
                 double magnitudeA = 0;
@@ -134,6 +134,31 @@ namespace TipRecipe.Services
                     vectorList.Add((dataUser.Key, result));
                 }
             }
+            //Parallel.ForEach(ratingMap, dataUser =>
+            //{
+            //    double dotResult = 0;
+            //    double magnitudeA = 0;
+            //    double magnitudeB = 0;
+            //    foreach (var item in arrayDishIDs)
+            //    {
+            //        dotResult += dataUser.Value.GetValueOrDefault(item) * dataCurrentUser.GetValueOrDefault(item);
+            //        magnitudeA += Math.Pow(dataUser.Value.GetValueOrDefault(item), 2);
+            //        magnitudeB += Math.Pow(dataCurrentUser.GetValueOrDefault(item), 2);
+            //    }
+            //    double result = dotResult / (Math.Sqrt(magnitudeA) * Math.Sqrt(magnitudeB));
+            //    if (double.IsNaN(result))
+            //    {
+            //        result = 1;
+            //    }
+            //    if (dataUser.Key.Equals(userID))
+            //    {
+            //        vectorCurrentUser = (userID, result);
+            //    }
+            //    else
+            //    {
+            //        vectorList.Add((dataUser.Key, result));
+            //    }
+            //});
             vectorList.Sort((vectorA, vectorB) =>
             {
                 double a = Math.Abs(vectorA.Item2) - Math.Abs(vectorCurrentUser.Item2);
@@ -141,6 +166,7 @@ namespace TipRecipe.Services
                 return a.CompareTo(b);
             });
             IEnumerable<Dish> rawDishs = await _dishRepository.GetDishsByListID(dishes.Select(d => d.DishID).ToList());
+            List<object> preRatingCal = new List<object>();
             for(int i = 0; i < dishes.Count(); i++)
             {
                 Dish dish = dishes.ElementAt(i);
@@ -152,17 +178,17 @@ namespace TipRecipe.Services
                         dish.RatingScore = ratingMap.GetValueOrDefault(vector.Item1)!.GetValueOrDefault(dish.DishID);
                         if (dish.RatingScore != 0)
                         {
+                            ratingMap.GetValueOrDefault(userID)![dish.DishID] = dish.RatingScore??0;
+                            preRatingCal.Add(new { dish.DishID, dish.RatingScore });
                             break;
                         }
                     }
                 }
-                else
-                {
-                    dish.isRated = true;
-                }
-                //dish.RatingScore= dish.RatingScore*10 + rawDishs.ElementAt(i).AvgRating;
-                dish.RatingScore *= 10;
-                dish.RatingScore += rawDishs.ElementAt(i).AvgRating;
+                dish.RatingScore = dish.RatingScore*10 + rawDishs.ElementAt(i).AvgRating;
+            }
+            if (preRatingCal.Count() > 0)
+            {
+                await _cachingFileService.SetAsync("RATINGS", ratingMap, TimeSpan.FromMinutes(15));
             }
             return dishes;
         }

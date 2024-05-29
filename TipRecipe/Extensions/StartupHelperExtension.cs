@@ -14,6 +14,13 @@ using TipRecipe.Services;
 using System.Security.Claims;
 using TipRecipe.Filters;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Amazon;
+using Amazon.Runtime;
+using Amazon.SecretsManager.Model;
+using Amazon.SecretsManager;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Security;
 namespace TipRecipe.Extensions
 {
     public static class StartupHelperExtension
@@ -36,12 +43,44 @@ namespace TipRecipe.Extensions
             return builder;
         }
 
+        public static async Task<WebApplicationBuilder> ConnectDbContext(this WebApplicationBuilder builder)
+        {
+            string secretName = "TipRecipe";
+            var credentials = new BasicAWSCredentials(
+                builder.Configuration["AWS:AccessKeyId"],
+                builder.Configuration["AWS:SecretAccessKey"]);
+
+            IAmazonSecretsManager client = new AmazonSecretsManagerClient(
+                RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"]));
+
+            GetSecretValueRequest request = new GetSecretValueRequest
+            {
+                SecretId = secretName,
+                VersionStage = "AWSCURRENT",
+            };
+            GetSecretValueResponse response;
+            try
+            {
+                response = await client.GetSecretValueAsync(request);
+            }
+            catch (Exception e)
+            {
+                Log.Fatal(e, "Get secrect key fail");
+                throw;
+            }
+
+            var secret = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.SecretString)!["ConnectionString"];
+            secret = secret.Replace("\\\\", "\\");
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(secret));
+            
+            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            
+            return builder;
+        }
+
         public static WebApplicationBuilder AddServices(this WebApplicationBuilder builder)
         {
-            //add dbcontext
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
             //authentication Authorization               
             builder.Services.AddAuthentication(options =>
             {
@@ -173,6 +212,7 @@ namespace TipRecipe.Extensions
             app.MapControllers();
             return app;
         }
+
 
     }
 

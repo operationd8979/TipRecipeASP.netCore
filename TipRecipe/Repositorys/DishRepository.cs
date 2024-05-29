@@ -16,12 +16,10 @@ namespace TipRecipe.Repositorys
     public class DishRepository : IDishRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly string _connectionString;
 
-        public DishRepository(ApplicationDbContext applicationDbContext, IConfiguration configuration)
+        public DishRepository(ApplicationDbContext applicationDbContext)
         {
             _context = applicationDbContext ?? throw new ArgumentNullException(nameof(applicationDbContext));
-            _connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public void Add(Dish newDish)
