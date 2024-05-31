@@ -9,5 +9,6 @@ namespace TipRecipe.Models
         [Required]
         public string? DishID { get; set; }
         public float RatingScore { get; set; }
+        public DateTime? RatedAt { get; set; }
     }
 }

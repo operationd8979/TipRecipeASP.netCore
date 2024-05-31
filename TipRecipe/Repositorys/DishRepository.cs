@@ -126,7 +126,7 @@ namespace TipRecipe.Repositorys
         public async Task<IEnumerable<UserDishRating>> GetUserDishRatingsAsync()
         {
             string sqlQuery = @"
-                SELECT u.UserID, d.DishID, COALESCE(r.RatingScore, d.AvgRating) - d.AvgRating AS RatingScore
+                SELECT u.UserID, d.DishID, COALESCE(r.RatingScore, d.AvgRating) - d.AvgRating AS RatingScore, r.RatedAt
                 FROM Users u
                 CROSS JOIN Dishes d
                 LEFT JOIN Ratings r ON r.UserID = u.UserID AND r.DishID = d.DishID

@@ -17,9 +17,6 @@ namespace TipRecipe.Entities
         [LowerThanTen]
         [GreaterThanZero]
         public float RatingScore { get; set; }
-        [LowerThanTen]
-        [GreaterThanZero]
-        public float PreRatingScore { get; set; }
         [Required]
         public DateTime RatedAt { get; set; }
 
@@ -27,12 +24,11 @@ namespace TipRecipe.Entities
         {
         }
 
-        public Rating(string userID, string dishID, float ratingScore, float preRatingScore, DateTime ratedAt)
+        public Rating(string userID, string dishID, float ratingScore, DateTime ratedAt)
         {
             UserID = userID;
             DishID = dishID;
             RatingScore = ratingScore;
-            PreRatingScore = preRatingScore;
             RatedAt = ratedAt;
         }
     }

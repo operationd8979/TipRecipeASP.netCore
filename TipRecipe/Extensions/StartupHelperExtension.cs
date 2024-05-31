@@ -41,37 +41,37 @@ namespace TipRecipe.Extensions
 
         public static async Task<WebApplicationBuilder> ConnectDbContext(this WebApplicationBuilder builder)
         {
-            string secretName = "TipRecipe";
-            var credentials = new BasicAWSCredentials(
-                builder.Configuration["AWS:AccessKeyId"],
-                builder.Configuration["AWS:SecretAccessKey"]);
+            //string secretName = "TipRecipe";
+            //var credentials = new BasicAWSCredentials(
+            //    builder.Configuration["AWS:AccessKeyId"],
+            //    builder.Configuration["AWS:SecretAccessKey"]);
 
-            IAmazonSecretsManager client = new AmazonSecretsManagerClient(
-                RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"]));
+            //IAmazonSecretsManager client = new AmazonSecretsManagerClient(
+            //    RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"]));
 
-            GetSecretValueRequest request = new GetSecretValueRequest
-            {
-                SecretId = secretName,
-                VersionStage = "AWSCURRENT",
-            };
-            GetSecretValueResponse response;
-            try
-            {
-                response = await client.GetSecretValueAsync(request);
-            }
-            catch (Exception e)
-            {
-                Log.Fatal(e, "Get secrect key fail");
-                throw;
-            }
+            //GetSecretValueRequest request = new GetSecretValueRequest
+            //{
+            //    SecretId = secretName,
+            //    VersionStage = "AWSCURRENT",
+            //};
+            //GetSecretValueResponse response;
+            //try
+            //{
+            //    response = await client.GetSecretValueAsync(request);
+            //}
+            //catch (Exception e)
+            //{
+            //    Log.Fatal(e, "Get secrect key fail");
+            //    throw;
+            //}
 
-            var secret = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.SecretString)!["ConnectionString"];
-            secret = secret.Replace("\\\\", "\\");
-            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(secret));
-            
-            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            
+            //var secret = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.SecretString)!["ConnectionString"];
+            //secret = secret.Replace("\\\\", "\\");
+            //builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(secret));
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
             return builder;
         }
 
@@ -158,6 +158,7 @@ namespace TipRecipe.Extensions
                 var logger = provider.GetRequiredService<ILogger<CachingFileService>>();
                 return new CachingFileService("Caches/cachefile.json", logger);
             });
+            builder.Services.AddSingleton<CachedRatingScoreService>();
 
             //add repositories and services
             builder.Services.AddScoped<UserManager>();
