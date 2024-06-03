@@ -27,6 +27,7 @@ namespace TipRecipe.Models.Dto
         [GreaterThanZero]
         public float? RatingScore { get; set; }
         public bool IsRated { get; set; }
+        public bool IsDeleted { get; set; }
 
         public IList<DetailIngredientDishDto> DetailIngredientDishes { get; set; } = new List<DetailIngredientDishDto>();
 

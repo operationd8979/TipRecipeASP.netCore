@@ -26,6 +26,20 @@ namespace TipRecipe.Controllers
             this._dishService = dishService ?? throw new ArgumentNullException(nameof(dishService));
         }
 
+        [HttpGet("dish")]
+        public async Task<IActionResult> GetAllDishesAsync(
+            string query = "",
+            int offset = 0,
+            int limit = 5,
+            string orderBy = ""
+            )
+        {
+            IEnumerable<Dish> dishes = await this._dishService.GetDishByAdminAsync(query,offset,limit,orderBy);
+            IEnumerable<DishDto> dishDtos = _mapper.Map<IEnumerable<DishDto>>(dishes);
+            int total = await this._dishService.GetCountDishesAsync();
+            return Ok(new AdminDishDto(dishDtos,total));
+        }
+
         [HttpPost("dish")]
         [TypeFilter(typeof(DtoResultFilterAttribute<Dish, DishDto>))]
         public async Task<IActionResult> CreateDishAsync([FromBody] CreateDishDto createDishDto)

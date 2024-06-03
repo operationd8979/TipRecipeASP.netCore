@@ -6,6 +6,7 @@ namespace TipRecipe.Interfaces
     public interface IDataRepository<T>
     {
         Task<IEnumerable<T>> GetAllAsync();
+        Task<int> GetCountAsync();
         IAsyncEnumerable<T> GetAllEnumerableAsync();
         Task<T?> GetByIDAsync(string id);
         void Add(T newObject);

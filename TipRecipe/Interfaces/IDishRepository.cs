@@ -21,5 +21,6 @@ namespace TipRecipe.Interfaces
 
         Task<float?> GetRatingOfDish(string dishID, string userID);
 
+        Task<IEnumerable<Dish>> GetDishByAdminAsync(string query, int offset, int limit, string orderBy);
     }
 }

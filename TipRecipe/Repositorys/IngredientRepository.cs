@@ -33,6 +33,11 @@ namespace TipRecipe.Repositorys
             throw new NotImplementedException();
         }
 
+        public Task<int> GetCountAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public int SaveChanges()
         {
             return this._context.SaveChanges();

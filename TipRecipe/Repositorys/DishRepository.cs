@@ -93,7 +93,7 @@ namespace TipRecipe.Repositorys
                 .Include(d => d.Recipe)
                 .Include(d => d.DetailIngredientDishes).ThenInclude(did => did.Ingredient)
                 .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
-                .FirstOrDefaultAsync(d => d.DishID == dishID && d.IsDeleted == false);
+                .FirstOrDefaultAsync(d => d.DishID == dishID);
         }
 
         public async Task<Rating?> GetRatingDishAsync(string dishID, string userID)
@@ -162,6 +162,38 @@ namespace TipRecipe.Repositorys
             return rating;
         }
 
+        public async Task<IEnumerable<Dish>> GetDishByAdminAsync(string query, int offset, int limit, string orderBy)
+        {
+            var dishesQuery = _context.Dishes.AsQueryable();
+            if (!string.IsNullOrEmpty(query))
+            {
+                dishesQuery = dishesQuery.Where(d => d.DishName!.Contains(query));
+            }
+
+            if (!string.IsNullOrEmpty(orderBy))
+            {
+                bool descending = orderBy.StartsWith("-");
+                string propertyName = descending ? orderBy.Substring(1) : orderBy;
+
+                if (descending)
+                {
+                    dishesQuery = dishesQuery.OrderBy($"{propertyName} descending");
+                }
+                else
+                {
+                    dishesQuery = dishesQuery.OrderBy(propertyName);
+                }
+            }
+            return await dishesQuery
+                .Include(d => d.DetailIngredientDishes).ThenInclude(did => did.Ingredient)
+                .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
+                .Skip(offset).Take(limit).ToListAsync();
+        }
+
+        public async Task<int> GetCountAsync()
+        {
+            return await this._context.Dishes.CountAsync();
+        }
 
     }
 }

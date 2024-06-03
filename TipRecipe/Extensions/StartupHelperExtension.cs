@@ -65,6 +65,9 @@ namespace TipRecipe.Extensions
             //    throw;
             //}
 
+            //var secret = response.SecretString;
+            //builder.Configuration.AddJsonFile(secret.Replace("\\\\", "\\"));
+
             //var secret = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.SecretString)!["ConnectionString"];
             //secret = secret.Replace("\\\\", "\\");
             //builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(secret));

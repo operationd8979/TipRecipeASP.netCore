@@ -62,6 +62,21 @@ namespace TipRecipe.Services
             return await ImplementRatingScoreDishes(dishes,userID);
         }
 
+        public async Task<IEnumerable<Dish>> GetDishByAdminAsync(
+            string query,
+            int offset,
+            int limit,
+            string orderBy)
+        {
+            IEnumerable<Dish> dishes = await this._dishRepository.GetDishByAdminAsync(query, offset, limit, orderBy);
+            return dishes;
+        }
+
+        public async Task<int> GetCountDishesAsync()
+        {
+            return await this._dishRepository.GetCountAsync();
+        }
+
         private async Task<IEnumerable<Dish>> ImplementRatingScoreDishes(IEnumerable<Dish> dishes, string userID)
         {
             Dictionary<string, Dictionary<string,CachedRating>>? ratingMap = await _cachedRatingService.GetRatingsAsync();
@@ -291,7 +306,7 @@ namespace TipRecipe.Services
             Dish? findDish = await this._dishRepository.GetByIDAsync(dishID);
             if(findDish is not null)
             {
-                findDish.IsDeleted = true;
+                findDish.IsDeleted = !findDish.IsDeleted;
                 return await this._dishRepository.SaveChangesAsync();
             }
             return false;
