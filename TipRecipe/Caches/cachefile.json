@@ -2077,9 +2077,9 @@
       },
       "VVNFUkNCNTQ4RUJENTJBMjQxRUM4vfd2MDcxNDc2NUUwOTJFWFhYWA": {
         "32df3g4df6df3gdf34": {
-          "RatingScore": 0,
+          "RatingScore": 0.28000003,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "3f45s3fd5g4sdf643df": {
           "RatingScore": 0.26666665,
@@ -2930,6 +2930,6 @@
         }
       }
     },
-    "Expiration": "2024-06-03T10:29:18.8327711Z"
+    "Expiration": "2024-06-03T17:32:45.2695062Z"
   }
 }

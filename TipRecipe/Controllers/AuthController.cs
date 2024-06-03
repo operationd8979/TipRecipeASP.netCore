@@ -16,7 +16,6 @@ namespace TipRecipe.Controllers
     {
         private readonly UserManager _userManager;
 
-
         public AuthController(UserManager userManager)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -102,7 +101,7 @@ namespace TipRecipe.Controllers
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _userManager.SignOut();
+            //await _userManager.SignOut();
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,

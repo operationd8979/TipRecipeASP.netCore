@@ -87,6 +87,13 @@ namespace TipRecipe.Repositorys
                 .Skip(offset).Take(limit).ToListAsync();
         }
 
+        public async Task<IEnumerable<Dish>> GetSomeByIDsAsync(IEnumerable<string> dishIDs)
+        {
+            return await this._context.Dishes
+                .Where(d => dishIDs.Contains(d.DishID) && !d.IsDeleted)
+                .ToListAsync();
+        }
+
         public async Task<Dish?> GetByIDAsync(string dishID)
         {
             return await this._context.Dishes

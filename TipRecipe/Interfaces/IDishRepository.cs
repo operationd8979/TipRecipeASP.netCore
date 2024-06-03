@@ -8,6 +8,8 @@ namespace TipRecipe.Interfaces
     {
         Task<IEnumerable<Dish>> GetWithFilterAsync(string query, int[] ingredients, int[] types, int offset, int limit, string orderBy );
 
+        Task<IEnumerable<Dish>> GetSomeByIDsAsync(IEnumerable<string> dishIDs);
+
         Task<IEnumerable<UserDishRating>> GetUserDishRatingsAsync();
 
         Task UpdateAverageScoreDishes();
@@ -18,9 +20,9 @@ namespace TipRecipe.Interfaces
 
         Task<IEnumerable<Dish>> GetDishsByListID(List<string> dishIDs);
 
-
         Task<float?> GetRatingOfDish(string dishID, string userID);
 
         Task<IEnumerable<Dish>> GetDishByAdminAsync(string query, int offset, int limit, string orderBy);
+    
     }
 }

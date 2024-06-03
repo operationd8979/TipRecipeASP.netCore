@@ -73,6 +73,14 @@ namespace TipRecipe.Controllers
             return Ok(dishList);
         }
 
+        [HttpGet("recommend")]
+        [TypeFilter(typeof(DtoResultFilterAttribute<IEnumerable<Dish>, IEnumerable<DishDto>>))]
+        public async Task<IActionResult> GetRecommendDishes()
+        {
+            var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
+            return Ok(await _dishService.GetRecommendDishesAsync(userID));
+        }
+
         [HttpGet("{dishID}", Name = "GetDishByIdAsync")]
         [TypeFilter(typeof(DtoResultFilterAttribute<Dish,DishDto>))]
         public async Task<IActionResult> GetDishByIdAsync([FromRoute]string dishID)

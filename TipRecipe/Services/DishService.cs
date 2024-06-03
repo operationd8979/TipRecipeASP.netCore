@@ -72,6 +72,41 @@ namespace TipRecipe.Services
             return dishes;
         }
 
+        public async Task<IEnumerable<Dish>> GetSomeByIDsAsync(IEnumerable<string> dishIDs)
+        {
+            return await this._dishRepository.GetSomeByIDsAsync(dishIDs);
+        }
+
+        public async Task<IEnumerable<Dish>> GetRecommendDishesAsync(string userID)
+        {
+            Dictionary<string, Dictionary<string, CachedRating>>? ratingMap = await _cachedRatingService.GetRatingsAsync();
+            if (ratingMap == null || !ratingMap.ContainsKey(userID))
+            {
+                ratingMap = [];
+                IEnumerable<UserDishRating> ratings = await GetUserDishRatingsAsync();
+                foreach (var rating in ratings)
+                {
+                    if (ratingMap.TryGetValue(rating.UserID!, out var value))
+                    {
+                        value.Add(rating.DishID!, new CachedRating(rating.RatingScore / 10, rating.RatedAt is not null));
+                    }
+                    else
+                    {
+                        Dictionary<string, CachedRating> newValue = new();
+                        newValue.Add(rating.DishID!, new CachedRating(rating.RatingScore / 10, rating.RatedAt is not null));
+                        ratingMap.Add(rating.UserID!, newValue);
+                    }
+                }
+            }
+            Dictionary<string, CachedRating> currentUser = ratingMap.GetValueOrDefault(userID)!;
+            List<KeyValuePair<string,CachedRating>> list = currentUser.ToList();
+            list.Sort((pairA, pairB) =>
+            {
+                return pairB.Value.RatingScore.CompareTo(pairA.Value.RatingScore);
+            });
+            return await this._dishRepository.GetSomeByIDsAsync(list.Select(i=>i.Key).Take(10));
+        }
+
         public async Task<int> GetCountDishesAsync()
         {
             return await this._dishRepository.GetCountAsync();
