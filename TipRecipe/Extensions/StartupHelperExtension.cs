@@ -17,6 +17,8 @@ using Amazon.Runtime;
 using Amazon.SecretsManager.Model;
 using Amazon.SecretsManager;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
+using System.Text.Json;
 namespace TipRecipe.Extensions
 {
     public static class StartupHelperExtension
@@ -39,38 +41,49 @@ namespace TipRecipe.Extensions
             return builder;
         }
 
-        public static async Task<WebApplicationBuilder> ConnectDbContext(this WebApplicationBuilder builder)
+        public static async Task<WebApplicationBuilder> ConnectDbStorage(this WebApplicationBuilder builder)
         {
-            //string secretName = "TipRecipe";
-            //var credentials = new BasicAWSCredentials(
-            //    builder.Configuration["AWS:AccessKeyId"],
-            //    builder.Configuration["AWS:SecretAccessKey"]);
+            string secretName = builder.Configuration["AWS:SecretName"]!;
 
-            //IAmazonSecretsManager client = new AmazonSecretsManagerClient(
-            //    RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"]));
+            IAmazonSecretsManager client = new AmazonSecretsManagerClient(
+                RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"]));
 
-            //GetSecretValueRequest request = new GetSecretValueRequest
-            //{
-            //    SecretId = secretName,
-            //    VersionStage = "AWSCURRENT",
-            //};
-            //GetSecretValueResponse response;
-            //try
-            //{
-            //    response = await client.GetSecretValueAsync(request);
-            //}
-            //catch (Exception e)
-            //{
-            //    Log.Fatal(e, "Get secrect key fail");
-            //    throw;
-            //}
+            GetSecretValueRequest request = new GetSecretValueRequest
+            {
+                SecretId = secretName,
+                VersionStage = "AWSCURRENT",
+            };
+            GetSecretValueResponse response;
+            try
+            {
+                response = await client.GetSecretValueAsync(request);
+            }
+            catch (Exception e)
+            {
+                Log.Fatal(e, "Get secrect key fail");
+                throw;
+            }
 
-            //var secret = response.SecretString;
-            //builder.Configuration.AddJsonFile(secret.Replace("\\\\", "\\"));
+            var secret = response.SecretString;
+            //var secretStream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(secret));
+            //builder.Configuration.AddJsonStream(secretStream);
 
-            //var secret = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.SecretString)!["ConnectionString"];
-            //secret = secret.Replace("\\\\", "\\");
-            //builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(secret));
+            //add prefix ConnectionStrings to secret key
+            var configDict = new Dictionary<string, string>();
+            using (var jsonDoc = JsonDocument.Parse(secret))
+            {
+                foreach (var property in jsonDoc.RootElement.EnumerateObject())
+                {
+                    configDict[$"ConnectionStrings:{property.Name}"] = property.Value.GetString()!;
+                }
+            }
+
+            // Add the configuration to ConfigurationBuilder
+            builder.Configuration.AddInMemoryCollection(configDict!);
+
+            //azure blob service
+            builder.Services.AddSingleton(
+                new AzureBlobService(builder.Configuration.GetConnectionString("AzureStorage")!.ToString()));
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -176,7 +189,7 @@ namespace TipRecipe.Extensions
             //add background service
             builder.Services.AddHostedService<DishBackgroundService>();
 
-
+            
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAngularDev",

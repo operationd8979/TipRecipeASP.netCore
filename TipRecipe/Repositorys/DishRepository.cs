@@ -125,9 +125,13 @@ namespace TipRecipe.Repositorys
         }
 
 
-        public async Task<IEnumerable<Dish>> GetDishsByListID(List<string> dishIDs)
+        public async Task<IEnumerable<float>> GetAvgScoreByIDs(IEnumerable<string> dishIDs)
         {
-            return await _context.Dishes.Where(d => dishIDs.Contains(d.DishID)).ToListAsync();
+            string sqlQuery = @"
+                SELECT AvgRating
+                FROM Dishes
+                WHERE DishID IN @DishIDs";
+            return await _context.Database.SqlQueryRaw<float>(sqlQuery).ToListAsync();
         }
 
         public async Task<IEnumerable<UserDishRating>> GetUserDishRatingsAsync()
@@ -197,9 +201,9 @@ namespace TipRecipe.Repositorys
                 .Skip(offset).Take(limit).ToListAsync();
         }
 
-        public async Task<int> GetCountAsync()
+        public async Task<int> GetCountAsync(string query)
         {
-            return await this._context.Dishes.CountAsync();
+            return await this._context.Dishes.Where(d => d.DishName!.Contains(query)).CountAsync();
         }
 
     }

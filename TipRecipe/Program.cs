@@ -4,7 +4,7 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.LogConfig();
-await builder.ConnectDbContext();
+await builder.ConnectDbStorage();
 builder.AddServices();
 
 var app = builder.Build();

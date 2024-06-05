@@ -18,11 +18,12 @@ namespace TipRecipe.Interfaces
 
         void AddRating(Rating rating);
 
-        Task<IEnumerable<Dish>> GetDishsByListID(List<string> dishIDs);
+        Task<IEnumerable<float>> GetAvgScoreByIDs(IEnumerable<string> dishIDs);
 
         Task<float?> GetRatingOfDish(string dishID, string userID);
 
         Task<IEnumerable<Dish>> GetDishByAdminAsync(string query, int offset, int limit, string orderBy);
-    
+        Task<int> GetCountAsync(string query);
+
     }
 }

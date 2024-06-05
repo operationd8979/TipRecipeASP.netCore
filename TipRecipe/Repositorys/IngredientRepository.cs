@@ -33,7 +33,7 @@ namespace TipRecipe.Repositorys
             throw new NotImplementedException();
         }
 
-        public Task<int> GetCountAsync()
+        public Task<int> GetCountAsync(string query)
         {
             throw new NotImplementedException();
         }

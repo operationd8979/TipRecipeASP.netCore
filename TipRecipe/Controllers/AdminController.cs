@@ -36,7 +36,7 @@ namespace TipRecipe.Controllers
         {
             IEnumerable<Dish> dishes = await this._dishService.GetDishByAdminAsync(query,offset,limit,orderBy);
             IEnumerable<DishDto> dishDtos = _mapper.Map<IEnumerable<DishDto>>(dishes);
-            int total = await this._dishService.GetCountDishesAsync();
+            int total = await this._dishService.GetCountDishesAsync(query);
             return Ok(new AdminDishDto(dishDtos,total));
         }
 

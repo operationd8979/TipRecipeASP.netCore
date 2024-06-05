@@ -107,9 +107,9 @@ namespace TipRecipe.Services
             return await this._dishRepository.GetSomeByIDsAsync(list.Select(i=>i.Key).Take(10));
         }
 
-        public async Task<int> GetCountDishesAsync()
+        public async Task<int> GetCountDishesAsync(string query)
         {
-            return await this._dishRepository.GetCountAsync();
+            return await this._dishRepository.GetCountAsync(query);
         }
 
         private async Task<IEnumerable<Dish>> ImplementRatingScoreDishes(IEnumerable<Dish> dishes, string userID)
@@ -214,7 +214,7 @@ namespace TipRecipe.Services
                 });
             }
 
-            IEnumerable<Dish> rawDishs = await _dishRepository.GetDishsByListID(dishes.Select(d => d.DishID).ToList());
+            IEnumerable<float> rawDishs = await _dishRepository.GetAvgScoreByIDs(dishes.Select(d => d.DishID).ToList());
             List<object> preRatingCal = new List<object>();
             bool isUpdateRating = false;
             for(int i = 0; i < dishes.Count(); i++)
@@ -237,7 +237,7 @@ namespace TipRecipe.Services
                         }
                     }
                 }
-                dish.RatingScore = dish.RatingScore*10 + rawDishs.ElementAt(i).AvgRating;
+                dish.RatingScore = dish.RatingScore*10 + rawDishs.ElementAt(i);
             }
             if (isUpdateRating)
             {
@@ -449,7 +449,7 @@ namespace TipRecipe.Services
                 });
             }
 
-            IEnumerable<Dish> rawDishs = await _dishRepository.GetDishsByListID(dishes.Select(d => d.DishID).ToList());
+            IEnumerable<float> rawDishs = await _dishRepository.GetAvgScoreByIDs(dishes.Select(d => d.DishID).ToList());
             List<object> preRatingCal = new List<object>();
             for (int i = 0; i < dishes.Count(); i++)
             {
@@ -470,7 +470,7 @@ namespace TipRecipe.Services
                         }
                     }
                 }
-                dish.RatingScore = dish.RatingScore * 10 + rawDishs.ElementAt(i).AvgRating;
+                dish.RatingScore = dish.RatingScore * 10 + rawDishs.ElementAt(i);
             }
             if (preRatingCal.Count() > 0)
             {
