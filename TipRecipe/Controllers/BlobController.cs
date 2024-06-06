@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using TipRecipe.Services;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TipRecipe.Controllers
 {
@@ -28,14 +30,21 @@ namespace TipRecipe.Controllers
             {
                 return BadRequest("No file uploaded.");
             }
+            if (file.Length > 1024 * 1024 )
+            {
+                return BadRequest("File bigger than 1mbs.");
+            }
+            var validImageTypes = new List<string> { "image/jpeg", "image/png", "image/gif", "image/bmp", "image/svg+xml", "image/webp" };
+            if (!validImageTypes.Contains(file.ContentType))
+            {
+                return BadRequest("Invalid file type. Only JPEG, PNG, GIF, BMP, SVG, and WEBP are allowed.");
+            }
 
             string uri = string.Empty;
-
             using (var stream = file.OpenReadStream())
             {
                 uri = await _azureBlobService.UploadFileAsync("test", file.FileName, stream);
             }
-
             return Ok(uri ?? "File uploaded successfully.");
         }
 

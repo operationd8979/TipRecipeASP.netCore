@@ -10,14 +10,50 @@ namespace TipRecipe.Services
     {
         private readonly BlobServiceClient _blobServiceClient;
         private readonly string _accountKey;
-        private Dictionary<string, string> _sasTokens = new Dictionary<string, string>();
-        private List<string> _containers = new List<string>();
+        private readonly string _bucketName = "test";
+
+        private List<string> _containers;
+
+        //sas include policies
+        static readonly string POLICY_READONLY = "readOnly";
+        static readonly string POLICY_WRITEONLY = "writeOnly";
+        static readonly string POLICY_READWRITE = "readWrite";
+        static readonly List<string> _policies = new List<string>() { POLICY_READONLY, POLICY_WRITEONLY, POLICY_READWRITE };
+
+        //sas noninclude policies
+        private Dictionary<string, string> _sasTokens;
 
         public AzureBlobService(string connectionString)
         {
             _blobServiceClient = new BlobServiceClient(connectionString);
             _accountKey = connectionString.Split(';').FirstOrDefault(x => x.StartsWith("AccountKey="))!;
             _accountKey = _accountKey.Substring(_accountKey.IndexOf('=')+1);
+            _containers = new List<string>();
+            this.InitIncludePolicy();
+            //this.InitNonIncludePolicy();
+        }
+
+        private void InitIncludePolicy()
+        {
+            foreach (BlobContainerItem container in _blobServiceClient.GetBlobContainers())
+            {
+                if (container.Name.StartsWith(_bucketName))
+                {
+                    _containers.Add(container.Name);
+                }
+            }
+        }
+
+        private void InitNonIncludePolicy()
+        {
+            _sasTokens = new Dictionary<string, string>();
+            foreach (BlobContainerItem container in _blobServiceClient.GetBlobContainers())
+            {
+                if (container.Name.StartsWith(_bucketName))
+                {
+                    GenerateContainerSasToken(container.Name);
+                }
+            }
         }
 
         public async Task SetContainerPublicAccessAsync(string containerName)
@@ -46,12 +82,20 @@ namespace TipRecipe.Services
             var blobClient = blobContainerClient.GetBlobClient(blobName);
             await blobClient.UploadAsync(fileStream, true);
 
-            if(_sasTokens.TryGetValue(containerName,out var sasToken))
+            var sasBuilder = new BlobSasBuilder
             {
-                return $"{blobClient.Uri}?{sasToken}";
-            }
-            sasToken = GenerateContainerSasToken(containerName);
+                BlobContainerName = containerName,
+                Identifier = POLICY_READONLY
+            };
+            var sasToken = sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(blobClient.AccountName, _accountKey)).ToString();
             return $"{blobClient.Uri}?{sasToken}";
+
+            //if (_sasTokens.TryGetValue(containerName,out var sasToken))
+            //{
+            //    return $"{blobClient.Uri}?{sasToken}";
+            //}
+            //sasToken = GenerateContainerSasToken(containerName);
+            //return $"{blobClient.Uri}?{sasToken}";
         }
 
         private string GenerateSasToken(BlobClient blobClient)
@@ -89,20 +133,70 @@ namespace TipRecipe.Services
             return sasToken;
         }
 
-        public void UpdateSasTokensForContainers()
+        private async Task CreateStoredAccessPolicyAsync(BlobContainerClient containerClient)
         {
-            //if(_containers.Count == 0)
-            //{
-            //    foreach (BlobContainerItem container in _blobServiceClient.GetBlobContainers())
-            //    {
-            //        _containers.Add(container.Name);
-            //        Log.Information(container.Name);
-            //    }
-            //}
-            foreach(string container in _containers)
+            BlobSignedIdentifier[] blobSignedIdentifiers = new BlobSignedIdentifier[3];
+            int i = 0;
+            foreach(var policy in _policies)
             {
-                GenerateContainerSasToken(container);
-                Log.Information("update "+container);
+                BlobSignedIdentifier identifier = new BlobSignedIdentifier
+                {
+                    Id = policy,
+                    AccessPolicy = new BlobAccessPolicy
+                    {
+                        StartsOn = DateTimeOffset.UtcNow,
+                        ExpiresOn = DateTimeOffset.UtcNow.AddMinutes(2),
+                    }
+                };
+                if (policy.Equals(POLICY_READONLY))
+                {
+                    identifier.AccessPolicy.Permissions = "r";
+                }
+                else if (policy.Equals(POLICY_WRITEONLY))
+                {
+                    identifier.AccessPolicy.Permissions = "w";
+                }
+                else if (policy.Equals(POLICY_READWRITE))
+                {
+                    identifier.AccessPolicy.Permissions = "rw";
+                }
+                blobSignedIdentifiers[i++] = identifier;
+            }
+            await containerClient.SetAccessPolicyAsync(permissions: blobSignedIdentifiers);
+        }
+
+        private async Task UpdateStoredAccessPolicyAsync(BlobContainerClient containerClient, string policyName, BlobAccessPolicy newPolicy)
+        {
+            var existingPolicies = await containerClient.GetAccessPolicyAsync();
+            var policies = existingPolicies.Value.SignedIdentifiers.ToList();
+
+            BlobSignedIdentifier? identifier = policies.FirstOrDefault(p => p.Id == policyName);
+            if (identifier is not null)
+            {
+                identifier.AccessPolicy = newPolicy;
+                await containerClient.SetAccessPolicyAsync(permissions: policies);
+            }
+        }
+
+        private async Task DeleteStoredAccessPolicyAsync(BlobContainerClient containerClient, string policyName)
+        {
+            var existingPolicies = await containerClient.GetAccessPolicyAsync();
+            var policies = existingPolicies.Value.SignedIdentifiers.ToList();
+
+            var policyToRemove = policies.FirstOrDefault(p => p.Id == policyName);
+            if (policyToRemove != null)
+            {
+                policies.Remove(policyToRemove);
+                await containerClient.SetAccessPolicyAsync(permissions: policies.ToArray());
+            }
+        }
+
+        public async Task UpdateSasTokensForContainers()
+        {
+            foreach (string container in _containers)
+            {
+                //GenerateContainerSasToken(container);
+                await CreateStoredAccessPolicyAsync(_blobServiceClient.GetBlobContainerClient(container));
             }
         }
 

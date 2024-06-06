@@ -127,11 +127,26 @@ namespace TipRecipe.Repositorys
 
         public async Task<IEnumerable<float>> GetAvgScoreByIDs(IEnumerable<string> dishIDs)
         {
-            string sqlQuery = @"
+            var parameters = new List<object>();
+            var ids = string.Join(",", dishIDs.Select((id, index) =>
+            {
+                parameters.Add(new SqlParameter($"@id{index}", id));
+                return $"@id{index}";
+            }));
+
+            string sqlQuery = $@"
                 SELECT AvgRating
                 FROM Dishes
-                WHERE DishID IN @DishIDs";
-            return await _context.Database.SqlQueryRaw<float>(sqlQuery).ToListAsync();
+                WHERE DishID IN ({ids})";
+
+            return await _context.Dishes
+                .FromSqlRaw(sqlQuery, parameters.ToArray())
+                .Select(d => d.AvgRating)
+                .ToListAsync();
+            //return await _context.Dishes
+            //    .Where(d => dishIDs.Contains(d.DishID))
+            //    .Select(d => d.AvgRating)
+            //    .ToListAsync();
         }
 
         public async Task<IEnumerable<UserDishRating>> GetUserDishRatingsAsync()
