@@ -110,16 +110,17 @@ namespace TipRecipe.Services
                 Convert.FromBase64String(_configuration["Jwt:Key"] ?? throw new ArgumentNullException("JWT config")));
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claimForToken = this.GetUserClaims(currentUser);
-            DateTime dateTime = DateTime.UtcNow;
+            DateTime createdTime = DateTime.UtcNow;
+            DateTime expriedTime = createdTime.AddHours(12);
             var jwtSecurityToken = new JwtSecurityToken(
                 _configuration["Jwt:Issuer"],
                 _configuration["Jwt:Audience"],
                 claimForToken,
-                dateTime,
-                dateTime.AddHours(1),
+                createdTime,
+                expriedTime,
                 signingCredentials);
             var tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            return (currentUser, tokenToReturn, dateTime.AddHours(1));
+            return (currentUser, tokenToReturn, expriedTime);
         }
 
         private IEnumerable<Claim> GetUserClaims(User user)

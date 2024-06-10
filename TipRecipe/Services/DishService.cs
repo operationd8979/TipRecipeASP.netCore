@@ -278,7 +278,7 @@ namespace TipRecipe.Services
             {
                 findDish.DishName = updatedDish.DishName;
                 findDish.Summary = updatedDish.Summary;
-                findDish.UrlPhoto = updatedDish.UrlPhoto;
+                findDish.UrlPhoto = String.IsNullOrEmpty(updatedDish.UrlPhoto) ? findDish.UrlPhoto : updatedDish.UrlPhoto;
                 findDish.DetailIngredientDishes = updatedDish.DetailIngredientDishes;
                 findDish.DetailTypeDishes = updatedDish.DetailTypeDishes;
                 return await this._dishRepository.SaveChangesAsync();

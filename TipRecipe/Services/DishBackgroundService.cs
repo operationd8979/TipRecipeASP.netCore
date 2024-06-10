@@ -7,7 +7,7 @@ namespace TipRecipe.Services
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<DishBackgroundService> _logger;
         private readonly TimeSpan _intervalUpdateAvgScoreDishes = TimeSpan.FromMinutes(15);
-        private readonly TimeSpan _intervalUpdateSASTokenStorageBlob = TimeSpan.FromHours(3);
+        private readonly TimeSpan _intervalUpdateSASTokenStorageBlob = TimeSpan.FromHours(10);
 
         public DishBackgroundService(IServiceProvider serviceProvider, ILogger<DishBackgroundService> logger)
         {
@@ -18,8 +18,8 @@ namespace TipRecipe.Services
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var task1 = TaskUpdateAverageScoreDishesAsync(stoppingToken);
-            //var task2 = TaskUpdateSASTokenStorageBlobAsync(stoppingToken);
-            //await Task.WhenAll(task1, task2);
+            var task2 = TaskUpdateSASTokenStorageBlobAsync(stoppingToken);
+            await Task.WhenAll(task1, task2);
         }
 
         private async Task TaskUpdateAverageScoreDishesAsync(CancellationToken stoppingToken)

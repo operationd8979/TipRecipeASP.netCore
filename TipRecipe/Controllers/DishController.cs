@@ -21,15 +21,18 @@ namespace TipRecipe.Controllers
 
         private readonly DishService _dishService;
         private readonly CachingFileService _cachingFileService;
+        private readonly AzureBlobService _azureBlobService;
 
         public DishController(
             IMapper mapper,
             DishService dishService,
-            CachingFileService cachingFileService)
+            CachingFileService cachingFileService,
+            AzureBlobService azureBlobService)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _dishService = dishService ?? throw new ArgumentNullException(nameof(dishService));
             _cachingFileService = cachingFileService ?? throw new ArgumentNullException(nameof(cachingFileService));
+            _azureBlobService = azureBlobService ?? throw new ArgumentNullException(nameof(azureBlobService));
         }
 
         [HttpGet("async")]
@@ -59,6 +62,7 @@ namespace TipRecipe.Controllers
 
         [HttpGet]
         [TypeFilter(typeof(DtoResultFilterAttribute<IEnumerable<Dish>, IEnumerable<DishDto>>))]
+        [TypeFilter(typeof(AddSasBlobFilterAttribute))]
         public async Task<IActionResult> GetDishWithFilterAsync(
             string query = "",
             string ingredients = "",
@@ -75,6 +79,7 @@ namespace TipRecipe.Controllers
 
         [HttpGet("recommend")]
         [TypeFilter(typeof(DtoResultFilterAttribute<IEnumerable<Dish>, IEnumerable<DishDto>>))]
+        [TypeFilter(typeof(AddSasBlobFilterAttribute))]
         public async Task<IActionResult> GetRecommendDishes()
         {
             var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
@@ -83,6 +88,7 @@ namespace TipRecipe.Controllers
 
         [HttpGet("{dishID}", Name = "GetDishByIdAsync")]
         [TypeFilter(typeof(DtoResultFilterAttribute<Dish,DishDto>))]
+        [TypeFilter(typeof(AddSasBlobFilterAttribute))]
         public async Task<IActionResult> GetDishByIdAsync([FromRoute]string dishID)
         {
             var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;

@@ -16,16 +16,26 @@ namespace TipRecipe.Models.Dto
         public string? UrlPhoto { get; set; } = string.Empty;
 
         [Required]
-        public IList<DetailIngredientDishDto>? DetailIngredientDishes { get; set; }
+        public ICollection<DetailIngredientDishDto>? DetailIngredientDishes { get; set; }
 
         [Required]
         public ICollection<DetailTypeDishDto>? DetailTypeDishes { get; set; }
 
-        [Required]
+        //[Required]
         public RecipeDto? Recipe { get; set; }
 
         public CreateDishDto()
         {
+        }
+
+        public CreateDishDto(string? dishName, string? summary, string? urlPhoto, ICollection<DetailIngredientDishDto>? detailIngredientDishes, ICollection<DetailTypeDishDto>? detailTypeDishes, RecipeDto? recipe)
+        {
+            DishName = dishName;
+            Summary = summary;
+            UrlPhoto = urlPhoto;
+            DetailIngredientDishes = detailIngredientDishes;
+            DetailTypeDishes = detailTypeDishes;
+            Recipe = recipe;
         }
 
 

@@ -6,6 +6,7 @@ namespace TipRecipe.Profiles
 {
     public class DishProfile : Profile
     {
+
         public DishProfile()
         {
             CreateMap<Dish, DishDto>();

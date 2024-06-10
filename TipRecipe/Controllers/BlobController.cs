@@ -43,9 +43,9 @@ namespace TipRecipe.Controllers
             string uri = string.Empty;
             using (var stream = file.OpenReadStream())
             {
-                uri = await _azureBlobService.UploadFileAsync("test", file.FileName, stream);
+                uri = await _azureBlobService.UploadFileAsync("test", file.FileName, stream, new());
             }
-            return Ok(uri ?? "File uploaded successfully.");
+            return Ok(uri);
         }
 
         [HttpGet("download/{fileName}")]

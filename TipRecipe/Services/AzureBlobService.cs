@@ -1,8 +1,10 @@
-﻿using Azure.Storage;
+﻿using Amazon.SecretsManager.Model;
+using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
 using Serilog;
+using System.Reflection.Metadata;
 
 namespace TipRecipe.Services
 {
@@ -20,9 +22,6 @@ namespace TipRecipe.Services
         static readonly string POLICY_READWRITE = "readWrite";
         static readonly List<string> _policies = new List<string>() { POLICY_READONLY, POLICY_WRITEONLY, POLICY_READWRITE };
 
-        //sas noninclude policies
-        private Dictionary<string, string> _sasTokens;
-
         public AzureBlobService(string connectionString)
         {
             _blobServiceClient = new BlobServiceClient(connectionString);
@@ -30,7 +29,6 @@ namespace TipRecipe.Services
             _accountKey = _accountKey.Substring(_accountKey.IndexOf('=')+1);
             _containers = new List<string>();
             this.InitIncludePolicy();
-            //this.InitNonIncludePolicy();
         }
 
         private void InitIncludePolicy()
@@ -40,18 +38,6 @@ namespace TipRecipe.Services
                 if (container.Name.StartsWith(_bucketName))
                 {
                     _containers.Add(container.Name);
-                }
-            }
-        }
-
-        private void InitNonIncludePolicy()
-        {
-            _sasTokens = new Dictionary<string, string>();
-            foreach (BlobContainerItem container in _blobServiceClient.GetBlobContainers())
-            {
-                if (container.Name.StartsWith(_bucketName))
-                {
-                    GenerateContainerSasToken(container.Name);
                 }
             }
         }
@@ -75,31 +61,36 @@ namespace TipRecipe.Services
             return containers;
         }
 
-        public async Task<string> UploadFileAsync(string containerName, string blobName, Stream fileStream)
+        public async Task<string> UploadFileAsync(string containerName, string blobName, Stream fileStream, Dictionary<string, string> tags)
         {
             var blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
             await blobContainerClient.CreateIfNotExistsAsync();
             var blobClient = blobContainerClient.GetBlobClient(blobName);
             await blobClient.UploadAsync(fileStream, true);
+            await blobClient.SetTagsAsync(tags);
+            return blobClient.Uri.ToString();
+        }
+
+        public string GenerateSasTokenPolicy(string blobUrl)
+        {
+            var uri = new Uri(blobUrl);
+            var blobClient = new BlobClient(uri);
 
             var sasBuilder = new BlobSasBuilder
             {
-                BlobContainerName = containerName,
+                BlobContainerName = blobClient.BlobContainerName,
                 Identifier = POLICY_READONLY
             };
-            var sasToken = sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(blobClient.AccountName, _accountKey)).ToString();
+            var sasToken = sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(_blobServiceClient.AccountName, _accountKey)).ToString();
+            
             return $"{blobClient.Uri}?{sasToken}";
-
-            //if (_sasTokens.TryGetValue(containerName,out var sasToken))
-            //{
-            //    return $"{blobClient.Uri}?{sasToken}";
-            //}
-            //sasToken = GenerateContainerSasToken(containerName);
-            //return $"{blobClient.Uri}?{sasToken}";
         }
 
-        private string GenerateSasToken(BlobClient blobClient)
+        public string GenerateSasToken(string blobUrl)
         {
+            var uri = new Uri(blobUrl);
+            var blobClient = new BlobClient(uri);
+
             var sasBuilder = new BlobSasBuilder
             {
                 BlobContainerName = blobClient.BlobContainerName,
@@ -108,30 +99,10 @@ namespace TipRecipe.Services
                 ExpiresOn = DateTimeOffset.UtcNow.AddHours(1)
             };
             sasBuilder.SetPermissions(BlobSasPermissions.Read);
-            return sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(blobClient.AccountName, _accountKey)).ToString();
+            var sasToken = sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(_blobServiceClient.AccountName, _accountKey)).ToString();
+            return $"{blobClient.Uri}?{sasToken}";
         }
 
-        private string GenerateContainerSasToken(string containerName)
-        {
-            var sasBuilder = new BlobSasBuilder
-            {
-                BlobContainerName = containerName,
-                Resource = "c",
-                ExpiresOn = DateTimeOffset.UtcNow.AddHours(3)
-            };
-            sasBuilder.SetPermissions(BlobContainerSasPermissions.Read);
-            string sasToken = sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(_blobServiceClient.AccountName, _accountKey)).ToString();
-            if(!_sasTokens.ContainsKey(containerName))
-            {
-                _sasTokens.Add(containerName, sasToken);
-                _containers.Add(containerName);
-            }
-            else
-            {
-                _sasTokens[containerName] = sasToken;
-            }
-            return sasToken;
-        }
 
         private async Task CreateStoredAccessPolicyAsync(BlobContainerClient containerClient)
         {
@@ -145,7 +116,7 @@ namespace TipRecipe.Services
                     AccessPolicy = new BlobAccessPolicy
                     {
                         StartsOn = DateTimeOffset.UtcNow,
-                        ExpiresOn = DateTimeOffset.UtcNow.AddMinutes(2),
+                        ExpiresOn = DateTimeOffset.UtcNow.AddHours(12),
                     }
                 };
                 if (policy.Equals(POLICY_READONLY))
@@ -195,7 +166,6 @@ namespace TipRecipe.Services
         {
             foreach (string container in _containers)
             {
-                //GenerateContainerSasToken(container);
                 await CreateStoredAccessPolicyAsync(_blobServiceClient.GetBlobContainerClient(container));
             }
         }
