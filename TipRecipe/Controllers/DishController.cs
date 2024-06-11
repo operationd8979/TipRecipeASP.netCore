@@ -20,8 +20,6 @@ namespace TipRecipe.Controllers
         private readonly IMapper _mapper;
 
         private readonly DishService _dishService;
-        private readonly CachingFileService _cachingFileService;
-        private readonly AzureBlobService _azureBlobService;
 
         public DishController(
             IMapper mapper,
@@ -31,25 +29,18 @@ namespace TipRecipe.Controllers
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _dishService = dishService ?? throw new ArgumentNullException(nameof(dishService));
-            _cachingFileService = cachingFileService ?? throw new ArgumentNullException(nameof(cachingFileService));
-            _azureBlobService = azureBlobService ?? throw new ArgumentNullException(nameof(azureBlobService));
         }
 
         [HttpGet("async")]
         [TypeFilter(typeof(DtoResultFilterAttribute<IEnumerable<Dish>, IEnumerable<DishDto>>))]
+        [TypeFilter(typeof(AddSasBlobFilterAttribute))]
         public async Task<IActionResult> GetAllAsync()
         {
-            var cachedDishes = await _cachingFileService.GetAsync<IEnumerable<DishDto>>("alldishes");
-            if (cachedDishes != null)
-            {
-                return Ok(cachedDishes);
-            }
-            cachedDishes = _mapper.Map<IEnumerable<DishDto>>(await _dishService.GetAllAsync());
-            await _cachingFileService.SetAsync("alldishes", cachedDishes, TimeSpan.FromMinutes(15));
-            return Ok(cachedDishes);
+            return Ok(await _dishService.GetAllAsync());
         }
 
         [HttpGet("asyncEnumerable")]
+        [TypeFilter(typeof(AddSasBlobFilterAttribute))]
         public async IAsyncEnumerable<DishDto> GetAllEnumerableAsync()
         {
             IAsyncEnumerable<Dish> dishList = _dishService.GetAllEnumerableAsync();

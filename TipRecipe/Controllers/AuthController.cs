@@ -89,7 +89,7 @@ namespace TipRecipe.Controllers
             try
             {
                 await _userManager.UpdateProfileAsync(userUpdateDto, userID);
-                return Ok(await _userManager.GetUserAsync(userID));
+                return CreatedAtAction(nameof(this.Auth), new { }, await _userManager.GetUserAsync(userID));
             }
             catch (NotFoundException)
             {

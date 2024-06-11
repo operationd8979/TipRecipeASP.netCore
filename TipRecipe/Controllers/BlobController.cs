@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using TipRecipe.Services;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace TipRecipe.Controllers
 {
-    [Route("api/blob")]
     [ApiController]
+    [Route("api/blob")]
+    [Authorize("Admin")]
     public class BlobController : ControllerBase
     {
         private readonly AzureBlobService _azureBlobService;
@@ -39,7 +41,6 @@ namespace TipRecipe.Controllers
             {
                 return BadRequest("Invalid file type. Only JPEG, PNG, GIF, BMP, SVG, and WEBP are allowed.");
             }
-
             string uri = string.Empty;
             using (var stream = file.OpenReadStream())
             {

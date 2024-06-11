@@ -3,8 +3,10 @@ using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
+using Microsoft.AspNetCore.Diagnostics;
 using Serilog;
 using System.Reflection.Metadata;
+using TipRecipe.Models.HttpExceptions;
 
 namespace TipRecipe.Services
 {
@@ -20,7 +22,7 @@ namespace TipRecipe.Services
         static readonly string POLICY_READONLY = "readOnly";
         static readonly string POLICY_WRITEONLY = "writeOnly";
         static readonly string POLICY_READWRITE = "readWrite";
-        static readonly List<string> _policies = new List<string>() { POLICY_READONLY, POLICY_WRITEONLY, POLICY_READWRITE };
+        static readonly List<string> _policies = [POLICY_READONLY, POLICY_WRITEONLY, POLICY_READWRITE];
 
         public AzureBlobService(string connectionString)
         {
@@ -40,12 +42,6 @@ namespace TipRecipe.Services
                     _containers.Add(container.Name);
                 }
             }
-        }
-
-        public async Task SetContainerPublicAccessAsync(string containerName)
-        {
-            var blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-            await blobContainerClient.SetAccessPolicyAsync(Azure.Storage.Blobs.Models.PublicAccessType.Blob);
         }
 
         public async Task<List<string>> GetAllContainersAsync()
@@ -71,21 +67,6 @@ namespace TipRecipe.Services
             return blobClient.Uri.ToString();
         }
 
-        public string GenerateSasTokenPolicy(string blobUrl)
-        {
-            var uri = new Uri(blobUrl);
-            var blobClient = new BlobClient(uri);
-
-            var sasBuilder = new BlobSasBuilder
-            {
-                BlobContainerName = blobClient.BlobContainerName,
-                Identifier = POLICY_READONLY
-            };
-            var sasToken = sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(_blobServiceClient.AccountName, _accountKey)).ToString();
-            
-            return $"{blobClient.Uri}?{sasToken}";
-        }
-
         public string GenerateSasToken(string blobUrl)
         {
             var uri = new Uri(blobUrl);
@@ -103,10 +84,25 @@ namespace TipRecipe.Services
             return $"{blobClient.Uri}?{sasToken}";
         }
 
+        public string GenerateSasTokenPolicy(string blobUrl)
+        {
+            var uri = new Uri(blobUrl);
+            var blobClient = new BlobClient(uri);
+
+            var sasBuilder = new BlobSasBuilder
+            {
+                BlobContainerName = blobClient.BlobContainerName,
+                Identifier = POLICY_READONLY
+            };
+            var sasToken = sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(_blobServiceClient.AccountName, _accountKey)).ToString();
+            
+            return $"{blobClient.Uri}?{sasToken}";
+        }
 
         private async Task CreateStoredAccessPolicyAsync(BlobContainerClient containerClient)
         {
-            BlobSignedIdentifier[] blobSignedIdentifiers = new BlobSignedIdentifier[3];
+            int sizePolicies = _policies.Count();
+            BlobSignedIdentifier[] blobSignedIdentifiers = new BlobSignedIdentifier[sizePolicies];
             int i = 0;
             foreach(var policy in _policies)
             {

@@ -14,10 +14,16 @@ using TipRecipe.Services;
 namespace TipRecipe.Controllers
 {
     [ApiController]
-    [Authorize("Admin")]
     [Route("api/admin")]
+    [Authorize("Admin")]
     public class AdminController : MyControllerBase
     {
+        private readonly List<string> VALIDIMAGETYPES = new List<string> { "image/jpeg", "image/png", "image/gif", "image/bmp", "image/svg+xml", "image/webp" };
+        private readonly string MESSAGE_INVALID_PARAMETER = "Invalid parameters";
+        private readonly string MESSAGE_FILE_NOT_FOUND = "File not found";
+        private readonly string MESSAGE_INVALID_FILE = "Invalid file type. Only JPEG, PNG, GIF, BMP, SVG, and WEBP are allowed";
+        private readonly string MESSAGE_FILE_BIGGER = "File bigger than 1mbs";
+        private readonly string MESSAGE_FILE_UPLOAD_FAILED = "Upload file failed";
 
         private readonly IMapper _mapper;
 
@@ -61,22 +67,13 @@ namespace TipRecipe.Controllers
             RecipeDto recipeObj = JsonConvert.DeserializeObject<RecipeDto>(recipe)!;
             if(detailIngredientDishesList.Count == 0 || detailTypeDishesList.Count == 0 || recipeObj == null)
             {
-                return BadRequest("Invalid data");
+                return BadRequest(MESSAGE_INVALID_PARAMETER);
             }
             var createDishDto = new CreateDishDto(dishName, summary, "", detailIngredientDishesList, detailTypeDishesList, recipeObj);
             Dish? dish = _mapper.Map<Dish>(createDishDto);
-            if (file == null || file.Length == 0)
+            if (IsInvalidFileImageDish(file, out string message))
             {
-                return BadRequest("No file uploaded.");
-            }
-            if (file.Length > 1024 * 1024)
-            {
-                return BadRequest("File bigger than 1mbs.");
-            }
-            var validImageTypes = new List<string> { "image/jpeg", "image/png", "image/gif", "image/bmp", "image/svg+xml", "image/webp" };
-            if (!validImageTypes.Contains(file.ContentType))
-            {
-                return BadRequest("Invalid file type. Only JPEG, PNG, GIF, BMP, SVG, and WEBP are allowed.");
+                return BadRequest(message);
             }
             string uri = string.Empty;
             using (var stream = file.OpenReadStream())
@@ -91,9 +88,9 @@ namespace TipRecipe.Controllers
                 };
                 uri = await _azureBlobService.UploadFileAsync("test", dish.DishID, stream, tags);
             }
-            if (uri == null)
+            if (string.IsNullOrEmpty(uri))
             {
-                return BadRequest("Upload file failed.");
+                return BadRequest(MESSAGE_FILE_UPLOAD_FAILED);
             }
             dish.UrlPhoto = uri;
             if (await this._dishService.AddDishAsync(dish))
@@ -120,24 +117,15 @@ namespace TipRecipe.Controllers
             RecipeDto recipeObj = JsonConvert.DeserializeObject<RecipeDto>(recipe)!;
             if (detailIngredientDishesList.Count == 0 || detailTypeDishesList.Count == 0 || recipeObj == null)
             {
-                return BadRequest("Invalid data");
+                return BadRequest(MESSAGE_INVALID_PARAMETER);
             }
             var createDishDto = new CreateDishDto(dishName, summary, "", detailIngredientDishesList, detailTypeDishesList, recipeObj);
             Dish? dish = _mapper.Map<Dish>(createDishDto);
             if(file is not null)
             {
-                if (file.Length == 0)
+                if(IsInvalidFileImageDish(file,out string message))
                 {
-                    return BadRequest("No file uploaded.");
-                }
-                if (file.Length > 1024 * 1024)
-                {
-                    return BadRequest("File bigger than 1mbs.");
-                }
-                var validImageTypes = new List<string> { "image/jpeg", "image/png", "image/gif", "image/bmp", "image/svg+xml", "image/webp" };
-                if (!validImageTypes.Contains(file.ContentType))
-                {
-                    return BadRequest("Invalid file type. Only JPEG, PNG, GIF, BMP, SVG, and WEBP are allowed.");
+                    return BadRequest(message);
                 }
                 string uri = string.Empty;
                 using (var stream = file.OpenReadStream())
@@ -152,9 +140,9 @@ namespace TipRecipe.Controllers
                 };
                     uri = await _azureBlobService.UploadFileAsync("test", dishID, stream, tags);
                 }
-                if (uri == null)
+                if (string.IsNullOrEmpty(uri))
                 {
-                    return BadRequest("Upload file failed.");
+                    return BadRequest(MESSAGE_FILE_UPLOAD_FAILED);
                 }
                 dish.UrlPhoto = uri;
             }
@@ -210,19 +198,27 @@ namespace TipRecipe.Controllers
             return NotFound();
         }
 
-        [HttpPost("file")]
-        public async Task GetFileAsync(IFormFile file)
+        private bool IsInvalidFileImageDish(IFormFile file,out string message)
         {
-            if (file.Length == 0 || file.Length > 1024 * 1024)
+            if (file == null || file.Length == 0)
             {
-                throw new Exception("File size is invalid");
+                message = MESSAGE_FILE_NOT_FOUND;
+                return true;
             }
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Guid.NewGuid().ToString() + ".pdf");
-            using (var stream = new FileStream(path, FileMode.Create))
+            if (file.Length > 1024 * 1024)
             {
-                await file.CopyToAsync(stream);
+                message = MESSAGE_FILE_BIGGER;
+                return true;
             }
+            if (!VALIDIMAGETYPES.Contains(file.ContentType))
+            {
+                message = MESSAGE_INVALID_FILE;
+                return true;
+            }
+            message = string.Empty;
+            return false;
         }
+
 
     }
 }

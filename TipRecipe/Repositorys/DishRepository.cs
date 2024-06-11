@@ -143,10 +143,6 @@ namespace TipRecipe.Repositorys
                 .FromSqlRaw(sqlQuery, parameters.ToArray())
                 .Select(d => d.AvgRating)
                 .ToListAsync();
-            //return await _context.Dishes
-            //    .Where(d => dishIDs.Contains(d.DishID))
-            //    .Select(d => d.AvgRating)
-            //    .ToListAsync();
         }
 
         public async Task<IEnumerable<UserDishRating>> GetUserDishRatingsAsync()

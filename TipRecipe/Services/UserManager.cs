@@ -44,7 +44,7 @@ namespace TipRecipe.Services
             User? user = await _context.Users
                 .Include(u => u.UserRoles)
                 .FirstOrDefaultAsync(u => u.UserID == userID);
-            if (user == null)
+            if (user is null)
             {
                 throw new NotFoundException();
             }
