@@ -6,8 +6,8 @@ namespace TipRecipe.Services
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<DishBackgroundService> _logger;
-        private readonly TimeSpan _intervalUpdateAvgScoreDishes = TimeSpan.FromMinutes(15);
-        private readonly TimeSpan _intervalUpdateSASTokenStorageBlob = TimeSpan.FromHours(10);
+        private readonly TimeSpan _intervalUpdateAvgScoreDishes = TimeSpan.FromHours(2);
+        private readonly TimeSpan _intervalUpdateSASTokenStorageBlob = TimeSpan.FromHours(12);
 
         public DishBackgroundService(IServiceProvider serviceProvider, ILogger<DishBackgroundService> logger)
         {

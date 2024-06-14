@@ -32,21 +32,12 @@ namespace TipRecipe.Controllers
             {
                 return BadRequest("No file uploaded.");
             }
-            if (file.Length > 1024 * 1024 )
-            {
-                return BadRequest("File bigger than 1mbs.");
-            }
-            var validImageTypes = new List<string> { "image/jpeg", "image/png", "image/gif", "image/bmp", "image/svg+xml", "image/webp" };
-            if (!validImageTypes.Contains(file.ContentType))
-            {
-                return BadRequest("Invalid file type. Only JPEG, PNG, GIF, BMP, SVG, and WEBP are allowed.");
-            }
             string uri = string.Empty;
             using (var stream = file.OpenReadStream())
             {
-                uri = await _azureBlobService.UploadFileAsync("test", file.FileName, stream, new());
+                uri = await _azureBlobService.UploadFileAsync("test", $"files/{DateTime.Now.DayOfYear.ToString()}/{file.FileName}", stream, new());
             }
-            return Ok(uri);
+            return Ok(_azureBlobService.GenerateSasTokenPolicy(uri));
         }
 
         [HttpGet("download/{fileName}")]

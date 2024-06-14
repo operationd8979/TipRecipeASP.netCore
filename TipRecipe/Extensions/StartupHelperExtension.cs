@@ -16,9 +16,9 @@ using Amazon;
 using Amazon.Runtime;
 using Amazon.SecretsManager.Model;
 using Amazon.SecretsManager;
-using Newtonsoft.Json;
-using Microsoft.Extensions.Configuration;
 using System.Text.Json;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 namespace TipRecipe.Extensions
 {
     public static class StartupHelperExtension
@@ -41,11 +41,14 @@ namespace TipRecipe.Extensions
             return builder;
         }
 
-        public static async Task<WebApplicationBuilder> ConnectDbStorage(this WebApplicationBuilder builder)
+        public static async Task GetSecretKeyFromAWS(WebApplicationBuilder builder)
         {
             string secretName = builder.Configuration["AWS:SecretName"]!;
 
+            //BasicAWSCredentials awsCreds = new BasicAWSCredentials(builder.Configuration["AWS:AccessKey"], builder.Configuration["AWS:SecretKey"]);
+
             IAmazonSecretsManager client = new AmazonSecretsManagerClient(
+                //awsCreds,
                 RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"]));
 
             GetSecretValueRequest request = new GetSecretValueRequest
@@ -65,6 +68,7 @@ namespace TipRecipe.Extensions
             }
 
             var secret = response.SecretString;
+
             //var secretStream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(secret));
             //builder.Configuration.AddJsonStream(secretStream);
 
@@ -80,11 +84,55 @@ namespace TipRecipe.Extensions
 
             // Add the configuration to ConfigurationBuilder
             builder.Configuration.AddInMemoryCollection(configDict!);
+        }
+
+        public static async Task GetSecretKeyFromAzure(WebApplicationBuilder builder)
+        {
+            string tenantId = builder.Configuration["Azure:Ad:TenantId"]!;
+            string clientId = builder.Configuration["Azure:Ad:ClientId"]!;
+            string clientSecret = builder.Configuration["Azure:Ad:ClientSecret"]!;
+            string keyVaultName = builder.Configuration["Azure:KeyVault:Name"]!;
+            var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
+
+            var credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+
+            var secretClient = new SecretClient(keyVaultUri, credential);
+
+            var secretNames = new[] { "AzureStorage", "AzureSQL" };
+            var secretTasks = new Task<Azure.Response<KeyVaultSecret>>[secretNames.Length];
+            for (int i = 0; i < secretNames.Length; i++)
+            {
+                secretTasks[i] = secretClient.GetSecretAsync(secretNames[i]);
+            }
+
+            var secrets = await Task.WhenAll(secretTasks);
+
+            foreach (var secret in secrets)
+            {
+                string secretName = secret.Value.Name;
+                string secretValue = secret.Value.Value;
+                var configDict = new Dictionary<string, string>();
+                configDict[$"ConnectionStrings:{secretName}"] = secretValue;
+                builder.Configuration.AddInMemoryCollection(configDict!);
+            }
+
+            // Add Azure Key Vault secrets to configuration
+            //builder.Configuration.AddAzureKeyVault(keyVaultUri, credential);
+        }
+
+        public static async Task<WebApplicationBuilder> ConnectDbStorage(this WebApplicationBuilder builder)
+        {
+            //get secret key from cloud
+            //await GetSecretKeyFromAWS(builder);
+            //await GetSecretKeyFromAzure(builder);
 
             //azure blob service
-            builder.Services.AddSingleton(
-                new AzureBlobService(builder.Configuration.GetConnectionString("AzureStorage")!.ToString()));
+            //builder.Services.AddSingleton(
+            //    new AzureBlobService(builder.Configuration.GetConnectionString("AzureStorage")!.ToString()));
 
+            //add sql server
+            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSQL")));
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

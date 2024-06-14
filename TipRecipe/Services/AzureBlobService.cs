@@ -15,6 +15,7 @@ namespace TipRecipe.Services
         private readonly BlobServiceClient _blobServiceClient;
         private readonly string _accountKey;
         private readonly string _bucketName = "test";
+        private readonly int _sasTokenDuration = 13; //hours
 
         private List<string> _containers;
 
@@ -112,7 +113,7 @@ namespace TipRecipe.Services
                     AccessPolicy = new BlobAccessPolicy
                     {
                         StartsOn = DateTimeOffset.UtcNow,
-                        ExpiresOn = DateTimeOffset.UtcNow.AddHours(12),
+                        ExpiresOn = DateTimeOffset.UtcNow.AddHours(_sasTokenDuration),
                     }
                 };
                 if (policy.Equals(POLICY_READONLY))
