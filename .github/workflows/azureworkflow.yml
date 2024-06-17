@@ -67,8 +67,8 @@ jobs:
     - uses: azure/k8s-deploy@v1
       with:
         manifests: |
-            /app/manifests/deployment.yml
-            /app/manifests/service.yml
+            manifests/deployment.yml
+            manifests/service.yml
         images: |
             ${{ env.IMAGE_NAME }}
         imagepullsecrets: ${{ secrets.AKS_SECRET }}

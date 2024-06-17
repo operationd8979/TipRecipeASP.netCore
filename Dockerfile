@@ -19,5 +19,4 @@ RUN dotnet publish "TipRecipe.csproj" -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY manifests /app/manifests
 ENTRYPOINT ["dotnet", "TipRecipe.dll"]
