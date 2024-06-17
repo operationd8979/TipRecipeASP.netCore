@@ -94,7 +94,9 @@ namespace TipRecipe.Extensions
             string keyVaultName = builder.Configuration["Azure:KeyVault:Name"]!;
             var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
 
-            var credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+            //var credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+            var credential = new DefaultAzureCredential();
+
 
             var secretClient = new SecretClient(keyVaultUri, credential);
 
@@ -124,17 +126,17 @@ namespace TipRecipe.Extensions
         {
             //get secret key from cloud
             //await GetSecretKeyFromAWS(builder);
-            //await GetSecretKeyFromAzure(builder);
+            await GetSecretKeyFromAzure(builder);
 
             //azure blob service
-            //builder.Services.AddSingleton(
-            //    new AzureBlobService(builder.Configuration.GetConnectionString("AzureStorage")!.ToString()));
+            builder.Services.AddSingleton(
+                new AzureBlobService(builder.Configuration.GetConnectionString("AzureStorage")!.ToString()));
 
             //add sql server
-            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSQL")));
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSQL")));
+            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             return builder;
         }
