@@ -10,23 +10,23 @@ env:
   IMAGE_NAME: ${{ secrets.ACR_NAME }}.azurecr.io/webapp:${{ github.sha }}
 
 jobs:
-  build-deploy-image:
+  # build-deploy-image:
       
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout GitHub Action
-      uses: actions/checkout@master
+  #   steps:
+  #   - name: Checkout GitHub Action
+  #     uses: actions/checkout@master
 
-    - name: Build and push image to Azure Container Registry
-      uses: azure/docker-login@v1
-      with:
-        login-server: ${{ env.ACR_LOGIN_SERVER }}
-        username: ${{ secrets.SERVICE_PRINCIPAL_ID }}
-        password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
+  #   - name: Build and push image to Azure Container Registry
+  #     uses: azure/docker-login@v1
+  #     with:
+  #       login-server: ${{ env.ACR_LOGIN_SERVER }}
+  #       username: ${{ secrets.SERVICE_PRINCIPAL_ID }}
+  #       password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
 
-    - run:  docker build . -t ${{ env.IMAGE_NAME }}
-    - run:  docker push ${{ env.IMAGE_NAME }}
+  #   - run:  docker build . -t ${{ env.IMAGE_NAME }}
+  #   - run:  docker push ${{ env.IMAGE_NAME }}
   
   deploy-to-aks:
         
@@ -34,7 +34,7 @@ jobs:
 
     if: github.ref == 'refs/heads/master'
 
-    needs: build-deploy-image
+    # needs: build-deploy-image
 
     #env:
         #  NAMESPACE: dummy
