@@ -5,7 +5,7 @@ metadata:
   labels:
     app: sample-app
 
-sepc:
+spec:
   replicas: 1
   selector:
     matchLabels:

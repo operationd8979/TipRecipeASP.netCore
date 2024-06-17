@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TipRecipe", "TipRecipe\TipR
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A119C225-DFE6-45D1-B9C2-99F00F16A77F}"
 	ProjectSection(SolutionItems) = preProject
+		manifests\deployment.yml = manifests\deployment.yml
 		Dockerfile = Dockerfile
+		manifests\service.yml = manifests\service.yml
 	EndProjectSection
 EndProject
 Global
