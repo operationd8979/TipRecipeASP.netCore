@@ -25,6 +25,5 @@ jobs:
         username: ${{ secrets.SERVICE_PRINCIPAL_ID }}
         password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
 
-    - run: |
-        docker build . -t ${{ env.IMAGE_NAME }}
-        docker push ${{ env.IMAGE_NAME }}
+    - run:  docker build . -t ${{ env.IMAGE_NAME }}
+    - run:  docker push ${{ env.IMAGE_NAME }}
