@@ -27,3 +27,49 @@ jobs:
 
     - run:  docker build . -t ${{ env.IMAGE_NAME }}
     - run:  docker push ${{ env.IMAGE_NAME }}
+  
+  deploy-to-aks:
+        
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/master'
+
+    needs: build-deploy-image
+
+    #env:
+        #  NAMESPACE: dummy
+        
+    steps:
+
+    - uses: actions/checkout@main
+        
+    # Set the target Azure Kuberetes Service cluster
+    - uses: azure/aks-set-context@v1
+      with:
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        cluster-name: ${{ secrets.AKS_NAME }}
+        resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
+
+    # Create a namespace in the AKS cluster
+    # - run: |
+    #    kubect1 create namespace ${{ env.NAMESPACE }} --dry-run -o json | kubect1 apply -f -
+
+    # Create image pull secret for ACR
+    - uses: azure/k8s-create-secret@v1
+      with:
+        container-registry-url: ${{ env.ACR_LOGIN_SERVER }}
+        container-registry-username: ${{ secrets.SERVICE_PRINCIPAL_ID }}
+        container-registry-password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
+        secret-name: ${{ secrets.AKS_SECRET }}
+        # namespace: ${{ env.NAMESPACE }}
+
+    # Deploy to AKS
+    - uses: azure/k8s-deploy@v1
+      with:
+        manifests: |
+            manifests/deployment.yml
+            manifests/service.yml
+        images: |
+            ${{ env.IMAGE_NAME }}
+        imagepullsecrets: ${{ secrets.AKS_SECRET }}
+        # namespace: ${{ env.NAMESPACE }}

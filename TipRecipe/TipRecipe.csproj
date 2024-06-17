@@ -9,6 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="manifests\service.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="manifests\service.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.303.3" />
     <PackageReference Include="Azure.Identity" Version="1.11.4" />
