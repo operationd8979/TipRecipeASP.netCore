@@ -46,7 +46,6 @@ jobs:
     # Set the target Azure Kuberetes Service cluster
     - uses: azure/aks-set-context@v1
       with:
-        creds: '${{ secrets.AZURE_CREDENTIALS }}'
         cluster-name: ${{ secrets.AKS_NAME }}
         resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
 
@@ -58,8 +57,7 @@ jobs:
     - uses: azure/k8s-create-secret@v1
       with:
         container-registry-url: ${{ env.ACR_LOGIN_SERVER }}
-        container-registry-username: ${{ secrets.SERVICE_PRINCIPAL_ID }}
-        container-registry-password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
+        container-registry-identity: ${{ secrets.MANAGED_IDENTITY_CLIENT_ID }}
         secret-name: ${{ secrets.AKS_SECRET }}
         # namespace: ${{ env.NAMESPACE }}
 
