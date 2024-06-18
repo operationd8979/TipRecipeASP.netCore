@@ -94,7 +94,7 @@ namespace TipRecipe.Extensions
             string keyVaultName = builder.Configuration["Azure:KeyVault:Name"]!;
             var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
 
-            var credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+            //var credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
             var credential = new DefaultAzureCredential();
 
 
