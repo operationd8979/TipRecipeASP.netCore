@@ -7,10 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TipRecipe", "TipRecipe\TipR
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A119C225-DFE6-45D1-B9C2-99F00F16A77F}"
 	ProjectSection(SolutionItems) = preProject
-		manifests\deployment.yml = manifests\deployment.yml
-		Dockerfile = Dockerfile
-		manifests\service.yml = manifests\service.yml
+		.github\workflows\azureworkflow.yml = .github\workflows\azureworkflow.yml
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{7FB3C8FB-8F9A-4FB4-893A-5B03ABF5846B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +23,10 @@ Global
 		{305CA058-DDFB-4A8F-84FC-31BD94F7CA9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{305CA058-DDFB-4A8F-84FC-31BD94F7CA9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{305CA058-DDFB-4A8F-84FC-31BD94F7CA9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FB3C8FB-8F9A-4FB4-893A-5B03ABF5846B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FB3C8FB-8F9A-4FB4-893A-5B03ABF5846B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FB3C8FB-8F9A-4FB4-893A-5B03ABF5846B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FB3C8FB-8F9A-4FB4-893A-5B03ABF5846B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
