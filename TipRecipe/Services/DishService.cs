@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Data;
 using TipRecipe.Entities;
+using TipRecipe.Extensions;
 using TipRecipe.Interfaces;
 using TipRecipe.Models;
 using TipRecipe.Models.HttpExceptions;
@@ -231,7 +232,7 @@ namespace TipRecipe.Services
                         dish.RatingScore = ratingMap.GetValueOrDefault(vector.Item1)!.GetValueOrDefault(dish.DishID)!.RatingScore;
                         if (dish.RatingScore != 0)
                         {
-                            ratingMap.GetValueOrDefault(userID)![dish.DishID].RatingScore = dish.RatingScore??0;
+                            ratingMap.GetValueOrDefault(userID)![dish.DishID].RatingScore = dish.RatingScore;
                             preRatingCal.Add(new { dish.DishID, dish.RatingScore });
                             break;
                         }
@@ -367,7 +368,7 @@ namespace TipRecipe.Services
                     {
                         if (value.TryGetValue(dish.DishID, out var rating))
                         {
-                            if (!rating.IsRated && rating.RatingScore == 0)
+                            if (!rating.IsRated && rating.RatingScore.IsApproximately(0, within:0.001f))
                             {
                                 shouldVectorizeRatingMap = true;
                             }
@@ -461,9 +462,9 @@ namespace TipRecipe.Services
                     foreach (var vector in vectorList)
                     {
                         dish.RatingScore = ratingMap.GetValueOrDefault(vector.Item1)!.GetValueOrDefault(dish.DishID)!.RatingScore;
-                        if (dish.RatingScore != 0)
+                        if (!dish.RatingScore.IsApproximately(0, within: 0.001f))
                         {
-                            ratingMap.GetValueOrDefault(userID)![dish.DishID].RatingScore = dish.RatingScore ?? 0;
+                            ratingMap.GetValueOrDefault(userID)![dish.DishID].RatingScore = dish.RatingScore;
                             ratingMap.GetValueOrDefault(userID)![dish.DishID].IsPreRated = true;
                             preRatingCal.Add(new { dish.DishID, dish.RatingScore });
                             break;

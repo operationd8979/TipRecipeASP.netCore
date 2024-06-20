@@ -94,13 +94,13 @@ namespace TipRecipe.Repositorys
                 .ToListAsync();
         }
 
-        public async Task<Dish?> GetByIDAsync(string dishID)
+        public async Task<Dish?> GetByIDAsync(string id)
         {
             return await this._context.Dishes
                 .Include(d => d.Recipe)
                 .Include(d => d.DetailIngredientDishes).ThenInclude(did => did.Ingredient)
                 .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
-                .FirstOrDefaultAsync(d => d.DishID == dishID);
+                .FirstOrDefaultAsync(d => d.DishID == id);
         }
 
         public async Task<Rating?> GetRatingDishAsync(string dishID, string userID)

@@ -5,8 +5,6 @@ using Serilog;
 
 namespace TipRecipe.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class ErrorController : ControllerBase
     {
         [Route("/error-development")]

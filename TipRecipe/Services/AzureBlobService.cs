@@ -29,6 +29,10 @@ namespace TipRecipe.Services
         {
             _blobServiceClient = new BlobServiceClient(connectionString);
             _accountKey = connectionString.Split(';').FirstOrDefault(x => x.StartsWith("AccountKey="))!;
+            if (_accountKey == null)
+            {
+                throw new InvalidOperationException("AccountKey is missing in the connection string.");
+            }
             _accountKey = _accountKey.Substring(_accountKey.IndexOf('=')+1);
             _containers = new List<string>();
             this.InitIncludePolicy();

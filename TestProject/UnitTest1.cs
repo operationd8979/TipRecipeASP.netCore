@@ -15,9 +15,7 @@ namespace TestProject
         Mock<ITypeDishRepository> mockTypeDishRepository = new Mock<ITypeDishRepository>();
         Mock<ILogger<CachingFileService>> mockLogger = new Mock<ILogger<CachingFileService>>();
 
-        DishService dishService;
-
-
+        DishService? dishService = null;
 
         [TestMethod]
         public void GetCountDishesAsync()

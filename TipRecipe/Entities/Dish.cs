@@ -34,7 +34,7 @@ namespace TipRecipe.Entities
         public float AvgRating { get; set; }
 
         [NotMapped]
-        public float? RatingScore { get; set; }
+        public float RatingScore { get; set; }
         [NotMapped]
         public bool isRated { get; set; } = true;
 
@@ -60,9 +60,9 @@ namespace TipRecipe.Entities
         }
 
 
-        public override bool Equals(object? other)
+        public override bool Equals(object? obj)
         {
-            var item = other as Dish;
+            var item = obj as Dish;
             if (item is null) return false;
             return this.DishID == (item.DishID)
                 && this.DishName == (item.DishName)
@@ -74,19 +74,6 @@ namespace TipRecipe.Entities
         public override int GetHashCode()
         {
             return HashCode.Combine(this.DishID,this.DishName, this.Summary, this.UrlPhoto);
-        }
-
-        public static bool operator ==(Dish a, Dish b)
-        {
-            if (a is null)
-                return b is null;
-
-            return a.Equals(b);
-        }
-
-        public static bool operator !=(Dish b1, Dish b2)
-        {
-            return !(b1 == b2);
         }
 
 

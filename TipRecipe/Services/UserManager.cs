@@ -79,7 +79,7 @@ namespace TipRecipe.Services
 
         public async Task<(User, string, DateTime)> SignUp(UserRegisterDto userRegisterDto)
         {
-            User? user = _context.Users.Where(u => u.Email == userRegisterDto.Email).FirstOrDefault();
+            User? user = await _context.Users.Where(u => u.Email == userRegisterDto.Email).FirstOrDefaultAsync();
             if (user != null)
             {
                 throw new ConflicException("Email already exist!");

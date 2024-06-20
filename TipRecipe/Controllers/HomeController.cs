@@ -16,11 +16,9 @@ namespace TipRecipe.Controllers
     {
 
         private readonly DishService _dishService;
-        private readonly IMapper _mapper;
 
         public HomeController(IMapper mapper, DishService dishService)
         {
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _dishService = dishService ?? throw new ArgumentNullException(nameof(dishService));
         }
 
