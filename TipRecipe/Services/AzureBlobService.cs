@@ -49,17 +49,21 @@ namespace TipRecipe.Services
             }
         }
 
-        public async Task<List<string>> GetAllContainersAsync()
+        public async Task<Dictionary<string, object>> GetAllContainersAsync()
         {
-            var containers = new List<string>();
+            //var containers = new List<string>();
+            Dictionary<string,object> containers2 = new();
             await foreach (BlobContainerItem container in _blobServiceClient.GetBlobContainersAsync())
             {
+                List<string> blobs = new();
                 await foreach (BlobItem blob in _blobServiceClient.GetBlobContainerClient(container.Name).GetBlobsAsync())
                 {
-                    containers.Add($"{container.Name}/{blob.Name}");
+                    //containers.Add($"{container.Name}/{blob.Name}");
+                    blobs.Add(blob.Name);
                 }
+                containers2.Add(container.Name, blobs);
             }
-            return containers;
+            return containers2;
         }
 
         public async Task<string> UploadFileAsync(string containerName, string blobName, Stream fileStream, Dictionary<string, string> tags)
@@ -70,6 +74,19 @@ namespace TipRecipe.Services
             await blobClient.UploadAsync(fileStream, true);
             await blobClient.SetTagsAsync(tags);
             return blobClient.Uri.ToString();
+        }
+
+        public string GenerateSasToken()
+        {
+            var sasBuilder = new AccountSasBuilder
+            {
+                ExpiresOn = DateTimeOffset.UtcNow.AddHours(1),
+                Services = AccountSasServices.Blobs, 
+                ResourceTypes = AccountSasResourceTypes.Service | AccountSasResourceTypes.Container | AccountSasResourceTypes.Object, 
+            };
+            sasBuilder.SetPermissions(AccountSasPermissions.Read);
+            var sasToken = sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(_blobServiceClient.AccountName, _accountKey)).ToString();
+            return sasToken;
         }
 
         public string GenerateSasToken(string blobUrl)

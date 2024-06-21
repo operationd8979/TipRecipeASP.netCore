@@ -21,8 +21,9 @@ namespace TipRecipe.Controllers
         [HttpGet("containers")]
         public async Task<IActionResult> GetContainers()
         {
+            string sas = _azureBlobService.GenerateSasToken();
             var containers = await _azureBlobService.GetAllContainersAsync();
-            return Ok(containers);
+            return Ok(new { containers, sas });
         }
 
         [HttpPost("upload")]

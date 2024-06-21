@@ -282,6 +282,7 @@ namespace TipRecipe.Services
                 findDish.UrlPhoto = String.IsNullOrEmpty(updatedDish.UrlPhoto) ? findDish.UrlPhoto : updatedDish.UrlPhoto;
                 findDish.DetailIngredientDishes = updatedDish.DetailIngredientDishes;
                 findDish.DetailTypeDishes = updatedDish.DetailTypeDishes;
+                findDish.Recipe = updatedDish.Recipe;
                 return await this._dishRepository.SaveChangesAsync();
             }
             return false;
@@ -354,130 +355,5 @@ namespace TipRecipe.Services
         }
 
 
-
-        private async Task<IEnumerable<Dish>> ImplementRatingScoreDishes2(IEnumerable<Dish> dishes, string userID)
-        {
-            Dictionary<string, Dictionary<string, CachedRating>>? ratingMap = await _cachedRatingService.GetRatingsAsync();
-            bool shouldResetRatingMap = false;
-            bool shouldVectorizeRatingMap = false;
-            if (ratingMap != null)
-            {
-                if (ratingMap.TryGetValue(userID, out var value))
-                {
-                    foreach (var dish in dishes)
-                    {
-                        if (value.TryGetValue(dish.DishID, out var rating))
-                        {
-                            if (!rating.IsRated && rating.RatingScore.IsApproximately(0, within:0.001f))
-                            {
-                                shouldVectorizeRatingMap = true;
-                            }
-                        }
-                        else
-                        {
-                            shouldResetRatingMap = true;
-                            shouldVectorizeRatingMap = true;
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    shouldResetRatingMap = true;
-                    shouldVectorizeRatingMap = true;
-                }
-            }
-            if (ratingMap == null || shouldResetRatingMap)
-            {
-                shouldVectorizeRatingMap = true;
-                ratingMap = [];
-                IEnumerable<UserDishRating> ratings = await GetUserDishRatingsAsync();
-                foreach (var rating in ratings)
-                {
-                    if (ratingMap.TryGetValue(rating.UserID!, out var value))
-                    {
-                        value.Add(rating.DishID!, new CachedRating(rating.RatingScore / 10, rating.RatedAt is not null));
-                    }
-                    else
-                    {
-                        Dictionary<string, CachedRating> newValue = new();
-                        newValue.Add(rating.DishID!, new CachedRating(rating.RatingScore / 10, rating.RatedAt is not null));
-                        ratingMap.Add(rating.UserID!, newValue);
-                    }
-                }
-                await _cachedRatingService.OverwriteRatingAsync(ratingMap);
-            }
-
-            List<(string, double)> vectorList = new();
-            if (shouldVectorizeRatingMap)
-            {
-                Dictionary<string, CachedRating> dataCurrentUser = ratingMap.GetValueOrDefault(userID)!;
-                var arrayDishIDs = dataCurrentUser.Keys.ToArray();
-
-                (string, double) vectorCurrentUser = new(string.Empty, 0);
-
-                foreach(var dataUser in ratingMap)
-                {
-                    double dotResult = 0;
-                    double magnitudeA = 0;
-                    double magnitudeB = 0;
-                    foreach (var item in arrayDishIDs)
-                    {
-                        dotResult += dataUser.Value.GetValueOrDefault(item)!.RatingScore * dataCurrentUser.GetValueOrDefault(item)!.RatingScore;
-                        magnitudeA += Math.Pow(dataUser.Value.GetValueOrDefault(item)!.RatingScore, 2);
-                        magnitudeB += Math.Pow(dataCurrentUser.GetValueOrDefault(item)!.RatingScore, 2);
-                    }
-                    double result = dotResult / (Math.Sqrt(magnitudeA) * Math.Sqrt(magnitudeB));
-                    if (double.IsNaN(result))
-                    {
-                        result = 1;
-                    }
-                    if (dataUser.Key.Equals(userID))
-                    {
-                        vectorCurrentUser = (userID, result);
-                    }
-                    else
-                    {
-                        vectorList.Add((dataUser.Key, result));
-                    }
-                }
-
-                vectorList.Sort((vectorA, vectorB) =>
-                {
-                    double a = Math.Abs(vectorA.Item2) - Math.Abs(vectorCurrentUser.Item2);
-                    double b = Math.Abs(vectorB.Item2) - Math.Abs(vectorCurrentUser.Item2);
-                    return a.CompareTo(b);
-                });
-            }
-
-            IEnumerable<float> rawDishs = await _dishRepository.GetAvgScoreByIDs(dishes.Select(d => d.DishID).ToList());
-            List<object> preRatingCal = new List<object>();
-            for (int i = 0; i < dishes.Count(); i++)
-            {
-                Dish dish = dishes.ElementAt(i);
-                dish.RatingScore = ratingMap.GetValueOrDefault(userID)!.GetValueOrDefault(dish.DishID)!.RatingScore;
-                dish.isRated = ratingMap.GetValueOrDefault(userID)!.GetValueOrDefault(dish.DishID)!.IsRated;
-                if (!dish.isRated && dish.RatingScore == 0)
-                {
-                    foreach (var vector in vectorList)
-                    {
-                        dish.RatingScore = ratingMap.GetValueOrDefault(vector.Item1)!.GetValueOrDefault(dish.DishID)!.RatingScore;
-                        if (!dish.RatingScore.IsApproximately(0, within: 0.001f))
-                        {
-                            ratingMap.GetValueOrDefault(userID)![dish.DishID].RatingScore = dish.RatingScore;
-                            ratingMap.GetValueOrDefault(userID)![dish.DishID].IsPreRated = true;
-                            preRatingCal.Add(new { dish.DishID, dish.RatingScore });
-                            break;
-                        }
-                    }
-                }
-                dish.RatingScore = dish.RatingScore * 10 + rawDishs.ElementAt(i);
-            }
-            if (preRatingCal.Count() > 0)
-            {
-                await _cachedRatingService.UpdateRatingsAsync(ratingMap);
-            }
-            return dishes;
-        }
     }
 }

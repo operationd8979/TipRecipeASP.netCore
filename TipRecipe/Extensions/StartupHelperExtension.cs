@@ -95,7 +95,7 @@ namespace TipRecipe.Extensions
             var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
 
             //var credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
-            //var credential = new DefaultAzureCredential();
+            var credential = new DefaultAzureCredential();
 
 
             var secretClient = new SecretClient(keyVaultUri, credential);

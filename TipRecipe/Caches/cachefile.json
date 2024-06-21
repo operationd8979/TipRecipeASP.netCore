@@ -3,7 +3,7 @@
     "Value": {
       "VVNFUkNCNTQ4RUJENTJBMjQxRUM4REE2MDcxNDc2NUUwOTJFWFhasd": {
         "32df3g4df6df3gdf34": {
-          "RatingScore": 0.24000001,
+          "RatingScore": 0.26666665,
           "IsRated": true,
           "IsPreRated": false
         },
@@ -60,22 +60,22 @@
         "fds34f6d34sdf63df4s6": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "fds4f3d45g63dfg4s6d3": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "fds4f3df45g6df345g3d": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "fds4f3df45g6df345g3f": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "ffd4546sdf3s4f6d34": {
           "RatingScore": 0.4333333,
@@ -90,37 +90,37 @@
         "g4df6g3df45g34dfg63d": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "g4df6g3df45g34dfg6d": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "gdf4sdf34sdf63sd4f6s": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "gf4d6g3df45g63df45g6": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "gf4d6g3df45g63df4g6d": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "gf4d6g3df45g63df4g7d": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "gfd4g3d45g63df4g6d3f": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "RElTSEU5RjgwQzFBQUIwNTQ0MTZCRjY2MjZDQjFBMTlBNTQyWFhYWA": {
           "RatingScore": 0,
@@ -267,7 +267,7 @@
       },
       "VVNFUkNCNTQ4RUJENTJBMjQxRUM4vfd2MDcxNDc2NUUwOTJFWFhYWA": {
         "32df3g4df6df3gdf34": {
-          "RatingScore": 0.07999997,
+          "RatingScore": 0.06666665,
           "IsRated": true,
           "IsPreRated": false
         },
@@ -399,7 +399,7 @@
       },
       "VVNFUkNCNTQ4RUsdfTJBMjQxRUM4REE2MDcxNDc2NUUwOTJFWFhYWA": {
         "32df3g4df6df3gdf34": {
-          "RatingScore": -0.32000002,
+          "RatingScore": -0.33333334,
           "IsRated": true,
           "IsPreRated": false
         },
@@ -530,6 +530,6 @@
         }
       }
     },
-    "Expiration": "2024-06-18T03:37:51.8804719Z"
+    "Expiration": "2024-06-21T07:48:28.8797366Z"
   }
 }

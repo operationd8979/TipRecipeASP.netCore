@@ -107,6 +107,7 @@ namespace TipRecipe.Controllers
 
         [HttpPut("dish/{dishID}")]
         [TypeFilter(typeof(DtoResultFilterAttribute<Dish, DishDto>))]
+        [TypeFilter(typeof(AddSasBlobFilterAttribute))]
         public async Task<IActionResult> UpdateDishAsync([FromRoute] string dishID, 
                                                  [FromForm] string dishName, [FromForm] string summary,
                                                  [FromForm] string detailIngredientDishes, [FromForm] string detailTypeDishes,
