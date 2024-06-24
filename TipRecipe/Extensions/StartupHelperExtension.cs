@@ -19,6 +19,7 @@ using Amazon.SecretsManager;
 using System.Text.Json;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using Microsoft.AspNetCore.DataProtection;
 namespace TipRecipe.Extensions
 {
     public static class StartupHelperExtension
@@ -61,9 +62,9 @@ namespace TipRecipe.Extensions
             {
                 response = await client.GetSecretValueAsync(request);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Log.Fatal(e, "Get secrect key fail");
+                Log.Fatal(ex, "Get secrect key fail");
                 throw;
             }
 
@@ -88,9 +89,9 @@ namespace TipRecipe.Extensions
 
         public static async Task GetSecretKeyFromAzure(WebApplicationBuilder builder)
         {
-            string tenantId = builder.Configuration["Azure:Ad:TenantId"]!;
-            string clientId = builder.Configuration["Azure:Ad:ClientId"]!;
-            string clientSecret = builder.Configuration["Azure:Ad:ClientSecret"]!;
+            //string tenantId = builder.Configuration["Azure:Ad:TenantId"]!;
+            //string clientId = builder.Configuration["Azure:Ad:ClientId"]!;
+            //string clientSecret = builder.Configuration["Azure:Ad:ClientSecret"]!;
             string keyVaultName = builder.Configuration["Azure:KeyVault:Name"]!;
             var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
 
@@ -109,14 +110,14 @@ namespace TipRecipe.Extensions
 
             var secrets = await Task.WhenAll(secretTasks);
 
-            foreach (var secret in secrets)
+            secrets.ToList().ForEach(secret =>
             {
                 string secretName = secret.Value.Name;
                 string secretValue = secret.Value.Value;
                 var configDict = new Dictionary<string, string>();
                 configDict[$"ConnectionStrings:{secretName}"] = secretValue;
                 builder.Configuration.AddInMemoryCollection(configDict!);
-            }
+            });
 
             // Add Azure Key Vault secrets to configuration
             //builder.Configuration.AddAzureKeyVault(keyVaultUri, credential);
@@ -161,7 +162,7 @@ namespace TipRecipe.Extensions
                     ValidAudience = builder.Configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Convert.FromBase64String(builder.Configuration["Jwt:Key"]
-                        ?? throw new ArgumentNullException("JWT config")))
+                        ?? throw new ArgumentNullException(nameof(options))))
                 };
                 options.Events = new JwtBearerEvents
                 {
@@ -207,7 +208,7 @@ namespace TipRecipe.Extensions
             builder.Services.AddControllers(options =>
             {
                 options.SuppressAsyncSuffixInActionNames = false;
-                options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
+                options.InputFormatters.Insert(0, MyJpif.GetJsonPatchInputFormatter());
                 options.ReturnHttpNotAcceptable = true;
             }).AddXmlDataContractSerializerFormatters();
 

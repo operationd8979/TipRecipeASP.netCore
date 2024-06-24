@@ -9,7 +9,7 @@ namespace TipRecipe.Filters
 {
     public class AddSasBlobFilterAttribute : IAsyncResultFilter
     {
-        private AzureBlobService _azureBlobService;
+        private readonly AzureBlobService _azureBlobService;
 
         public AddSasBlobFilterAttribute(AzureBlobService azureBlobService)
         {

@@ -10,26 +10,17 @@ namespace TipRecipe.Validations
             {
                 return new ValidationResult("Value cannot be null");
             }
-            if (value is int intValue)
+            if (value is int intValue && intValue > 10)
             {
-                if (intValue > 10)
-                {
-                    return new ValidationResult("Value must be lower than ten");
-                }
+                return new ValidationResult("Value must be lower than ten");
             }
-            if (value is float floatValue)
+            if (value is float floatValue && floatValue > 10)
             {
-                if (floatValue > 10)
-                {
-                    return new ValidationResult("Value must be lower than ten");
-                }
+                return new ValidationResult("Value must be lower than ten");
             }
-            if (value is double doubleValue)
+            if (value is double doubleValue && doubleValue > 10)
             {
-                if (doubleValue > 10)
-                {
-                    return new ValidationResult("Value must be lower than ten");
-                }
+                return new ValidationResult("Value must be lower than ten");
             }
             return ValidationResult.Success;
         }

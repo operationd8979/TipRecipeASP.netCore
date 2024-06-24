@@ -35,7 +35,7 @@ namespace TipRecipe.Repositorys
         public async Task<IEnumerable<Dish>> GetAllAsync()
         {
             return await this._context.Dishes
-                .Where(d => d.IsDeleted == false)
+                .Where(d => !d.IsDeleted)
                 .Include(d => d.DetailIngredientDishes).ThenInclude(did => did.Ingredient)
                 .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
                 .ToListAsync();
@@ -44,7 +44,7 @@ namespace TipRecipe.Repositorys
         public IAsyncEnumerable<Dish> GetAllEnumerableAsync()
         {
             return _context.Dishes
-                .Where(d => d.IsDeleted == false)
+                .Where(d => !d.IsDeleted)
                 .Include(d => d.DetailIngredientDishes).ThenInclude(did => did.Ingredient)
                 .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
                 .AsAsyncEnumerable();
@@ -68,7 +68,7 @@ namespace TipRecipe.Repositorys
 
             if (!string.IsNullOrEmpty(orderBy))
             {
-                bool descending = orderBy.StartsWith("-");
+                bool descending = orderBy.StartsWith('-');
                 string propertyName = descending ? orderBy.Substring(1) : orderBy;
 
                 if (descending)
@@ -81,7 +81,7 @@ namespace TipRecipe.Repositorys
                 }
             }
             return await dishesQuery
-                .Where(d => d.IsDeleted == false)
+                .Where(d => !d.IsDeleted)
                 .Include(d => d.DetailIngredientDishes).ThenInclude(did => did.Ingredient)
                 .Include(d => d.DetailTypeDishes).ThenInclude(dtd => dtd.Type)
                 .Skip(offset).Take(limit).ToListAsync();
@@ -194,7 +194,7 @@ namespace TipRecipe.Repositorys
 
             if (!string.IsNullOrEmpty(orderBy))
             {
-                bool descending = orderBy.StartsWith("-");
+                bool descending = orderBy.StartsWith('-');
                 string propertyName = descending ? orderBy.Substring(1) : orderBy;
 
                 if (descending)

@@ -95,7 +95,8 @@ namespace TipRecipe.Controllers
             dish.UrlPhoto = uri;
             if (await this._dishService.AddDishAsync(dish))
             {
-                dish = await this._dishService.GetByIdAsync(dish.DishID) ?? throw new ArgumentNullException(nameof(dish));
+                dish = await this._dishService.GetByIdAsync(dish.DishID) ?? 
+                    throw new KeyNotFoundException($"Dish with ID {dish.DishID} not found");
                 return CreatedAtAction(
                     nameof(DishController.GetDishByIdAsync),
                     controllerName: "Dish",
@@ -149,7 +150,8 @@ namespace TipRecipe.Controllers
             }
             if (await this._dishService.UpdateDishAsync(dishID, dish))
             {
-                dish = await this._dishService.GetByIdAsync(dishID) ?? throw new ArgumentNullException(nameof(dish));
+                dish = await this._dishService.GetByIdAsync(dishID) ?? 
+                    throw new KeyNotFoundException($"Dish with ID {dishID} not found");
                 return CreatedAtAction(
                     nameof(DishController.GetDishByIdAsync),
                     controllerName: "Dish",

@@ -23,7 +23,7 @@ namespace TipRecipe.Filters
             });
             for (int i = 0; i < 10; i++)
             {
-                _logger.LogInformation($"Task AddInfoServerMiddleware {i}");
+                _logger.LogInformation("Task AddInfoServerMiddleware {I}",i);
                 await Task.Delay(1000);
             }
             _logger.LogInformation("Task background completed");

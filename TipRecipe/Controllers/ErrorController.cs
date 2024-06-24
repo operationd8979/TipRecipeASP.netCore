@@ -5,9 +5,11 @@ using Serilog;
 
 namespace TipRecipe.Controllers
 {
+    [ApiController]
+    [Route("")]
     public class ErrorController : ControllerBase
     {
-        [Route("/error-development")]
+        [HttpGet("error-development")]
         public IActionResult HandleErrorDevelopment(
             [FromServices] IHostEnvironment hostEnvironment)
         {
@@ -30,7 +32,7 @@ namespace TipRecipe.Controllers
         }
 
 
-        [Route("/error")]
+        [HttpGet("/error")]
         public IActionResult HandleError()
         {
             var exceptionHandlerFeature = HttpContext.Features.Get<IExceptionHandlerFeature>();

@@ -25,7 +25,7 @@ namespace TipRecipe.Controllers
         [TypeFilter(typeof(DtoResultFilterAttribute<User, UserDto>))]
         public async Task<IActionResult> Auth()
         {
-            var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
+            var userID = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
             return Ok(await _userManager.GetUserAsync(userID));
         }
 
@@ -85,7 +85,7 @@ namespace TipRecipe.Controllers
         [TypeFilter(typeof(DtoResultFilterAttribute<User, UserDto>))]
         public async Task<IActionResult> UpdateProfile([FromBody] UserUpdateDto userUpdateDto)
         {
-            var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
+            var userID = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
             try
             {
                 await _userManager.UpdateProfileAsync(userUpdateDto, userID);

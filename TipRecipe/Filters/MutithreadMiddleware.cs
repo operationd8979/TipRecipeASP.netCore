@@ -16,10 +16,10 @@
         public async Task InvokeAsync(HttpContext context)
         {
             
-            if (context.Request.Cookies.Count() > 0)
+            if (context.Request.Cookies.Count > 0)
             {
                 context.Request.Cookies.TryGetValue("jwt", out string? jwt);
-                _logger.LogInformation($"MutithreadMiddleware: JWT token: {jwt}");
+                _logger.LogInformation("MutithreadMiddleware: JWT token: {Jwt}", jwt);
             }
             _logger.LogInformation("CombinedMiddleware: Starting parallel tasks");
 

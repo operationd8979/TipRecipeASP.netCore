@@ -6,9 +6,9 @@ namespace TipRecipe.Entities
     public class DetailIngredientDish
     {
         [Required]
-        public string DishID;
+        public string DishID { get; set; }
         [Required]
-        public int IngredientID;
+        public int IngredientID { get; set; }
 
         [ForeignKey("DishID")]
         public Dish? Dish { get; set; }

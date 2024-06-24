@@ -24,10 +24,10 @@ namespace TipRecipe.Services
                 var cacheItemTyped = JsonSerializer.Deserialize<CacheItem>(cacheItem.ToString()!);
                 if (cacheItemTyped != null && cacheItemTyped.Expiration > DateTime.UtcNow)
                 {
-                    _logger.LogInformation($"Read cache for key [{key}] from {_cacheFilePath}");
+                    _logger.LogInformation("Read cache for key [{Key}] from {_cacheFilePath}",key,_cacheFilePath);
                     return JsonSerializer.Deserialize<T>(cacheItemTyped.Value!.ToString()!);
                 }
-                _logger.LogInformation($"Cache expired for key [{key}]");
+                _logger.LogInformation("Cache expired for key [{Key}]",key);
                 cacheData.Remove(key);
                 var json = JsonSerializer.Serialize(cacheData, new JsonSerializerOptions { WriteIndented = true });
                 await File.WriteAllTextAsync(_cacheFilePath, json);
@@ -49,7 +49,7 @@ namespace TipRecipe.Services
             {
                 var json = JsonSerializer.Serialize(cacheData, new JsonSerializerOptions { WriteIndented = true });
                 await File.WriteAllTextAsync(_cacheFilePath, json);
-                _logger.LogInformation($"Wrote cache $[{key}] into ${_cacheFilePath}");
+                _logger.LogInformation("Wrote cache $[{Key}] into ${_cacheFilePath}",key,_cacheFilePath);
             }
             finally
             {
@@ -74,7 +74,7 @@ namespace TipRecipe.Services
                     {
                         var json = JsonSerializer.Serialize(cacheData, new JsonSerializerOptions { WriteIndented = true });
                         await File.WriteAllTextAsync(_cacheFilePath, json);
-                        _logger.LogInformation($"Update cache $[{key}] into ${_cacheFilePath}");
+                        _logger.LogInformation("Update cache $[{Key}] into ${_cacheFilePath}",key,_cacheFilePath);
                     }
                     finally
                     {
@@ -94,7 +94,7 @@ namespace TipRecipe.Services
             {
                 if (!File.Exists(_cacheFilePath))
                 {
-                    throw new Exception($"Cache file {_cacheFilePath} not found");
+                    throw new FileNotFoundException($"Cache file {_cacheFilePath} not found");
                 }
                 var json = await File.ReadAllTextAsync(_cacheFilePath);
                 result = JsonSerializer.Deserialize<Dictionary<string, object>>(json) ?? new Dictionary<string, object>();
@@ -104,17 +104,6 @@ namespace TipRecipe.Services
                 _semaphore.Release();
             }
             return result;
-            //if (!File.Exists(_cacheFilePath))
-            //{
-            //    return new Dictionary<string, object>();
-            //}
-            //using (var stream = new FileStream(_cacheFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            //using (var reader = new StreamReader(stream))
-            //{
-            //    var json = await reader.ReadToEndAsync();
-            //    var cacheData = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
-            //    return JsonSerializer.Deserialize<Dictionary<string, object>>(json) ?? new Dictionary<string, object>();
-            //}
         }
     }
 }

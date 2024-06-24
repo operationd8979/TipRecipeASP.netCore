@@ -230,7 +230,7 @@ namespace TipRecipe.Services
                     foreach (var vector in vectorList)
                     {
                         dish.RatingScore = ratingMap.GetValueOrDefault(vector.Item1)!.GetValueOrDefault(dish.DishID)!.RatingScore;
-                        if (dish.RatingScore != 0)
+                        if (dish.RatingScore.IsApproximately(0f))
                         {
                             ratingMap.GetValueOrDefault(userID)![dish.DishID].RatingScore = dish.RatingScore;
                             preRatingCal.Add(new { dish.DishID, dish.RatingScore });

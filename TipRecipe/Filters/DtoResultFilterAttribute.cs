@@ -6,7 +6,7 @@ namespace TipRecipe.Filters
 {
     public class DtoResultFilterAttribute<TSource, TDestination> : IAsyncResultFilter
     {
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
 
         public DtoResultFilterAttribute(IMapper mapper)
         {

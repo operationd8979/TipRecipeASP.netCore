@@ -43,17 +43,17 @@ namespace TipRecipe.DbContexts
 
         }
 
-        public override int SaveChanges()
-        {
-            //GenerateIds();
-            return base.SaveChanges();
-        }
+        //public override int SaveChanges()
+        //{
+        //    GenerateIds();
+        //    return base.SaveChanges();
+        //}
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            //GenerateIds();
-            return base.SaveChangesAsync(cancellationToken);
-        }
+        //public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        //{
+        //    GenerateIds();
+        //    return base.SaveChangesAsync(cancellationToken);
+        //}
 
         private void GenerateIds()
         {
@@ -61,13 +61,9 @@ namespace TipRecipe.DbContexts
                 .Where(e => e.State == EntityState.Added);
             foreach (var entry in entries)
             {
-                if(entry.Entity is Dish)
+                if(entry.Entity is Dish dish && string.IsNullOrEmpty(dish.DishID))
                 {
-                    var dish = (Dish)entry.Entity;
-                    if (string.IsNullOrEmpty(dish.DishID))
-                    {
-                        dish.DishID = IdGenerator.GenerateDishID();
-                    }
+                    dish.DishID = IdGenerator.GenerateDishID();
                 }
             }
         }

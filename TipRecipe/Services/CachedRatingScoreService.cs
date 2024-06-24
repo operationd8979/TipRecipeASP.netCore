@@ -32,13 +32,11 @@ namespace TipRecipe.Services
             Dictionary<string, Dictionary<string, CachedRating>>? ratings = await this.GetRatingsAsync();
             if(ratings is not null)
             {
-                if(ratings.TryGetValue(userID,out var ratingsByUser))
+                if (ratings.TryGetValue(userID, out var ratingsByUser) 
+                    && ratingsByUser.ContainsKey(dishID))
                 {
-                    if (ratingsByUser.ContainsKey(dishID))
-                    {
-                        ratingsByUser[dishID] = newRating;
-                        return await this.UpdateRatingsAsync(ratings);
-                    }
+                    ratingsByUser[dishID] = newRating;
+                    return await this.UpdateRatingsAsync(ratings);
                 }
             }
             return false;

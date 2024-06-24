@@ -18,7 +18,7 @@
 
             for (int i = 0; i < 5; i++)
             {
-                _logger.LogInformation($"Task DelayMiddleware {i}");
+                _logger.LogInformation("Task DelayMiddleware {I}",i);
                 await Task.Delay(1000);
             }
             await _next(context);

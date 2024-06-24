@@ -11,26 +11,17 @@ namespace TipRecipe.Validations
             {
                 return new ValidationResult("Value cannot be null");
             }
-            if (value is int intValue)
+            if (value is int intValue && intValue <= 0)
             {
-                if (intValue <= 0)
-                {
-                    return new ValidationResult("Value must be greater than zero");
-                }
+                return new ValidationResult("Value must be greater than zero");
             }
-            if(value is float floatValue)
+            if (value is float floatValue && floatValue <= 0)
             {
-                if (floatValue <= 0)
-                {
-                    return new ValidationResult("Value must be greater than zero");
-                }
+                return new ValidationResult("Value must be greater than zero");
             }
-            if (value is double doubleValue)
+            if (value is double doubleValue && doubleValue <= 0)
             {
-                if (doubleValue <= 0)
-                {
-                    return new ValidationResult("Value must be greater than zero");
-                }
+                return new ValidationResult("Value must be greater than zero");
             }
             return ValidationResult.Success;
         }

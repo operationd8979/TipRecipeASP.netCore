@@ -46,7 +46,7 @@ namespace TipRecipe.Services
                 .FirstOrDefaultAsync(u => u.UserID == userID);
             if (user is null)
             {
-                throw new NotFoundException();
+                throw new KeyNotFoundException($"User with ID {userID} not found");
             }
             user.UserName = userUpdateDto.Username;
             if(userUpdateDto.NewPassword != "")
@@ -55,9 +55,8 @@ namespace TipRecipe.Services
             }
             if (await _context.SaveChangesAsync() <= 0)
             {
-                throw new Exception("Failed to update user profile");
+                throw new InvalidOperationException("Failed to update user profile");
             }
-            
         }
 
         public async Task<(User, string, DateTime)> SignIn(UserLoginDto loginDto)
@@ -90,10 +89,10 @@ namespace TipRecipe.Services
             {
                 new UserRole(RoleType.USER)
             };
-            _context.Users.Add(user);
+            await _context.Users.AddAsync(user);
             if (await _context.SaveChangesAsync() <= 0)
             {
-                throw new Exception("Failed to register user");
+                throw new InvalidOperationException("Failed to register user");
             }
             return GenerateToken(user);
         }
@@ -107,8 +106,10 @@ namespace TipRecipe.Services
         private (User, string, DateTime) GenerateToken(User currentUser)
         {
             var securityKey = new SymmetricSecurityKey(
-                Convert.FromBase64String(_configuration["Jwt:Key"] ?? throw new ArgumentNullException("JWT config")));
-            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+                Convert.FromBase64String(_configuration["Jwt:Key"] ?? 
+                throw new ArgumentNullException(nameof(currentUser))));
+            var signingCredentials = new SigningCredentials(securityKey, 
+                SecurityAlgorithms.HmacSha256);
             var claimForToken = this.GetUserClaims(currentUser);
             DateTime createdTime = DateTime.UtcNow;
             DateTime expriedTime = createdTime.AddHours(12);

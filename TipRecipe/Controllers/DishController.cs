@@ -63,7 +63,7 @@ namespace TipRecipe.Controllers
             string orderBy = ""
             )
         {
-            var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
+            var userID = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
             IEnumerable<Dish> dishList = await _dishService.GetDishWithFilterAsync(query,ingredients,types,offset,limit, orderBy, userID);
             return Ok(dishList);
         }
@@ -73,7 +73,7 @@ namespace TipRecipe.Controllers
         [TypeFilter(typeof(AddSasBlobFilterAttribute))]
         public async Task<IActionResult> GetRecommendDishes()
         {
-            var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
+            var userID = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
             return Ok(await _dishService.GetRecommendDishesAsync(userID));
         }
 
@@ -82,7 +82,7 @@ namespace TipRecipe.Controllers
         [TypeFilter(typeof(AddSasBlobFilterAttribute))]
         public async Task<IActionResult> GetDishByIdAsync([FromRoute]string dishID)
         {
-            var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
+            var userID = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
             Dish? dish = await this._dishService.GetDishWithRatingByIDAsync(dishID, userID);
             if(dish is null)
             {
@@ -96,7 +96,7 @@ namespace TipRecipe.Controllers
         {
             try
             {
-                var userID = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).First().Value;
+                var userID = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
                 if (await _dishService.RatingDishAsync(dishRatingDto.DishID, dishRatingDto.RatingScore, userID))
                 {
                     return NoContent();

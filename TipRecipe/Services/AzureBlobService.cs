@@ -17,7 +17,7 @@ namespace TipRecipe.Services
         private readonly string _bucketName = "test";
         private readonly int _sasTokenDuration = 13; //hours
 
-        private List<string> _containers;
+        private readonly List<string> _containers;
 
         //sas include policies
         static readonly string POLICY_READONLY = "readOnly";
@@ -28,7 +28,7 @@ namespace TipRecipe.Services
         public AzureBlobService(string connectionString)
         {
             _blobServiceClient = new BlobServiceClient(connectionString);
-            _accountKey = connectionString.Split(';').FirstOrDefault(x => x.StartsWith("AccountKey="))!;
+            _accountKey = Array.Find(connectionString.Split(';'), x => x.StartsWith("AccountKey="))!;
             if (_accountKey == null)
             {
                 throw new InvalidOperationException("AccountKey is missing in the connection string.");
@@ -40,12 +40,11 @@ namespace TipRecipe.Services
 
         private void InitIncludePolicy()
         {
-            foreach (BlobContainerItem container in _blobServiceClient.GetBlobContainers())
+            foreach (BlobContainerItem container in _blobServiceClient
+                .GetBlobContainers()
+                .Where(container => container.Name.StartsWith(_bucketName)))
             {
-                if (container.Name.StartsWith(_bucketName))
-                {
-                    _containers.Add(container.Name);
-                }
+                _containers.Add(container.Name);
             }
         }
 
@@ -123,7 +122,7 @@ namespace TipRecipe.Services
 
         private async Task CreateStoredAccessPolicyAsync(BlobContainerClient containerClient)
         {
-            int sizePolicies = _policies.Count();
+            int sizePolicies = _policies.Count;
             BlobSignedIdentifier[] blobSignedIdentifiers = new BlobSignedIdentifier[sizePolicies];
             int i = 0;
             foreach(var policy in _policies)
@@ -159,7 +158,7 @@ namespace TipRecipe.Services
             var existingPolicies = await containerClient.GetAccessPolicyAsync();
             var policies = existingPolicies.Value.SignedIdentifiers.ToList();
 
-            BlobSignedIdentifier? identifier = policies.FirstOrDefault(p => p.Id == policyName);
+            BlobSignedIdentifier? identifier = policies.Find(p => p.Id == policyName);
             if (identifier is not null)
             {
                 identifier.AccessPolicy = newPolicy;
@@ -172,7 +171,7 @@ namespace TipRecipe.Services
             var existingPolicies = await containerClient.GetAccessPolicyAsync();
             var policies = existingPolicies.Value.SignedIdentifiers.ToList();
 
-            var policyToRemove = policies.FirstOrDefault(p => p.Id == policyName);
+            var policyToRemove = policies.Find(p => p.Id == policyName);
             if (policyToRemove != null)
             {
                 policies.Remove(policyToRemove);

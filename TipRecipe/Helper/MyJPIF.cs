@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 
 namespace TipRecipe.Helper
 {
-    public static class MyJPIF
+    public static class MyJpif
     {
         public static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter()
         {
