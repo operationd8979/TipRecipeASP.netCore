@@ -36,7 +36,7 @@ namespace TipRecipe.Entities
         [NotMapped]
         public float RatingScore { get; set; }
         [NotMapped]
-        public bool isRated { get; set; } = true;
+        public bool isRated { get; set; } = false;
 
         public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 

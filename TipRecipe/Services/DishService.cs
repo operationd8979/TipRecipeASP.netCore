@@ -169,50 +169,7 @@ namespace TipRecipe.Services
             List<(string, double)> vectorList = new();
             if (shouldVectorizeRatingMap)
             {
-                Log.Information("Vectorize rating map!");
-                Dictionary<string, CachedRating> dataCurrentUser = ratingMap.GetValueOrDefault(userID)!;
-                var arrayDishIDs = dataCurrentUser.Keys.ToArray();
-
-                ConcurrentBag<(string, double)> vectorConcurrent = new ConcurrentBag<(string, double)>();
-                (string, double) vectorCurrentUser = new(string.Empty, 0);
-                object lockObj = new object();
-
-                Parallel.ForEach(ratingMap, dataUser =>
-                {
-                    double dotResult = 0;
-                    double magnitudeA = 0;
-                    double magnitudeB = 0;
-                    foreach (var item in arrayDishIDs)
-                    {
-                        dotResult += dataUser.Value.GetValueOrDefault(item)!.RatingScore * dataCurrentUser.GetValueOrDefault(item)!.RatingScore;
-                        magnitudeA += Math.Pow(dataUser.Value.GetValueOrDefault(item)!.RatingScore, 2);
-                        magnitudeB += Math.Pow(dataCurrentUser.GetValueOrDefault(item)!.RatingScore, 2);
-                    }
-                    double result = dotResult / (Math.Sqrt(magnitudeA) * Math.Sqrt(magnitudeB));
-                    if (double.IsNaN(result))
-                    {
-                        result = 1;
-                    }
-                    if (dataUser.Key.Equals(userID))
-                    {
-                        lock (lockObj)
-                        {
-                            vectorCurrentUser = (userID, result);
-                        }
-                    }
-                    else
-                    {
-                        vectorConcurrent.Add((dataUser.Key, result));
-                    }
-                });
-
-                vectorList = vectorConcurrent.ToList();
-                vectorList.Sort((vectorA, vectorB) =>
-                {
-                    double a = Math.Abs(vectorA.Item2) - Math.Abs(vectorCurrentUser.Item2);
-                    double b = Math.Abs(vectorB.Item2) - Math.Abs(vectorCurrentUser.Item2);
-                    return a.CompareTo(b);
-                });
+                vectorList = VectorizeRatingMap(ratingMap, userID);
             }
 
             IEnumerable<float> rawDishs = await _dishRepository.GetAvgScoreByIDs(dishes.Select(d => d.DishID).ToList());
@@ -246,6 +203,74 @@ namespace TipRecipe.Services
             }
             return dishes;
         }
+
+        private List<(string, double)> VectorizeRatingMap(
+            Dictionary<string,Dictionary<string,CachedRating>> ratingMap,
+            string userID
+            )
+        {
+            List<(string, double)> vectorList;
+            Log.Information("Vectorize rating map!");
+            Dictionary<string, CachedRating> dataCurrentUser = ratingMap.GetValueOrDefault(userID)!;
+            var arrayDishIDs = dataCurrentUser.Keys.ToArray();
+
+            ConcurrentBag<(string, double)> vectorConcurrent = new ConcurrentBag<(string, double)>();
+            (string, double) vectorCurrentUser = new(string.Empty, 0);
+            object lockObj = new object();
+
+            Parallel.ForEach(ratingMap, dataUser =>
+            {
+                var (dotResult, magnitudeA, magnitudeB) = CalculateSimilarityMetrics(dataUser.Value, dataCurrentUser, arrayDishIDs);
+                double result = dotResult / (Math.Sqrt(magnitudeA) * Math.Sqrt(magnitudeB));
+                if (double.IsNaN(result))
+                {
+                    result = 1;
+                }
+                if (dataUser.Key.Equals(userID))
+                {
+                    lock (lockObj)
+                    {
+                        vectorCurrentUser = (userID, result);
+                    }
+                }
+                else
+                {
+                    vectorConcurrent.Add((dataUser.Key, result));
+                }
+            });
+
+            vectorList = vectorConcurrent.ToList();
+            vectorList.Sort((vectorA, vectorB) =>
+            {
+                double a = Math.Abs(vectorA.Item2) - Math.Abs(vectorCurrentUser.Item2);
+                double b = Math.Abs(vectorB.Item2) - Math.Abs(vectorCurrentUser.Item2);
+                return a.CompareTo(b);
+            });
+
+            return vectorList;
+        }
+
+        private (double DotResult, double MagnitudeA, double MagnitudeB) CalculateSimilarityMetrics(
+            Dictionary<string, CachedRating> ratingsA,
+            Dictionary<string, CachedRating> ratingsB,
+            string[] dishIDs)
+        {
+
+            double dotResult = 0, magnitudeA = 0, magnitudeB = 0;
+
+            foreach (var dishID in dishIDs)
+            {
+                var ratingA = ratingsA.GetValueOrDefault(dishID)?.RatingScore ?? 0;
+                var ratingB = ratingsB.GetValueOrDefault(dishID)?.RatingScore ?? 0;
+
+                dotResult += ratingA * ratingB;
+                magnitudeA += Math.Pow(ratingA, 2);
+                magnitudeB += Math.Pow(ratingB, 2);
+            }
+
+            return (dotResult, magnitudeA, magnitudeB);
+        }
+
 
         public async Task<Dish?> GetByIdAsync(string dishID)
         {
