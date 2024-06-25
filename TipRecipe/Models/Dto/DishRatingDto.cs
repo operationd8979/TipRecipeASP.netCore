@@ -3,5 +3,7 @@ using TipRecipe.Validations;
 
 namespace TipRecipe.Models.Dto
 {
-    public record DishRatingDto([MaxLength(60)] string DishID, [GreaterThanZero][LowerThanTen]float RatingScore);
+    public record DishRatingDto(
+        [MaxLength(60)] string DishID, 
+        [GreaterThanZero][LowerThanTen]float? RatingScore);
 }

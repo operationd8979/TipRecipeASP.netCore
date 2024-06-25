@@ -97,7 +97,7 @@ namespace TipRecipe.Controllers
             try
             {
                 var userID = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
-                if (await _dishService.RatingDishAsync(dishRatingDto.DishID, dishRatingDto.RatingScore, userID))
+                if (await _dishService.RatingDishAsync(dishRatingDto.DishID, dishRatingDto.RatingScore??0f, userID))
                 {
                     return NoContent();
                 }

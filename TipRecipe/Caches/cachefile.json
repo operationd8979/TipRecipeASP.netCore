@@ -3,7 +3,7 @@
     "Value": {
       "VVNFUkNCNTQ4RUJENTJBMjQxRUM4REE2MDcxNDc2NUUwOTJFWFhasd": {
         "32df3g4df6df3gdf34": {
-          "RatingScore": 0.24000001,
+          "RatingScore": 0.21999998,
           "IsRated": true,
           "IsPreRated": false
         },
@@ -13,7 +13,7 @@
           "IsPreRated": false
         },
         "3fd5g4sdf643df54s3df": {
-          "RatingScore": 0.4333333,
+          "RatingScore": 0.12333331,
           "IsRated": true,
           "IsPreRated": false
         },
@@ -23,7 +23,7 @@
           "IsPreRated": false
         },
         "df3sdf4d6f3d54f6d4": {
-          "RatingScore": 0,
+          "RatingScore": -0.25,
           "IsRated": true,
           "IsPreRated": false
         },
@@ -60,22 +60,22 @@
         "fds34f6d34sdf63df4s6": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "fds4f3d45g63dfg4s6d3": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "fds4f3df45g6df345g3d": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "fds4f3df45g6df345g3f": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "ffd4546sdf3s4f6d34": {
           "RatingScore": 0.4333333,
@@ -90,17 +90,17 @@
         "g4df6g3df45g34dfg63d": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "g4df6g3df45g34dfg6d": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "gdf4sdf34sdf63sd4f6s": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "gf4d6g3df45g63df45g6": {
           "RatingScore": 0,
@@ -277,7 +277,7 @@
           "IsPreRated": false
         },
         "3fd5g4sdf643df54s3df": {
-          "RatingScore": 0.56333333,
+          "RatingScore": 0.25333333,
           "IsRated": true,
           "IsPreRated": false
         },
@@ -324,7 +324,7 @@
         "fds34f6d34sdf63df4s6": {
           "RatingScore": 0,
           "IsRated": false,
-          "IsPreRated": false
+          "IsPreRated": true
         },
         "fds4f3d45g63dfg4s6d3": {
           "RatingScore": 0,
@@ -399,7 +399,7 @@
       },
       "VVNFUkNCNTQ4RUsdfTJBMjQxRUM4REE2MDcxNDc2NUUwOTJFWFhYWA": {
         "32df3g4df6df3gdf34": {
-          "RatingScore": -0.32000002,
+          "RatingScore": -0.28000003,
           "IsRated": true,
           "IsPreRated": false
         },
@@ -409,7 +409,7 @@
           "IsPreRated": false
         },
         "3fd5g4sdf643df54s3df": {
-          "RatingScore": -0.06666668,
+          "RatingScore": -0.3766667,
           "IsRated": true,
           "IsPreRated": false
         },
@@ -419,7 +419,7 @@
           "IsPreRated": false
         },
         "df3sdf4d6f3d54f6d4": {
-          "RatingScore": 0.5,
+          "RatingScore": 0.25,
           "IsRated": true,
           "IsPreRated": false
         },
@@ -530,6 +530,6 @@
         }
       }
     },
-    "Expiration": "2024-06-24T09:26:45.9994495Z"
+    "Expiration": "2024-06-25T02:55:14.6810835Z"
   }
 }
