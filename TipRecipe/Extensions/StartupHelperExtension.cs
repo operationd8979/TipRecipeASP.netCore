@@ -20,6 +20,7 @@ using System.Text.Json;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.DataProtection;
+using Azure.Core;
 namespace TipRecipe.Extensions
 {
     public static class StartupHelperExtension
@@ -89,15 +90,22 @@ namespace TipRecipe.Extensions
 
         public static async Task GetSecretKeyFromAzure(WebApplicationBuilder builder)
         {
-            //string tenantId = builder.Configuration["Azure:Ad:TenantId"]!;
-            //string clientId = builder.Configuration["Azure:Ad:ClientId"]!;
-            //string clientSecret = builder.Configuration["Azure:Ad:ClientSecret"]!;
+            
             string keyVaultName = builder.Configuration["Azure:KeyVault:Name"]!;
             var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
 
-            //var credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
-            var credential = new DefaultAzureCredential();
-
+            TokenCredential credential;
+            if (builder.Environment.IsDevelopment())
+            {
+                string tenantId = builder.Configuration["Azure:Ad:TenantId"]!;
+                string clientId = builder.Configuration["Azure:Ad:ClientId"]!;
+                string clientSecret = builder.Configuration["Azure:Ad:ClientSecret"]!;
+                credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+            }
+            else
+            {
+                credential = new DefaultAzureCredential();
+            }
 
             var secretClient = new SecretClient(keyVaultUri, credential);
 
@@ -223,7 +231,7 @@ namespace TipRecipe.Extensions
             builder.Services.AddSingleton<CachingFileService>(provider =>
             {
                 var logger = provider.GetRequiredService<ILogger<CachingFileService>>();
-                return new CachingFileService("Caches/cachefile.json", logger);
+                return new CachingFileService(logger);
             });
             builder.Services.AddSingleton<CachedRatingScoreService>();
 

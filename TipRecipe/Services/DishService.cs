@@ -115,37 +115,32 @@ namespace TipRecipe.Services
 
         private async Task<IEnumerable<Dish>> ImplementRatingScoreDishes(IEnumerable<Dish> dishes, string userID)
         {
-            Dictionary<string, Dictionary<string,CachedRating>>? ratingMap = await _cachedRatingService.GetRatingsAsync();
+            Dictionary<string, Dictionary<string,CachedRating>> ratingMap = await _cachedRatingService.GetRatingsAsync() ?? [];
             bool shouldResetRatingMap = false;
             bool shouldVectorizeRatingMap = false;
-            if(ratingMap != null)
+            if (ratingMap.TryGetValue(userID, out var ratingCurrentUser))
             {
-                if (ratingMap.TryGetValue(userID, out var value))
+                foreach (var dish in dishes)
                 {
-                    foreach (var dish in dishes)
+                    if (ratingCurrentUser.TryGetValue(dish.DishID, out var rating))
                     {
-                        if (value.TryGetValue(dish.DishID, out var rating))
+                        if (!rating.IsRated && !rating.IsPreRated)
                         {
-                            if (!rating.IsRated && !rating.IsPreRated)
-                            {
-                                shouldVectorizeRatingMap = true;
-                            }
-                        }
-                        else
-                        {
-                            shouldResetRatingMap = true;
                             shouldVectorizeRatingMap = true;
-                            break;
                         }
                     }
-                }
-                else
-                {
-                    shouldResetRatingMap = true;
-                    shouldVectorizeRatingMap = true;
+                    else
+                    {
+                        shouldResetRatingMap = true;
+                        break;
+                    }
                 }
             }
-            if (ratingMap == null || shouldResetRatingMap)
+            else
+            {
+                shouldResetRatingMap = true;
+            }
+            if (shouldResetRatingMap)
             {
                 shouldVectorizeRatingMap = true;
                 ratingMap = [];
@@ -378,7 +373,6 @@ namespace TipRecipe.Services
         {
             await this._dishRepository.UpdateAverageScoreDishes();
         }
-
 
     }
 }

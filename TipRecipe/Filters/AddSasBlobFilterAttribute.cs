@@ -26,12 +26,12 @@ namespace TipRecipe.Filters
                 await next();
                 return;
             }
-            if(objectResult.Value is DishDto sourceObject)
+            if (objectResult.Value is DishDto sourceObject)
             {
                 sourceObject.UrlPhoto = _azureBlobService.GenerateSasTokenPolicy(sourceObject.UrlPhoto!);
                 objectResult.Value = sourceObject;
             }
-            else if(objectResult.Value is IEnumerable<DishDto> sourceObjectList)
+            else if (objectResult.Value is IEnumerable<DishDto> sourceObjectList)
             {
                 foreach (var dish in sourceObjectList)
                 {

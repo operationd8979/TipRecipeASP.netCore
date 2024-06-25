@@ -1,14 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using TipRecipe.DbContexts;
 using TipRecipe.Entities;
 using TipRecipe.Interfaces;
 using System.Linq.Dynamic.Core;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using TipRecipe.Models;
-using Dapper;
 
 
 namespace TipRecipe.Repositorys
@@ -127,20 +124,8 @@ namespace TipRecipe.Repositorys
 
         public async Task<IEnumerable<float>> GetAvgScoreByIDs(IEnumerable<string> dishIDs)
         {
-            var parameters = new List<object>();
-            var ids = string.Join(",", dishIDs.Select((id, index) =>
-            {
-                parameters.Add(new SqlParameter($"@id{index}", id));
-                return $"@id{index}";
-            }));
-
-            string sqlQuery = $@"
-                SELECT AvgRating
-                FROM Dishes
-                WHERE DishID IN ({ids})";
-
             return await _context.Dishes
-                .FromSqlRaw(sqlQuery, parameters.ToArray())
+                .Where(d => dishIDs.Contains(d.DishID))
                 .Select(d => d.AvgRating)
                 .ToListAsync();
         }

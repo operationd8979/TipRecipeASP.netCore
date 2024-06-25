@@ -7,6 +7,11 @@ builder.LogConfig();
 await builder.ConnectDbStorage();
 builder.AddServices();
 
+if (builder.Environment.IsDevelopment())
+{
+    Log.Information("[Environment DEV set up successfull]");
+}
+
 var app = builder.Build();
 
 app.UseMiddleware();

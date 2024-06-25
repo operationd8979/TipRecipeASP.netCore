@@ -6,14 +6,14 @@ namespace TipRecipe.Services
 {
     public class CachingFileService
     {
-        private readonly string _cacheFilePath;
         private readonly ILogger<CachingFileService> _logger;
         private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
-        public CachingFileService(string cacheFilePath, ILogger<CachingFileService> logger)
+        private readonly string _cacheFilePath = "Caches/cachefile.json";
+
+        public CachingFileService(ILogger<CachingFileService> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _cacheFilePath = cacheFilePath;
         }
 
         public async Task<T?> GetAsync<T>(string key)
@@ -29,8 +29,17 @@ namespace TipRecipe.Services
                 }
                 _logger.LogInformation("Cache expired for key [{Key}]",key);
                 cacheData.Remove(key);
-                var json = JsonSerializer.Serialize(cacheData, new JsonSerializerOptions { WriteIndented = true });
-                await File.WriteAllTextAsync(_cacheFilePath, json);
+                await _semaphore.WaitAsync();
+                try
+                {
+                    var json = JsonSerializer.Serialize(cacheData, new JsonSerializerOptions { WriteIndented = true });
+                    await File.WriteAllTextAsync(_cacheFilePath, json);
+                    _logger.LogInformation("Wrote cache $[{Key}] into ${_cacheFilePath}", key, _cacheFilePath);
+                }
+                finally
+                {
+                    _semaphore.Release();
+                }
             }
             return default;
         }
@@ -105,5 +114,6 @@ namespace TipRecipe.Services
             }
             return result;
         }
+
     }
 }
